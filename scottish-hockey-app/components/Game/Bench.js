@@ -1,11 +1,12 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import sizes from "../../constants/sizes";
 import Player from "./Player";
 
 const Bench = (props) => {
     return (
         <View style={styles.bench}>
-            {[1, 2, 3, 4].map((elem) => (
+            {[1, 2, 3, 4, 5].map((elem) => (
                 <View style={styles.playerContainer}>
                     <Player playerNumber={elem} />
                 </View>
@@ -26,7 +27,8 @@ const styles = StyleSheet.create({
     },
 
     playerContainer: {
-        marginHorizontal: 10
+        marginHorizontal: 10,
+        width: sizes.playerWidth
     }
 });
 
