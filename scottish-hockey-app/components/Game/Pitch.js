@@ -1,12 +1,15 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import PitchSVG from "./PitchBG.svg";
 
 const Pitch = (props) => {
-    return <View style={styles.container}></View>;
+    return (
+        <PitchSVG
+            width="100%"
+            height="75%"
+            preserveAspectRatio="none"
+        />
+    );
 };
-
-const styles = StyleSheet.create({
-    container: {},
-});
 
 export default Pitch;
