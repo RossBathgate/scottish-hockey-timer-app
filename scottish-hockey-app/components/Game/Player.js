@@ -17,12 +17,24 @@ const Player = (props) => {
                 </View>
                 <View style={styles.timerContainers}>
                     {onPitch ? (
-                        <TimerDisplay timerType='P' />
+                        <TimerDisplay
+                            style={styles.timerDisplay}
+                            timerType="P"
+                        />
                     ) : (
-                        <TimerDisplay timerType='B' />
+                        <TimerDisplay
+                            style={styles.timerDisplay}
+                            timerType="B"
+                        />
                     )}
-                    <TimerDisplay timerType='quarter' />
-                    <TimerDisplay timerType='fullGame' />
+                    <TimerDisplay
+                        style={styles.timerDisplay}
+                        timerType="quarter"
+                    />
+                    <TimerDisplay
+                        style={styles.timerDisplay}
+                        timerType="fullGame"
+                    />
                 </View>
             </View>
         </TouchableWithoutFeedback>
@@ -37,7 +49,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         borderWidth: 1,
         borderColor: "rgba(0,0,0,1)",
-        backgroundColor: "rgba(100,100,100,0.05)",
+        backgroundColor: "rgba(255,255,255,0.35)",
     },
     playerNo: {
         backgroundColor: Colors.playerNrColor,
@@ -46,6 +58,9 @@ const styles = StyleSheet.create({
     },
     timerContainers: {
         justifyContent: "center",
+    },
+    timerDisplay: {
+        minWidth: 80,
     },
 });
 

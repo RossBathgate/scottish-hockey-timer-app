@@ -3,7 +3,8 @@ import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import ButtonText from "./ButtonText";
 
 /*
-    takes a title, icon, onPress handler, and optional style props.
+    Generic Button UI Element.
+    Takes:  title, icon, onPress handler, and optional style props.
 */
 const Button = (props) => {
     return (

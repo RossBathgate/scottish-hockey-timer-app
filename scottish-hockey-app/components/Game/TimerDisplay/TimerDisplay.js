@@ -4,7 +4,7 @@ import TimerIcon from "./TimerIcon";
 
 const TimerDisplay = (props) => {
     return (
-        <View style={styles.container}>
+        <View style={{ ...styles.container, ...props.style }}>
             <TimerIcon type={props.timerType} />
             <Text>00:00</Text>
         </View>
@@ -13,7 +13,7 @@ const TimerDisplay = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        minWidth: 80,
+        // minWidth: 80,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",

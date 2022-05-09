@@ -15,14 +15,18 @@ const Pitch = (props) => {
         <View style={styles.container}>
             <View style={styles.playersContainer}>
                 {currentFormation.players.map((playerPos) => {
-                    const left = playerPos.x * pitchWidth - Math.round(sizes.playerWidth / 2);
-                    const top = playerPos.y * pitchHeight - Math.round(sizes.playerHeight / 2);
+                    const left =
+                        playerPos.x * pitchWidth -
+                        Math.round(sizes.playerWidth / 2);
+                    const top =
+                        playerPos.y * pitchHeight -
+                        Math.round(sizes.playerHeight / 2);
                     return (
                         <View
                             style={{
                                 ...styles.playerContainer,
                                 left: left,
-                                 top: top,
+                                top: top,
                             }}
                         >
                             <Player playerNumber={2} />
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
     playerContainer: {
         position: "absolute",
         width: sizes.playerWidth,
-        height: sizes.playerHeight
+        height: sizes.playerHeight,
     },
 });
 

@@ -9,4 +9,8 @@ export default {
         paleGreen: "#b2e1c2",
         darkGreen: "#93bca1",
     },
+    bench: {
+        background: "#d8a093",
+        accent: "#886262",
+    },
 };
