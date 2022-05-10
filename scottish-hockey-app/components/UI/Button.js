@@ -15,7 +15,7 @@ const Button = (props) => {
                     ...props.style,
                 }}
             >
-                {/* {props.icon} */}
+                {props.icon}
                 <ButtonText>{props.title}</ButtonText>
             </View>
         </TouchableWithoutFeedback>

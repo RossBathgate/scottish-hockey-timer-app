@@ -16,7 +16,6 @@ const Menu = (props) => {
         <View style={styles.container}>
             <Button
                 onPress={testHandler}
-                icon=""
                 title="START GAME"
                 style={{
                     ...styles.button,
@@ -25,13 +24,11 @@ const Menu = (props) => {
             />
             <Button
                 onPress={testHandler}
-                icon=""
                 title="SETTINGS"
                 style={styles.button}
             />
             <Button
                 onPress={testHandler}
-                icon=""
                 title="LOAD PLAYERS"
                 style={styles.button}
             />

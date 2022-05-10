@@ -20,20 +20,24 @@ const Player = (props) => {
                         <TimerDisplay
                             style={styles.timerDisplay}
                             timerType="P"
+                            nrSeconds={10000}
                         />
                     ) : (
                         <TimerDisplay
                             style={styles.timerDisplay}
                             timerType="B"
+                            nrSeconds={0}
                         />
                     )}
                     <TimerDisplay
                         style={styles.timerDisplay}
                         timerType="quarter"
+                        nrSeconds={0}
                     />
                     <TimerDisplay
                         style={styles.timerDisplay}
                         timerType="fullGame"
+                        nrSeconds={0}
                     />
                 </View>
             </View>
