@@ -12,8 +12,8 @@ import ExportIconSVG from "./../../assets/exportIcon.svg";
 */
 const Menu = (props) => {
     const testHandler = () => {
-        console.log("Changing Page. (Uncomment code in Menu.js to execute)");
-        // props.onPageChange("game");
+        // console.log("Changing Page. (Uncomment code in Menu.js to execute)");
+        props.onPageChange("game");
     };
 
     return (
