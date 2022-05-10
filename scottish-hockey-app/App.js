@@ -5,7 +5,7 @@ import GameScreen from "./screens/GameScreen";
 import HomeScreen from "./screens/HomeScreen";
 
 export default function App() {
-    const [currentPage, setCurrentPage] = useState("game");
+    const [currentPage, setCurrentPage] = useState("home");
 
     const pageChangeHandler = (newPage) => {
         setCurrentPage(newPage);
