@@ -2,6 +2,10 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import Button from "../UI/Button";
 import colors from "../../constants/colors";
+import sizes from "../../constants/sizes";
+import AddIconSVG from "./../../assets/addIcon.svg";
+import SettingsIconSVG from "./../../assets/settingsIcon.svg";
+import ExportIconSVG from "./../../assets/exportIcon.svg";
 
 /*
     A menu containing the home page buttons
@@ -16,7 +20,12 @@ const Menu = (props) => {
         <View style={styles.container}>
             <Button
                 onPress={testHandler}
-                icon=""
+                icon={
+                    <AddIconSVG
+                        width={sizes.menuButtonSizes}
+                        height={sizes.menuButtonSizes}
+                    />
+                }
                 title="START GAME"
                 style={{
                     ...styles.button,
@@ -25,13 +34,23 @@ const Menu = (props) => {
             />
             <Button
                 onPress={testHandler}
-                icon=""
+                icon={
+                    <SettingsIconSVG
+                        width={sizes.menuButtonSizes}
+                        height={sizes.menuButtonSizes}
+                    />
+                }
                 title="SETTINGS"
                 style={styles.button}
             />
             <Button
                 onPress={testHandler}
-                icon=""
+                icon={
+                    <ExportIconSVG
+                        width={sizes.menuButtonSizes}
+                        height={sizes.menuButtonSizes}
+                    />
+                }
                 title="LOAD PLAYERS"
                 style={styles.button}
             />

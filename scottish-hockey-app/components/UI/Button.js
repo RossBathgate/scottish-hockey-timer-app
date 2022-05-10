@@ -15,7 +15,7 @@ const Button = (props) => {
                     ...props.style,
                 }}
             >
-                {/* {props.icon} */}
+                {props.icon}
                 <ButtonText>{props.title}</ButtonText>
             </View>
         </TouchableWithoutFeedback>
@@ -25,7 +25,7 @@ const Button = (props) => {
 const styles = StyleSheet.create({
     buttonContainer: {
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "space-between",
     },
 });
 
