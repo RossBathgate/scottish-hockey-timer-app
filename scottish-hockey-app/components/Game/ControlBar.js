@@ -36,21 +36,19 @@ const ControlBar = (props) => {
             <Card style={styles.card}>
                 <Button
                     icon={
-                        <PauseIconSVG
-                            width={sizes.pauseResumeButtonSizes}
-                            height={sizes.pauseResumeButtonSizes}
-                        />
+                        !props.isPaused ? (
+                            <PauseIconSVG
+                                width={sizes.pauseResumeButtonSizes}
+                                height={sizes.pauseResumeButtonSizes}
+                            />
+                        ) : (
+                            <PlayIconSVG
+                                width={sizes.pauseResumeButtonSizes}
+                                height={sizes.pauseResumeButtonSizes}
+                            />
+                        )
                     }
                     onPress={props.onPauseToggle}
-                />
-                <Button
-                    icon={
-                        <PlayIconSVG
-                            width={sizes.pauseResumeButtonSizes}
-                            height={sizes.pauseResumeButtonSizes}
-                        />
-                    }
-                    onPress={() => {}}
                 />
             </Card>
             {isGameStart && (
