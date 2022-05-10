@@ -35,7 +35,7 @@ function useTimer() {
     const initialTime = getCurrentTime();
     const finalTimeRef = useRef();
     const [time, dispatchTime] = useReducer(timeReducer, {
-        timerActive: true,
+        timerActive: false,
         previousTime: 0,
         currentTime: initialTime,
         lastResume: initialTime,
@@ -66,18 +66,27 @@ function useTimer() {
     };
 
     // Compute times, only if timer is active
+    if (finalTimeRef.current) {
+        finalTimeRef.current = {
+            ...finalTimeRef.current,
+            isActive: time.timerActive,
+        };
+    } else {
+        // intitial state
+        finalTimeRef.current = {
+            resumeTimer: resumeTimerHandler,
+            pauseTimer: pauseTimerHandler,
+            time: 0,
+            isActive: false,
+        };
+    }
+
     if (time.timerActive) {
         const totalTimeMS =
             time.previousTime + (time.currentTime - time.lastResume);
         const totalTimeSec = Math.round(totalTimeMS / 1000);
 
-        finalTimeRef.current = {
-            times: {
-                totalTime: totalTimeSec,
-            },
-            pauseTimer: pauseTimerHandler,
-            resumeTimer: resumeTimerHandler,
-        };
+        finalTimeRef.current.time = totalTimeSec;
     }
 
     return finalTimeRef.current;

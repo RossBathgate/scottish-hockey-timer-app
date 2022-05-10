@@ -6,24 +6,30 @@ import Pitch from "../components/Game/Pitch";
 import useTimer from "../hooks/use-timer";
 
 const GameScreen = (props) => {
-    const { times, pauseTimer, resumeTimer } = useTimer();
-    console.log(times.totalTime);
+    const timer = useTimer();
 
-    useEffect(() => {
-        setTimeout(() => {
-            pauseTimer();
-            console.log("PAUSED");
-        }, 5000);
+    console.log("bob" + timer.isActive);
 
-        setTimeout(() => {
-            resumeTimer();
-            console.log("RESUMED");
-        }, 10000);
-    }, []);
+    const gameStartHandler = () => {
+        timer.resumeTimer();
+    };
+
+    const pauseGameHandler = () => {
+        if (timer.isActive) {
+            timer.pauseTimer();
+        } else {
+            timer.resumeTimer();
+        }
+    };
 
     return (
         <View style={styles.gameScreen}>
-            <ControlBar />
+            <ControlBar
+                onStartGame={gameStartHandler}
+                time={timer.time}
+                isPaused={!timer.isActive}
+                onPauseToggle={pauseGameHandler}
+            />
             <Pitch />
             <Bench />
         </View>

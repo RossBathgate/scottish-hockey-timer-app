@@ -18,6 +18,7 @@ const ControlBar = (props) => {
     const startGameHandler = () => {
         setIsGameStart(true);
         setIsQuarterStart(true);
+        props.onStartGame();
     };
     const endGameHandler = () => {
         setIsGameStart(false);
@@ -40,7 +41,7 @@ const ControlBar = (props) => {
                             height={sizes.pauseResumeButtonSizes}
                         />
                     }
-                    onPress={() => {}}
+                    onPress={props.onPauseToggle}
                 />
                 <Button
                     icon={
@@ -84,7 +85,7 @@ const ControlBar = (props) => {
                     timerType="quarter"
                 />
                 <TimerDisplay
-                    nrSeconds={0}
+                    nrSeconds={props.time}
                     style={styles.timer}
                     timerType="fullGame"
                 />
