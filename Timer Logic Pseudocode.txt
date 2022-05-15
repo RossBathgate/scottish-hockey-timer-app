@@ -1,0 +1,37 @@
+//  timeIntervals = [(0, 10), (35, 50)]
+
+
+totalTimeElapsedPrev = 2500 (s)
+mostRecentUnPause = 182634
+
+on start game:
+totalTimeElapsedPrev = 0
+mostRecentUnPause = currentTime
+
+
+
+on each tick we do :
+timerTime = totalTimeElapsedPrev + (currentTime - mostRecentUnPause )
+
+
+
+
+
+
+
+
+
+e.g. 10s
+
+on pause:
+record time paused
+
+
+start = 0
+
+PRESS START GAME
+
+on each tick,
+start += 1
+
+on pause:

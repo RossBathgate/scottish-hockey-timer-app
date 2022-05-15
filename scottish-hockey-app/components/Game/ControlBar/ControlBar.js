@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
-import Card from "../UI/Card";
-import Button from "../UI/Button";
-import TimerDisplay from "./TimerDisplay/TimerDisplay";
-import PlayIconSVG from "../../assets/playIcon.svg";
-import PauseIconSVG from "../../assets/pauseIcon.svg";
-import sizes from "../../constants/sizes";
+import Card from "../../UI/Card";
+import TimerDisplay from "../TimerDisplay/TimerDisplay";
+import PausePlayButton from "./PausePlayButton";
+import QuarterButtons from "./QuarterButtons";
+import StartEndGameButtons from "./StartEndGameButtons";
 
 /*
     Expects in props:
-    totalElapsedTime
+    time, isPaused, onPauseToggle function, onStartGame function
 */
 const ControlBar = (props) => {
     const [isGameStart, setIsGameStart] = useState(false);
     const [isQuarterStart, setIsQuarterStart] = useState(false);
+    const [quarterNr, setQuarterNr] = useState(1);
 
     const startGameHandler = () => {
         setIsGameStart(true);
         setIsQuarterStart(true);
+        setQuarterNr(0);
+        startQuarterHandler();
         props.onStartGame();
     };
     const endGameHandler = () => {
@@ -28,54 +30,41 @@ const ControlBar = (props) => {
         setIsQuarterStart(false);
     };
     const startQuarterHandler = () => {
+        setQuarterNr((currentQuarterNr) => currentQuarterNr + 1);
         setIsQuarterStart(true);
     };
 
     return (
         <View style={styles.controlBar}>
-            <Card style={styles.card}>
-                <Button
-                    icon={
-                        !props.isPaused ? (
-                            <PauseIconSVG
-                                width={sizes.pauseResumeButtonSizes}
-                                height={sizes.pauseResumeButtonSizes}
-                            />
-                        ) : (
-                            <PlayIconSVG
-                                width={sizes.pauseResumeButtonSizes}
-                                height={sizes.pauseResumeButtonSizes}
-                            />
-                        )
-                    }
-                    onPress={props.onPauseToggle}
-                />
-            </Card>
+            {/* pause / resume buttons */}
             {isGameStart && (
                 <Card style={styles.card}>
-                    {isQuarterStart ? (
-                        <Button
-                            onPress={endQuarterHandler}
-                            title="END QUARTER"
-                        />
-                    ) : (
-                        <Button
-                            onPress={startQuarterHandler}
-                            title="START QUARTER"
-                        />
-                    )}
+                    <PausePlayButton
+                        isPaused={props.isPaused}
+                        onPauseToggle={props.onPauseToggle}
+                    />
                 </Card>
             )}
+
+            {/* start / end quarter buttons */}
+            {isGameStart && quarterNr <= 3 && (
+                <QuarterButtons
+                    isQuarterStart={isQuarterStart}
+                    endQuarterHandler={endQuarterHandler}
+                    startQuarterHandler={startQuarterHandler}
+                />
+            )}
+
+            {/* start / end game buttons */}
             <Card style={styles.card}>
-                {
-                    // Determine whether to display start or end game buttons
-                    !isGameStart ? (
-                        <Button onPress={startGameHandler} title="START GAME" />
-                    ) : (
-                        <Button onPress={endGameHandler} title="END GAME" />
-                    )
-                }
+                <StartEndGameButtons
+                    isGameStart={isGameStart}
+                    startGameHandler={startGameHandler}
+                    endGameHandler={endGameHandler}
+                />
             </Card>
+
+            {/* quarter and fullGame timers */}
             <Card style={styles.card}>
                 <TimerDisplay
                     nrSeconds={0}

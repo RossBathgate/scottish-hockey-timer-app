@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Bench from "../components/Game/Bench";
-import ControlBar from "../components/Game/ControlBar";
+import ControlBar from "../components/Game/ControlBar/ControlBar";
 import Pitch from "../components/Game/Pitch";
 import useTimer from "../hooks/use-timer";
 
 const GameScreen = (props) => {
     const timer = useTimer();
-
-    console.log("bob" + timer.isActive);
 
     const gameStartHandler = () => {
         timer.resumeTimer();
