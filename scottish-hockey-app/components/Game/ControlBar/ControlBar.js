@@ -6,38 +6,11 @@ import PausePlayButton from "./PausePlayButton";
 import QuarterButtons from "./QuarterButtons";
 import StartEndGameButtons from "./StartEndGameButtons";
 
-/*
-    Expects in props:
-    time, isPaused, onPauseToggle function, onStartGame function
-*/
 const ControlBar = (props) => {
-    const [isGameStart, setIsGameStart] = useState(false);
-    const [isQuarterStart, setIsQuarterStart] = useState(false);
-    const [quarterNr, setQuarterNr] = useState(1);
-
-    const startGameHandler = () => {
-        setIsGameStart(true);
-        setIsQuarterStart(true);
-        setQuarterNr(0);
-        startQuarterHandler();
-        props.onStartGame();
-    };
-    const endGameHandler = () => {
-        setIsGameStart(false);
-        setIsQuarterStart(false);
-    };
-    const endQuarterHandler = () => {
-        setIsQuarterStart(false);
-    };
-    const startQuarterHandler = () => {
-        setQuarterNr((currentQuarterNr) => currentQuarterNr + 1);
-        setIsQuarterStart(true);
-    };
-
     return (
         <View style={styles.controlBar}>
             {/* pause / resume buttons */}
-            {isGameStart && (
+            {props.isGameStart && (
                 <Card style={styles.card}>
                     <PausePlayButton
                         isPaused={props.isPaused}
@@ -47,20 +20,20 @@ const ControlBar = (props) => {
             )}
 
             {/* start / end quarter buttons */}
-            {isGameStart && quarterNr <= 3 && (
+            {props.isGameStart && props.quarterNr <= 3 && (
                 <QuarterButtons
-                    isQuarterStart={isQuarterStart}
-                    endQuarterHandler={endQuarterHandler}
-                    startQuarterHandler={startQuarterHandler}
+                    isQuarterStart={props.isQuarterStart}
+                    startQuarterHandler={props.onStartQuarter}
+                    endQuarterHandler={props.onEndQuarter}
                 />
             )}
 
             {/* start / end game buttons */}
             <Card style={styles.card}>
                 <StartEndGameButtons
-                    isGameStart={isGameStart}
-                    startGameHandler={startGameHandler}
-                    endGameHandler={endGameHandler}
+                    isGameStart={props.isGameStart}
+                    startGameHandler={props.onStartGame}
+                    endGameHandler={props.onEndGame}
                 />
             </Card>
 
