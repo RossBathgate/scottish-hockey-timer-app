@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import Card from "../../UI/Card";
 import TimerDisplay from "../TimerDisplay/TimerDisplay";
 import PausePlayButton from "./PausePlayButton";

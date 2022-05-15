@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
 import Colors from "../../constants/colors";
 import TimerDisplay from "./TimerDisplay/TimerDisplay";

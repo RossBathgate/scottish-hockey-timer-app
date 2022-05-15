@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Bench from "../components/Game/Bench";
 import ControlBar from "../components/Game/ControlBar/ControlBar";
 import Pitch from "../components/Game/Pitch";
