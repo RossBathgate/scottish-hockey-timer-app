@@ -13,6 +13,8 @@ const ControlBar = (props) => {
 
     const startGameHandler = () => {
         setIsGameStart(true);
+        props.onGameStart();
+
         setQuarterNr(0);
         startQuarterHandler();
     };

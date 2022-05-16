@@ -23,6 +23,13 @@ function timeReducer(state, action) {
                 currentTime: timeVal,
             };
 
+        case "reset":
+            return {
+                ...state,
+                timerActive: false,
+                previousTime: 0,
+            };
+
         case "tick":
             return {
                 ...state,
@@ -64,6 +71,9 @@ function useTimer() {
     const resumeTimerHandler = () => {
         dispatchTime({ msg: "resume" });
     };
+    const resetTimerHandler = () => {
+        dispatchTime({ msg: "reset" });
+    };
 
     // Compute times, only if timer is active
     if (finalTimeRef.current) {
@@ -76,6 +86,7 @@ function useTimer() {
         finalTimeRef.current = {
             resumeTimer: resumeTimerHandler,
             pauseTimer: pauseTimerHandler,
+            resetTimer: resetTimerHandler,
             time: 0,
             isActive: false,
         };

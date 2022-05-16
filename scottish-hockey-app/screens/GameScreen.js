@@ -8,6 +8,10 @@ import useTimer from "../hooks/use-timer";
 const GameScreen = (props) => {
     const timer = useTimer();
 
+    const initialSetupHandler = () => {
+        timer.resetTimer();
+    };
+
     const quarterStartHandler = () => {
         timer.resumeTimer();
     };
@@ -27,6 +31,7 @@ const GameScreen = (props) => {
     return (
         <View style={styles.gameScreen}>
             <ControlBar
+                onGameStart={initialSetupHandler}
                 onQuarterStart={quarterStartHandler}
                 onQuarterEnd={quarterEndHandler}
                 time={timer.time}
