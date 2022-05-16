@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import Bench from "../components/Game/Bench";
 import ControlBar from "../components/Game/ControlBar/ControlBar";
@@ -6,35 +6,14 @@ import Pitch from "../components/Game/Pitch";
 import useTimer from "../hooks/use-timer";
 
 const GameScreen = (props) => {
-    const [isGameStart, setIsGameStart] = useState(false);
-    const [isQuarterStart, setIsQuarterStart] = useState(false);
-    const [quarterNr, setQuarterNr] = useState(1);
-
     const timer = useTimer();
 
-    const startGameHandler = () => {
-        setIsGameStart(true);
-        setIsQuarterStart(true);
-        setQuarterNr(0);
-        startQuarterHandler();
-    };
-
-    const endGameHandler = () => {
-        setIsGameStart(false);
-        setIsQuarterStart(false);
-        //
-        timer.pauseTimer();
-    };
-
-    const startQuarterHandler = () => {
-        setQuarterNr((currentQuarterNr) => currentQuarterNr + 1);
-        setIsQuarterStart(true);
-
+    const quarterStartHandler = () => {
         timer.resumeTimer();
     };
 
-    const endQuarterHandler = () => {
-        setIsQuarterStart(false);
+    const quarterEndHandler = () => {
+        timer.pauseTimer();
     };
 
     const pauseGameHandler = () => {
@@ -48,13 +27,8 @@ const GameScreen = (props) => {
     return (
         <View style={styles.gameScreen}>
             <ControlBar
-                isGameStart={isGameStart}
-                quarterNr={quarterNr}
-                isQuarterStart={isQuarterStart}
-                onStartGame={startGameHandler}
-                onEndGame={endGameHandler}
-                onStartQuarter={startQuarterHandler}
-                onEndQuarter={endQuarterHandler}
+                onQuarterStart={quarterStartHandler}
+                onQuarterEnd={quarterEndHandler}
                 time={timer.time}
                 isPaused={!timer.isActive}
                 onPauseToggle={pauseGameHandler}
