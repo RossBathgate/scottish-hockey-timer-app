@@ -34,8 +34,19 @@ const GameScreen = (props) => {
     const [playersInfo, setPlayersInfo] = useState([
         { formationIdx: 0, playerNumber: 0 },
         { formationIdx: 1, playerNumber: 1 },
-        { formationIdx: -1, playerNumber: 2 },
-        { formationIdx: 2, playerNumber: 3 },
+        { formationIdx: 2, playerNumber: 2 },
+        { formationIdx: 3, playerNumber: 3 },
+        { formationIdx: 4, playerNumber: 4 },
+        { formationIdx: 5, playerNumber: 5 },
+        { formationIdx: 6, playerNumber: 6 },
+        { formationIdx: 7, playerNumber: 7 },
+        { formationIdx: 8, playerNumber: 8 },
+        { formationIdx: 9, playerNumber: 9 },
+        { formationIdx: -1, playerNumber: 10 },
+        { formationIdx: -1, playerNumber: 11 },
+        { formationIdx: -1, playerNumber: 12 },
+        { formationIdx: -1, playerNumber: 13 },
+        { formationIdx: -1, playerNumber: 14 },
     ]);
 
     const [highlightedPlayer, setHighlightedPlayer] = useState(null);
