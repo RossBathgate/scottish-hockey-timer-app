@@ -46,6 +46,29 @@ const GameScreen = (props) => {
         );
     };
 
+    const benchPlayerPressHandler = (benchPlayerNumber) => {
+        if (highlightedPlayer !== null) {
+            // find formationIdx of highlighted player
+            const highlightedFormationIdx = playersInfo.find(
+                (player) => player.playerNumber === highlightedPlayer
+            ).formationIdx;
+
+            // set benchPlayer formationIdx to that of the highlighted player
+            // and set the formationIdx of the highlighted player to -1
+            setPlayersInfo((currentPlayersInfo) =>
+                currentPlayersInfo.map((player) => {
+                    player;
+                    if (player.playerNumber === benchPlayerNumber) {
+                        player.formationIdx = highlightedFormationIdx;
+                    } else if (player.playerNumber === highlightedPlayer) {
+                        player.formationIdx = -1;
+                    }
+                    return player;
+                })
+            );
+        }
+    };
+
     return (
         <View style={styles.gameScreen}>
             <ControlBar
@@ -61,6 +84,7 @@ const GameScreen = (props) => {
                 )}
             />
             <Bench
+                onBenchPlayerPress={benchPlayerPressHandler}
                 players={playersInfo.filter(
                     (player) => player.formationIdx === -1
                 )}

@@ -8,11 +8,20 @@ const Bench = (props) => {
     return (
         <View style={styles.bench}>
             <View style={styles.playersContainer}>
-                {props.players.map((player) => (
-                    <View style={styles.playerContainer}>
-                        <Player playerNumber={player.playerNumber} />
-                    </View>
-                ))}
+                {props.players.map((player) => {
+                    const playerPressHandler = () => {
+                        props.onBenchPlayerPress(player.playerNumber);
+                    };
+
+                    return (
+                        <View style={styles.playerContainer}>
+                            <Player
+                                onPress={playerPressHandler}
+                                playerNumber={player.playerNumber}
+                            />
+                        </View>
+                    );
+                })}
             </View>
             <Text style={styles.title}>BENCH</Text>
         </View>
