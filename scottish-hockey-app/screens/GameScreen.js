@@ -1,42 +1,42 @@
-import React from "react";
+import React, { useState, useRef, useReducer } from "react";
 import { View, StyleSheet } from "react-native";
 import Bench from "../components/Game/Bench";
 import ControlBar from "../components/Game/ControlBar/ControlBar";
 import Pitch from "../components/Game/Pitch";
 import useTimer from "../hooks/use-timer";
 
+const quarterReducer = (state, action) => {
+    switch (action.msg) {
+        case "startQuarter":
+            return {
+                quarterNr: state.quarterNr + 1,
+                isQuarterRunning: true,
+                mostRecentStart: action.time,
+            };
+        case "endQuarter":
+            return { ...state, isQuarterRunning: false };
+        case "startGame":
+            return { quarterNr: 1, isQuarterRunning: true, mostRecentStart: 0 };
+        case "endGame":
+            return { ...state, quarterNr: -1, isQuarterRunning: false };
+    }
+};
+
 const GameScreen = (props) => {
     const timer = useTimer();
 
-    const initialSetupHandler = () => {
-        timer.resetTimer();
-    };
-
-    const quarterStartHandler = () => {
-        timer.resumeTimer();
-    };
-
-    const quarterEndHandler = () => {
-        timer.pauseTimer();
-    };
-
-    const pauseGameHandler = () => {
-        if (timer.isActive) {
-            timer.pauseTimer();
-        } else {
-            timer.resumeTimer();
-        }
-    };
+    const [quarterInfo, dispatchQuarterInfo] = useReducer(quarterReducer, {
+        quarterNr: -1,
+        isQuarterRunning: false,
+        mostRecentStart: 0,
+    });
 
     return (
         <View style={styles.gameScreen}>
             <ControlBar
-                onGameStart={initialSetupHandler}
-                onQuarterStart={quarterStartHandler}
-                onQuarterEnd={quarterEndHandler}
-                time={timer.time}
-                isPaused={!timer.isActive}
-                onPauseToggle={pauseGameHandler}
+                quarterInfo={quarterInfo}
+                dispatchQuarterInfo={dispatchQuarterInfo}
+                timer={timer}
             />
             <Pitch />
             <Bench />

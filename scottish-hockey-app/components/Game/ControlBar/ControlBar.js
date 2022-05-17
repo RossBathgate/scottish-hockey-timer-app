@@ -7,50 +7,76 @@ import QuarterButtons from "./QuarterButtons";
 import StartEndGameButtons from "./StartEndGameButtons";
 
 const ControlBar = (props) => {
-    const [isGameStart, setIsGameStart] = useState(false);
-    const [isQuarterStart, setIsQuarterStart] = useState(false);
-    const [quarterNr, setQuarterNr] = useState(1);
+    const togglePauseTimer = () => {
+        if (props.timer.isActive) {
+            props.timer.pauseTimer();
+        } else {
+            props.timer.resumeTimer();
+        }
+    };
+
+    // const [isGameStart, setIsGameStart] = useState(false);
+    // const [isQuarterStart, setIsQuarterStart] = useState(false);
+    // const [quarterNr, setQuarterNr] = useState(1);
 
     const startGameHandler = () => {
-        setIsGameStart(true);
-        props.onGameStart();
+        props.dispatchQuarterInfo({ msg: "startGame" });
+        props.timer.resetTimer();
+        props.timer.resumeTimer();
 
-        setQuarterNr(0);
-        startQuarterHandler();
+        // setIsGameStart(true);
+        // setQuarterNr(0);
+        // props.onResetGame();
+        // startQuarterHandler();
     };
 
     const endGameHandler = () => {
-        setIsGameStart(false);
-        endQuarterHandler();
+        props.dispatchQuarterInfo({ msg: "endGame" });
+        props.timer.pauseTimer();
+
+        // setIsGameStart(false);
+        // setIsQuarterStart(false);
+        // // props.onResetGame();
     };
 
     const startQuarterHandler = () => {
-        setQuarterNr((currentQuarterNr) => currentQuarterNr + 1);
-        setIsQuarterStart(true);
-        props.onQuarterStart();
+        props.dispatchQuarterInfo({
+            msg: "startQuarter",
+            time: props.timer.time,
+        });
+        props.timer.resumeTimer();
+
+        // setQuarterNr((currentQuarterNr) => currentQuarterNr + 1);
+        // setIsQuarterStart(true);
+        // props.onQuarterStart();
     };
 
     const endQuarterHandler = () => {
-        setIsQuarterStart(false);
-        props.onQuarterEnd();
+        props.dispatchQuarterInfo({ msg: "endQuarter" });
+        props.timer.pauseTimer();
+
+        // props.onQuarterEnd();
+        // setIsQuarterStart(false);
     };
+
+    const isGameRunning = props.quarterInfo.quarterNr !== -1;
 
     return (
         <View style={styles.controlBar}>
             {/* pause / resume buttons */}
-            {isGameStart && (
+            {isGameRunning && (
                 <Card style={styles.card}>
                     <PausePlayButton
-                        isPaused={props.isPaused}
-                        onPauseToggle={props.onPauseToggle}
+                        isPaused={!props.timer.isActive}
+                        onPauseToggle={togglePauseTimer}
                     />
                 </Card>
             )}
 
             {/* start / end quarter buttons */}
-            {isGameStart && quarterNr <= 3 && (
+            {isGameRunning && props.quarterInfo.quarterNr <= 3 && (
                 <QuarterButtons
-                    isQuarterStart={isQuarterStart}
+                    isQuarterStart={props.quarterInfo.isQuarterRunning}
                     startQuarterHandler={startQuarterHandler}
                     endQuarterHandler={endQuarterHandler}
                 />
@@ -59,7 +85,7 @@ const ControlBar = (props) => {
             {/* start / end game buttons */}
             <Card style={styles.card}>
                 <StartEndGameButtons
-                    isGameStart={isGameStart}
+                    isGameStart={isGameRunning}
                     startGameHandler={startGameHandler}
                     endGameHandler={endGameHandler}
                 />
@@ -68,12 +94,14 @@ const ControlBar = (props) => {
             {/* quarter and fullGame timers */}
             <Card style={styles.card}>
                 <TimerDisplay
-                    nrSeconds={0}
+                    nrSeconds={
+                        props.timer.time - props.quarterInfo.mostRecentStart
+                    }
                     style={styles.timer}
                     timerType="quarter"
                 />
                 <TimerDisplay
-                    nrSeconds={props.time}
+                    nrSeconds={props.timer.time}
                     style={styles.timer}
                     timerType="fullGame"
                 />

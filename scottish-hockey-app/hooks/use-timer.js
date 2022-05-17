@@ -4,6 +4,16 @@ function getCurrentTime() {
     return new Date().getTime();
 }
 
+function createDefaultTimer() {
+    const timeVal = getCurrentTime();
+    return {
+        timerActive: false,
+        previousTime: 0,
+        currentTime: timeVal,
+        lastResume: timeVal,
+    };
+}
+
 function timeReducer(state, action) {
     switch (action.msg) {
         case "pause":
@@ -15,7 +25,7 @@ function timeReducer(state, action) {
             };
 
         case "resume":
-            const timeVal = getCurrentTime();
+            let timeVal = getCurrentTime();
             return {
                 ...state,
                 timerActive: true,
@@ -24,11 +34,8 @@ function timeReducer(state, action) {
             };
 
         case "reset":
-            return {
-                ...state,
-                timerActive: false,
-                previousTime: 0,
-            };
+            timeVal = getCurrentTime();
+            return createDefaultTimer();
 
         case "tick":
             return {
@@ -41,12 +48,7 @@ function timeReducer(state, action) {
 function useTimer() {
     const initialTime = getCurrentTime();
     const finalTimeRef = useRef();
-    const [time, dispatchTime] = useReducer(timeReducer, {
-        timerActive: false,
-        previousTime: 0,
-        currentTime: initialTime,
-        lastResume: initialTime,
-    });
+    const [time, dispatchTime] = useReducer(timeReducer, createDefaultTimer());
 
     useEffect(() => {
         let interval = null;
