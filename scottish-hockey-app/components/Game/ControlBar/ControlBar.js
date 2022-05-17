@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import Card from "../../UI/Card";
 import TimerDisplay from "../TimerDisplay/TimerDisplay";
@@ -15,28 +15,15 @@ const ControlBar = (props) => {
         }
     };
 
-    // const [isGameStart, setIsGameStart] = useState(false);
-    // const [isQuarterStart, setIsQuarterStart] = useState(false);
-    // const [quarterNr, setQuarterNr] = useState(1);
-
     const startGameHandler = () => {
         props.dispatchQuarterInfo({ msg: "startGame" });
         props.timer.resetTimer();
         props.timer.resumeTimer();
-
-        // setIsGameStart(true);
-        // setQuarterNr(0);
-        // props.onResetGame();
-        // startQuarterHandler();
     };
 
     const endGameHandler = () => {
         props.dispatchQuarterInfo({ msg: "endGame" });
         props.timer.pauseTimer();
-
-        // setIsGameStart(false);
-        // setIsQuarterStart(false);
-        // // props.onResetGame();
     };
 
     const startQuarterHandler = () => {
@@ -45,18 +32,11 @@ const ControlBar = (props) => {
             time: props.timer.time,
         });
         props.timer.resumeTimer();
-
-        // setQuarterNr((currentQuarterNr) => currentQuarterNr + 1);
-        // setIsQuarterStart(true);
-        // props.onQuarterStart();
     };
 
     const endQuarterHandler = () => {
         props.dispatchQuarterInfo({ msg: "endQuarter" });
         props.timer.pauseTimer();
-
-        // props.onQuarterEnd();
-        // setIsQuarterStart(false);
     };
 
     const isGameRunning = props.quarterInfo.quarterNr !== -1;

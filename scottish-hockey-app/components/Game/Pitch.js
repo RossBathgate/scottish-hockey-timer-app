@@ -14,13 +14,22 @@ const Pitch = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.playersContainer}>
-                {currentFormation.players.map((playerPos) => {
+                {currentFormation.players.map((playerPos, formationIdx) => {
                     const left =
                         playerPos.x * pitchWidth -
                         Math.round(sizes.playerWidth / 2);
                     const top =
                         playerPos.y * pitchHeight -
                         Math.round(sizes.playerHeight / 2);
+
+                    const player = props.players.find(
+                        (p) => p.formationIdx === formationIdx
+                    );
+
+                    const playerPressHandler = () => {
+                        props.onPitchPlayerPress(player.playerNumber);
+                    };
+
                     return (
                         <View
                             style={{
@@ -29,7 +38,14 @@ const Pitch = (props) => {
                                 top: top,
                             }}
                         >
-                            <Player playerNumber={2} />
+                            <Player
+                                isHighlighted={
+                                    props.highlightedPlayer ===
+                                    player.playerNumber
+                                }
+                                onPress={playerPressHandler}
+                                playerNumber={player.playerNumber}
+                            />
                         </View>
                     );
                 })}

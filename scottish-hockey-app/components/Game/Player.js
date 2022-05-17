@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
+import colors from "../../constants/colors";
 import Colors from "../../constants/colors";
 import TimerDisplay from "./TimerDisplay/TimerDisplay";
 
@@ -8,10 +9,20 @@ const Player = (props) => {
     return (
         <TouchableWithoutFeedback
             onPress={() => {
-                props.onPlayerPress(props.playerNumber);
+                props.onPress(props.playerNumber);
             }}
         >
-            <View style={styles.container}>
+            <View
+                style={{
+                    ...styles.container,
+                    borderColor: props.isHighlighted
+                        ? colors.playerHighlightBorderColor
+                        : colors.playerBorderColor,
+                    backgroundColor: props.isHighlighted
+                        ? colors.playerHighlightColor
+                        : colors.playerBackgroundColor,
+                }}
+            >
                 <View style={styles.playerNo}>
                     <Text>#{props.playerNumber}</Text>
                 </View>
@@ -52,8 +63,6 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 15,
         borderWidth: 1,
-        borderColor: "rgba(0,0,0,1)",
-        backgroundColor: "rgba(255,255,255,0.35)",
     },
     playerNo: {
         backgroundColor: Colors.playerNrColor,

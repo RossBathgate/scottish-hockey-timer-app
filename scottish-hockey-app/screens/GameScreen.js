@@ -31,6 +31,21 @@ const GameScreen = (props) => {
         mostRecentStart: 0,
     });
 
+    const [playersInfo, setPlayersInfo] = useState([
+        { formationIdx: 0, playerNumber: 0 },
+        { formationIdx: 1, playerNumber: 1 },
+        { formationIdx: -1, playerNumber: 2 },
+        { formationIdx: 2, playerNumber: 3 },
+    ]);
+
+    const [highlightedPlayer, setHighlightedPlayer] = useState(null);
+
+    const pitchPlayerPressHandler = (playerNumber) => {
+        setHighlightedPlayer((prevNumber) =>
+            prevNumber !== playerNumber ? playerNumber : null
+        );
+    };
+
     return (
         <View style={styles.gameScreen}>
             <ControlBar
@@ -38,8 +53,18 @@ const GameScreen = (props) => {
                 dispatchQuarterInfo={dispatchQuarterInfo}
                 timer={timer}
             />
-            <Pitch />
-            <Bench />
+            <Pitch
+                onPitchPlayerPress={pitchPlayerPressHandler}
+                highlightedPlayer={highlightedPlayer}
+                players={playersInfo.filter(
+                    (player) => player.formationIdx !== -1
+                )}
+            />
+            <Bench
+                players={playersInfo.filter(
+                    (player) => player.formationIdx === -1
+                )}
+            />
         </View>
     );
 };

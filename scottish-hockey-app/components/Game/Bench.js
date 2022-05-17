@@ -8,9 +8,9 @@ const Bench = (props) => {
     return (
         <View style={styles.bench}>
             <View style={styles.playersContainer}>
-                {[1, 2, 3, 4, 5].map((elem) => (
+                {props.players.map((player) => (
                     <View style={styles.playerContainer}>
-                        <Player playerNumber={elem} />
+                        <Player playerNumber={player.playerNumber} />
                     </View>
                 ))}
             </View>
