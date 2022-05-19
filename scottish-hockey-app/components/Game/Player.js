@@ -52,7 +52,7 @@ const Player = (props) => {
                     <TimerDisplay
                         style={styles.timerDisplay}
                         timerType="fullGame"
-                        nrSeconds={0}
+                        nrSeconds={props.fullTime}
                     />
                 </View>
             </View>

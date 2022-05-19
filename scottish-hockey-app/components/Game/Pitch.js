@@ -31,6 +31,7 @@ const Pitch = (props) => {
                     };
 
                     const pTime = props.timer.time - player.mostRecentSwitch;
+                    const fullTime = player.previousTotalPitchTime + pTime;
 
                     return (
                         <View
@@ -50,6 +51,7 @@ const Pitch = (props) => {
                                 onPress={playerPressHandler}
                                 playerNumber={player.playerNumber}
                                 pTime={pTime}
+                                fullTime={fullTime}
                                 // mostRecentSwitch={player.mostRecentSwitch}
                             />
                         </View>
