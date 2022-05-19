@@ -5,7 +5,6 @@ import Colors from "../../constants/colors";
 import TimerDisplay from "./TimerDisplay/TimerDisplay";
 
 const Player = (props) => {
-    const onPitch = true; //handle this using props once implemented
     return (
         <TouchableWithoutFeedback
             onPress={() => {
@@ -23,15 +22,19 @@ const Player = (props) => {
                         : colors.playerBackgroundColor,
                 }}
             >
+                {/* Player Number */}
                 <View style={styles.playerNo}>
                     <Text>#{props.playerNumber}</Text>
                 </View>
+
+                {/* Player Timers */}
                 <View style={styles.timerContainers}>
+                    {/* Display a P timer if on pitch, and a B timer of on bench */}
                     {props.onPitch ? (
                         <TimerDisplay
                             style={styles.timerDisplay}
                             timerType="P"
-                            nrSeconds={0}
+                            nrSeconds={props.pTime}
                         />
                     ) : (
                         <TimerDisplay

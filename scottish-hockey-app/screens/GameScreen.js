@@ -22,6 +22,48 @@ const quarterReducer = (state, action) => {
     }
 };
 
+const playerReducer = (state, action) => {
+    switch (action.msg) {
+        case "resetTimes":
+            let defaultState = [...state];
+            defaultState.map((player) => {
+                player.mostRecentSwitch = 0;
+                return player;
+            });
+
+            return defaultState;
+
+        case "swap":
+            // find formation index of highlighed player
+            const highlightedFormationIdx = state.find(
+                (player) =>
+                    player.playerNumber ===
+                    action.playerNumbers.highlightedPlayerNumber
+            ).formationIdx;
+
+            // swap the players
+            let newState = [...state];
+            newState.map((player) => {
+                if (
+                    player.playerNumber ===
+                    action.playerNumbers.benchPlayerNumber
+                ) {
+                    player.formationIdx = highlightedFormationIdx;
+                    player.mostRecentSwitch = action.time;
+                } else if (
+                    player.playerNumber ===
+                    action.playerNumbers.highlightedPlayerNumber
+                ) {
+                    player.formationIdx = -1;
+                    player.mostRecentSwitch = action.time;
+                }
+                return player;
+            });
+
+            return newState;
+    }
+};
+
 const GameScreen = (props) => {
     const timer = useTimer();
 
@@ -31,22 +73,22 @@ const GameScreen = (props) => {
         mostRecentStart: 0,
     });
 
-    const [playersInfo, setPlayersInfo] = useState([
-        { formationIdx: 0, playerNumber: 0 },
-        { formationIdx: 1, playerNumber: 1 },
-        { formationIdx: 2, playerNumber: 2 },
-        { formationIdx: 3, playerNumber: 3 },
-        { formationIdx: 4, playerNumber: 4 },
-        { formationIdx: 5, playerNumber: 5 },
-        { formationIdx: 6, playerNumber: 6 },
-        { formationIdx: 7, playerNumber: 7 },
-        { formationIdx: 8, playerNumber: 8 },
-        { formationIdx: 9, playerNumber: 9 },
-        { formationIdx: -1, playerNumber: 10 },
-        { formationIdx: -1, playerNumber: 11 },
-        { formationIdx: -1, playerNumber: 12 },
-        { formationIdx: -1, playerNumber: 13 },
-        { formationIdx: -1, playerNumber: 14 },
+    const [playersInfo, dispatchPlayersInfo] = useReducer(playerReducer, [
+        { formationIdx: 0, playerNumber: 0, mostRecentSwitch: 0 },
+        { formationIdx: 1, playerNumber: 1, mostRecentSwitch: 0 },
+        { formationIdx: 2, playerNumber: 2, mostRecentSwitch: 0 },
+        { formationIdx: 3, playerNumber: 3, mostRecentSwitch: 0 },
+        { formationIdx: 4, playerNumber: 4, mostRecentSwitch: 0 },
+        { formationIdx: 5, playerNumber: 5, mostRecentSwitch: 0 },
+        { formationIdx: 6, playerNumber: 6, mostRecentSwitch: 0 },
+        { formationIdx: 7, playerNumber: 7, mostRecentSwitch: 0 },
+        { formationIdx: 8, playerNumber: 8, mostRecentSwitch: 0 },
+        { formationIdx: 9, playerNumber: 9, mostRecentSwitch: 0 },
+        { formationIdx: -1, playerNumber: 10, mostRecentSwitch: 0 },
+        { formationIdx: -1, playerNumber: 11, mostRecentSwitch: 0 },
+        { formationIdx: -1, playerNumber: 12, mostRecentSwitch: 0 },
+        { formationIdx: -1, playerNumber: 13, mostRecentSwitch: 0 },
+        { formationIdx: -1, playerNumber: 14, mostRecentSwitch: 0 },
     ]);
 
     const [highlightedPlayer, setHighlightedPlayer] = useState(null);
@@ -59,24 +101,14 @@ const GameScreen = (props) => {
 
     const benchPlayerPressHandler = (benchPlayerNumber) => {
         if (highlightedPlayer !== null) {
-            // find formationIdx of highlighted player
-            const highlightedFormationIdx = playersInfo.find(
-                (player) => player.playerNumber === highlightedPlayer
-            ).formationIdx;
-
-            // set benchPlayer formationIdx to that of the highlighted player
-            // and set the formationIdx of the highlighted player to -1
-            setPlayersInfo((currentPlayersInfo) =>
-                currentPlayersInfo.map((player) => {
-                    player;
-                    if (player.playerNumber === benchPlayerNumber) {
-                        player.formationIdx = highlightedFormationIdx;
-                    } else if (player.playerNumber === highlightedPlayer) {
-                        player.formationIdx = -1;
-                    }
-                    return player;
-                })
-            );
+            dispatchPlayersInfo({
+                msg: "swap",
+                time: timer.time,
+                playerNumbers: {
+                    benchPlayerNumber: benchPlayerNumber,
+                    highlightedPlayerNumber: highlightedPlayer,
+                },
+            });
         }
     };
 
@@ -85,6 +117,7 @@ const GameScreen = (props) => {
             <ControlBar
                 quarterInfo={quarterInfo}
                 dispatchQuarterInfo={dispatchQuarterInfo}
+                dispatchPlayersInfo={dispatchPlayersInfo}
                 timer={timer}
             />
             <Pitch
@@ -93,12 +126,14 @@ const GameScreen = (props) => {
                 players={playersInfo.filter(
                     (player) => player.formationIdx !== -1
                 )}
+                timer={timer}
             />
             <Bench
                 onBenchPlayerPress={benchPlayerPressHandler}
                 players={playersInfo.filter(
                     (player) => player.formationIdx === -1
                 )}
+                timer={timer}
             />
         </View>
     );

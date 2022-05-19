@@ -16,6 +16,7 @@ const ControlBar = (props) => {
     };
 
     const startGameHandler = () => {
+        props.dispatchPlayersInfo({ msg: "resetTimes" });
         props.dispatchQuarterInfo({ msg: "startGame" });
         props.timer.resetTimer();
         props.timer.resumeTimer();

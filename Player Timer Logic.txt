@@ -1,11 +1,34 @@
 Full Timer:
 Displays the total time the player has been on the pitch.
 
+1. create empty array pitchIntervals[]
+2. at game start do pitchIntervals.append(0)
+3. on each timer tick:
+4.	if player switch, do pitchIntervals.append(timer time)
+5.	if player on pitch then set full timer to [pitchIntervals[1] - pitchIntervals[0]] + [pitchIntervals[3] - pitchIntervals[2]] + ... + [timer time - pitchIntervals[-1]]
+
+
+
+
 Quarter Timer:
 Displays the total time in the current quarter the player has been on the pitch.
+
+
+
+
+
+
 
 P Timer:
 Displays the total time playing on the pitch since either the start, or a recent switch to the pitch, (which ever is most recent).
 
 B Timer:
 Displays the total time sitting on the bench since either the start, or a recent switch to the bench, (which ever is most recent).
+
+
+
+1. at game start, set mostRecentSwitch=0
+2. on each new timer tick etc:
+3. 	if player switched then set mostRecentSwitch to timerTime
+4.	if player on pitch then set P timer time to timerTime - mostRecentSwitch
+5.	if player on bench then set B timer time to timerTime - mostRecentSwitch

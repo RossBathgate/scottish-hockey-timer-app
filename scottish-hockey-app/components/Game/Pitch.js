@@ -30,6 +30,8 @@ const Pitch = (props) => {
                         props.onPitchPlayerPress(player.playerNumber);
                     };
 
+                    const pTime = props.timer.time - player.mostRecentSwitch;
+
                     return (
                         <View
                             style={{
@@ -46,6 +48,8 @@ const Pitch = (props) => {
                                 onPitch={true}
                                 onPress={playerPressHandler}
                                 playerNumber={player.playerNumber}
+                                pTime={pTime}
+                                // mostRecentSwitch={player.mostRecentSwitch}
                             />
                         </View>
                     );

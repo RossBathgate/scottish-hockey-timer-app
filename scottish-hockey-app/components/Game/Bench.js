@@ -22,6 +22,7 @@ const Bench = (props) => {
                                 onPitch={false}
                                 onPress={playerPressHandler}
                                 playerNumber={player.playerNumber}
+                                mostRecentSwitch={player.mostRecentSwitch}
                             />
                         </View>
                     );
