@@ -27,11 +27,11 @@ const Player = (props) => {
                     <Text>#{props.playerNumber}</Text>
                 </View>
                 <View style={styles.timerContainers}>
-                    {onPitch ? (
+                    {props.onPitch ? (
                         <TimerDisplay
                             style={styles.timerDisplay}
                             timerType="P"
-                            nrSeconds={10000}
+                            nrSeconds={0}
                         />
                     ) : (
                         <TimerDisplay

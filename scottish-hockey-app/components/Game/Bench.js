@@ -14,8 +14,12 @@ const Bench = (props) => {
                     };
 
                     return (
-                        <View style={styles.playerContainer}>
+                        <View
+                            key={player.playerNumber}
+                            style={styles.playerContainer}
+                        >
                             <Player
+                                onPitch={false}
                                 onPress={playerPressHandler}
                                 playerNumber={player.playerNumber}
                             />

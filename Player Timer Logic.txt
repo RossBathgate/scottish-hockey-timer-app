@@ -1,0 +1,11 @@
+Full Timer:
+Displays the total time the player has been on the pitch.
+
+Quarter Timer:
+Displays the total time in the current quarter the player has been on the pitch.
+
+P Timer:
+Displays the total time playing on the pitch since either the start, or a recent switch to the pitch, (which ever is most recent).
+
+B Timer:
+Displays the total time sitting on the bench since either the start, or a recent switch to the bench, (which ever is most recent).

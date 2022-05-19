@@ -43,6 +43,7 @@ const Pitch = (props) => {
                                     props.highlightedPlayer ===
                                     player.playerNumber
                                 }
+                                onPitch={true}
                                 onPress={playerPressHandler}
                                 playerNumber={player.playerNumber}
                             />
