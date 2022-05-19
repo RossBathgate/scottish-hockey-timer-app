@@ -4,6 +4,8 @@ export default {
     playerBorderColor: "rgba(0,0,0,1)",
     playerHighlightColor: "rgba(65,203,255,0.35)",
     playerHighlightBorderColor: "rgba(0,0,0,1)",
+    benchPlayerHighlightColor: "rgba(254, 254, 123,0.35)",
+    benchPlayerHighlightBorderColor: "rgba(0,0,0,1)",
     timerColors: {
         primary: "rgba(50, 50, 50, 1)",
         secondary: "rgba(200, 200, 200, 1)",

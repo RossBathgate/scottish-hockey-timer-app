@@ -110,6 +110,8 @@ const GameScreen = (props) => {
                 },
             });
         }
+
+        setHighlightedPlayer(null);
     };
 
     return (
@@ -134,6 +136,7 @@ const GameScreen = (props) => {
                     (player) => player.formationIdx === -1
                 )}
                 timer={timer}
+                isPitchPlayerHighlighted={highlightedPlayer !== null}
             />
         </View>
     );

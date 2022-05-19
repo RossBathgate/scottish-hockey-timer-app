@@ -21,6 +21,15 @@ const Bench = (props) => {
                             style={styles.playerContainer}
                         >
                             <Player
+                                style={{
+                                    borderColor: props.isPitchPlayerHighlighted
+                                        ? colors.benchPlayerHighlightBorderColor
+                                        : colors.playerBorderColor,
+                                    backgroundColor:
+                                        props.isPitchPlayerHighlighted
+                                            ? colors.benchPlayerHighlightColor
+                                            : colors.playerBackgroundColor,
+                                }}
                                 onPitch={false}
                                 onPress={playerPressHandler}
                                 playerNumber={player.playerNumber}

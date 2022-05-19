@@ -20,6 +20,7 @@ const Player = (props) => {
                     backgroundColor: props.isHighlighted
                         ? colors.playerHighlightColor
                         : colors.playerBackgroundColor,
+                    ...props.style,
                 }}
             >
                 {/* Player Number */}
