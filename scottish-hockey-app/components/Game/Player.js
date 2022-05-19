@@ -40,7 +40,7 @@ const Player = (props) => {
                         <TimerDisplay
                             style={styles.timerDisplay}
                             timerType="B"
-                            nrSeconds={0}
+                            nrSeconds={props.bTime}
                         />
                     )}
                     <TimerDisplay

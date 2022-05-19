@@ -34,6 +34,7 @@ const Pitch = (props) => {
 
                     return (
                         <View
+                            key={player.playerNumber}
                             style={{
                                 ...styles.playerContainer,
                                 left: left,

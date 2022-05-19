@@ -13,6 +13,8 @@ const Bench = (props) => {
                         props.onBenchPlayerPress(player.playerNumber);
                     };
 
+                    const bTime = props.timer.time - player.mostRecentSwitch;
+
                     return (
                         <View
                             key={player.playerNumber}
@@ -23,6 +25,7 @@ const Bench = (props) => {
                                 onPress={playerPressHandler}
                                 playerNumber={player.playerNumber}
                                 mostRecentSwitch={player.mostRecentSwitch}
+                                bTime={bTime}
                             />
                         </View>
                     );
