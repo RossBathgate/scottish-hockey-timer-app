@@ -28,6 +28,10 @@ const ControlBar = (props) => {
     };
 
     const startQuarterHandler = () => {
+        props.dispatchPlayersInfo({
+            msg: "updatePreviousTotalQuarterTimes",
+            time: props.timer.time,
+        });
         props.dispatchQuarterInfo({
             msg: "startQuarter",
             time: props.timer.time,
@@ -37,6 +41,7 @@ const ControlBar = (props) => {
 
     const endQuarterHandler = () => {
         props.dispatchQuarterInfo({ msg: "endQuarter" });
+
         if (props.timer.isActive) {
             props.timer.pauseTimer();
         }

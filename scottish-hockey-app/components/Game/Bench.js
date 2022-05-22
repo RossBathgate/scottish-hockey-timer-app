@@ -17,7 +17,6 @@ const Bench = (props) => {
                     const fullTime = player.previousTotalPitchTime;
                     const quarterTime =
                         fullTime - player.totalTimeOfAllPreviousQuarters;
-
                     return (
                         <View
                             key={player.playerNumber}

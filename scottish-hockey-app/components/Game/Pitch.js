@@ -55,7 +55,6 @@ const Pitch = (props) => {
                                 pTime={pTime}
                                 fullTime={fullTime}
                                 quarterTime={quarterTime}
-                                // mostRecentSwitch={player.mostRecentSwitch}
                             />
                         </View>
                     );

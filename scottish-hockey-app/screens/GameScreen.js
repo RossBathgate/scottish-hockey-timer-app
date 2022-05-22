@@ -11,6 +11,7 @@ const tempDefaultPlayersInfo = [
         playerNumber: 0,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        // !!! MAY NOT ACTUALLY BE USED !!!
         previousQuarterPitchTime: 0,
         totalTimeOfAllPreviousQuarters: 0,
     },
@@ -161,6 +162,7 @@ const playerReducer = (state, action) => {
 
             return stateCopy;
 
+        // !!! MAY NOT ACTUALLY BE USED !!!
         case "resetQuarterTimes":
             stateCopy.map((player) => {
                 player.previousQuarterPitchTime = 0;
@@ -169,12 +171,18 @@ const playerReducer = (state, action) => {
 
             return stateCopy;
 
-        // case "updatePreviousTotalQuarterTime":
-        //     // stateCopy.map((player) => {
-        //     // //     player.totalTimeOfAllPreviousQuarters =
-        //     // //         player.totalTimeOfAllPreviousQuarters + player.mostRece//action.quarterTime; //...................
-        //     // // });
-        //     return stateCopy;
+        case "updatePreviousTotalQuarterTimes":
+            stateCopy.map((player) => {
+                const fullTime =
+                    player.formationIdx !== -1
+                        ? player.previousTotalPitchTime +
+                          action.time -
+                          player.mostRecentSwitch
+                        : player.previousTotalPitchTime;
+
+                player.totalTimeOfAllPreviousQuarters = fullTime;
+            });
+            return stateCopy;
 
         case "swap":
             // find formation index of highlighed player
