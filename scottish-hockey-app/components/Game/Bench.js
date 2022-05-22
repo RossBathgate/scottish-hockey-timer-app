@@ -15,6 +15,8 @@ const Bench = (props) => {
 
                     const bTime = props.timer.time - player.mostRecentSwitch;
                     const fullTime = player.previousTotalPitchTime;
+                    const quarterTime =
+                        fullTime - player.totalTimeOfAllPreviousQuarters;
 
                     return (
                         <View
@@ -37,6 +39,7 @@ const Bench = (props) => {
                                 mostRecentSwitch={player.mostRecentSwitch}
                                 bTime={bTime}
                                 fullTime={fullTime}
+                                quarterTime={quarterTime}
                             />
                         </View>
                     );

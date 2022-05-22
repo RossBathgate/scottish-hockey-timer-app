@@ -47,7 +47,7 @@ const Player = (props) => {
                     <TimerDisplay
                         style={styles.timerDisplay}
                         timerType="quarter"
-                        nrSeconds={0}
+                        nrSeconds={props.quarterTime}
                     />
                     <TimerDisplay
                         style={styles.timerDisplay}

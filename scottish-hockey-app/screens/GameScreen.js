@@ -11,90 +11,120 @@ const tempDefaultPlayersInfo = [
         playerNumber: 0,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: 1,
         playerNumber: 1,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: 2,
         playerNumber: 2,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: 3,
         playerNumber: 3,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: 4,
         playerNumber: 4,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: 5,
         playerNumber: 5,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: 6,
         playerNumber: 6,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: 7,
         playerNumber: 7,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: 8,
         playerNumber: 8,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: 9,
         playerNumber: 9,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: -1,
         playerNumber: 10,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: -1,
         playerNumber: 11,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: -1,
         playerNumber: 12,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: -1,
         playerNumber: 13,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
     {
         formationIdx: -1,
         playerNumber: 14,
         mostRecentSwitch: 0,
         previousTotalPitchTime: 0,
+        previousQuarterPitchTime: 0,
+        totalTimeOfAllPreviousQuarters: 0,
     },
 ];
 
@@ -116,16 +146,35 @@ const quarterReducer = (state, action) => {
 };
 
 const playerReducer = (state, action) => {
+    // copy state so that a "new" state is returned every time, resulting in a re-render
+    let stateCopy = [...state];
+
     switch (action.msg) {
         case "resetTimes":
-            let defaultState = [...state];
-            defaultState.map((player) => {
+            stateCopy.map((player) => {
                 player.mostRecentSwitch = 0;
                 player.previousTotalPitchTime = 0;
+                player.previousQuarterPitchTime = 0;
+                player.totalTimeOfAllPreviousQuarters = 0;
                 return player;
             });
 
-            return defaultState;
+            return stateCopy;
+
+        case "resetQuarterTimes":
+            stateCopy.map((player) => {
+                player.previousQuarterPitchTime = 0;
+                return player;
+            });
+
+            return stateCopy;
+
+        // case "updatePreviousTotalQuarterTime":
+        //     // stateCopy.map((player) => {
+        //     // //     player.totalTimeOfAllPreviousQuarters =
+        //     // //         player.totalTimeOfAllPreviousQuarters + player.mostRece//action.quarterTime; //...................
+        //     // // });
+        //     return stateCopy;
 
         case "swap":
             // find formation index of highlighed player
@@ -136,9 +185,8 @@ const playerReducer = (state, action) => {
             ).formationIdx;
 
             // swap the players, set mostRecentSwitch,
-            // set previousTotalPitchTime of the player moving to the bench.
-            let newState = [...state];
-            newState.map((player) => {
+            // set previous total pitch and quarter times of the player moving to the bench.
+            stateCopy.map((player) => {
                 if (
                     player.playerNumber ===
                     action.playerNumbers.benchPlayerNumber
@@ -158,7 +206,7 @@ const playerReducer = (state, action) => {
                 return player;
             });
 
-            return newState;
+            return stateCopy;
     }
 };
 

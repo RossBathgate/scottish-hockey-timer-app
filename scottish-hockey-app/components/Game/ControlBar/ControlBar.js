@@ -37,7 +37,9 @@ const ControlBar = (props) => {
 
     const endQuarterHandler = () => {
         props.dispatchQuarterInfo({ msg: "endQuarter" });
-        props.timer.pauseTimer();
+        if (props.timer.isActive) {
+            props.timer.pauseTimer();
+        }
     };
 
     const isGameRunning = props.quarterInfo.quarterNr !== -1;
@@ -45,7 +47,7 @@ const ControlBar = (props) => {
     return (
         <View style={styles.controlBar}>
             {/* pause / resume buttons */}
-            {isGameRunning && (
+            {props.quarterInfo.isQuarterRunning && isGameRunning && (
                 <Card style={styles.card}>
                     <PausePlayButton
                         isPaused={!props.timer.isActive}

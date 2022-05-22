@@ -32,6 +32,8 @@ const Pitch = (props) => {
 
                     const pTime = props.timer.time - player.mostRecentSwitch;
                     const fullTime = player.previousTotalPitchTime + pTime;
+                    const quarterTime =
+                        fullTime - player.totalTimeOfAllPreviousQuarters;
 
                     return (
                         <View
@@ -52,6 +54,7 @@ const Pitch = (props) => {
                                 playerNumber={player.playerNumber}
                                 pTime={pTime}
                                 fullTime={fullTime}
+                                quarterTime={quarterTime}
                                 // mostRecentSwitch={player.mostRecentSwitch}
                             />
                         </View>

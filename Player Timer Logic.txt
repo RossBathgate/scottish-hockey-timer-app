@@ -13,7 +13,7 @@ Displays the total time the player has been on the pitch.
 Quarter Timer:
 Displays the total time in the current quarter the player has been on the pitch.
 
-
+quarterTime = <fullTimeOnPitch> - <totalTimeOfPreviousQuarters>
 
 
 
