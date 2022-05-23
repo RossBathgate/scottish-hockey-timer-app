@@ -40,14 +40,12 @@ const PlayerDataScreen = (props) => {
 
     return (
         <View style={styles.playerDataScreen}>
-            <Header>
-                <Text style={styles.headerText}>
-                    LOAD PLAYER DATA ###STILL NEED TO STYLE HEADER AND TEXT###
+            <Header
+                title="LOAD PLAYER DATA ###STILL NEED TO STYLE HEADER AND TEXT###
                     NOTE: ALSO NEED TO VALIDATE TO ENSURE PLAYER NUMBERS ARE
                     UNIQUE. ALSO NOTE: THE INFORMATION ADDED HERE IS JUST STORED
-                    IN STATE.... IN THIS COMPONENT!
-                </Text>
-            </Header>
+                    IN STATE.... IN THIS COMPONENT!"
+            />
             <View
                 style={{
                     ...styles.buttonsContainer,
@@ -101,7 +99,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
     },
-    headerText: { color: "white", fontSize: 30 },
     title: {
         color: "black",
         fontSize: 60,
