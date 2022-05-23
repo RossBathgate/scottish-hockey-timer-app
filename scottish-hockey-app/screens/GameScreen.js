@@ -30,7 +30,7 @@ const playerReducer = (state, action) => {
 
     switch (action.msg) {
         case "resetTimes":
-            stateCopy.map((player) => {
+            stateCopy.forEach((player) => {
                 player.mostRecentSwitch = 0;
                 player.previousTotalPitchTime = 0;
                 player.previousQuarterPitchTime = 0;
@@ -42,7 +42,7 @@ const playerReducer = (state, action) => {
 
         // !!! MAY NOT ACTUALLY BE USED !!!
         case "resetQuarterTimes":
-            stateCopy.map((player) => {
+            stateCopy.forEach((player) => {
                 player.previousQuarterPitchTime = 0;
                 return player;
             });
@@ -50,7 +50,7 @@ const playerReducer = (state, action) => {
             return stateCopy;
 
         case "updatePreviousTotalQuarterTimes":
-            stateCopy.map((player) => {
+            stateCopy.forEach((player) => {
                 const fullTime =
                     player.formationIdx !== -1
                         ? player.previousTotalPitchTime +
@@ -72,7 +72,7 @@ const playerReducer = (state, action) => {
 
             // swap the players, set mostRecentSwitch,
             // set previous total pitch and quarter times of the player moving to the bench.
-            stateCopy.map((player) => {
+            stateCopy.forEach((player) => {
                 if (
                     player.playerNumber ===
                     action.playerNumbers.benchPlayerNumber
