@@ -100,6 +100,7 @@ const PlayerDataForm = (props) => {
                         });
                         props.onClearError;
                     }}
+                    keyboardType="number-pad"
                 />
             </View>
             <View style={styles.buttonsContainer}>

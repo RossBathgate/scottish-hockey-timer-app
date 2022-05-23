@@ -10,6 +10,7 @@ const FormInput = (props) => {
                 style={styles.textInput}
                 onChangeText={(newText) => props.onChangeText(newText)}
                 value={props.inputValue}
+                keyboardType={props.keyboardType}
             />
         </View>
     );
