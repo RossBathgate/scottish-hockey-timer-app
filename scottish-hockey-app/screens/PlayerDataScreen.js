@@ -40,12 +40,7 @@ const PlayerDataScreen = (props) => {
 
     return (
         <View style={styles.playerDataScreen}>
-            <Header
-                title="LOAD PLAYER DATA ###STILL NEED TO STYLE HEADER AND TEXT###
-                    NOTE: ALSO NEED TO VALIDATE TO ENSURE PLAYER NUMBERS ARE
-                    UNIQUE. ALSO NOTE: THE INFORMATION ADDED HERE IS JUST STORED
-                    IN STATE.... IN THIS COMPONENT!"
-            />
+            <Header title="LOAD PLAYER DATA" />
             <View
                 style={{
                     ...styles.buttonsContainer,

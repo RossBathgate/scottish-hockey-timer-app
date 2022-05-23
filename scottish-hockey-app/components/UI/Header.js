@@ -13,7 +13,7 @@ const Header = (props) => {
 
 // Calculate size corrections for header background
 const screenWidth = Dimensions.get("window").width;
-const rotAngleRadians = 0.15;
+const rotAngleRadians = 0.08;
 const verticalCorrection = Math.round(
     (screenWidth / 2) * Math.sin(rotAngleRadians)
 );
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         width: screenWidth,
         color: "black",
         position: "relative",
-        minHeight: 200
+        minHeight: 200,
     },
     background: {
         width: screenWidth,
@@ -36,13 +36,14 @@ const styles = StyleSheet.create({
         transform: [
             { rotateZ: `-${rotAngleRadians}rad` },
             { translateY: -verticalCorrection },
-            { scaleX: 2}
+            { scaleX: 2 },
         ],
     },
     text: {
-        fontSize: 30,
+        fontSize: 60,
         color: "white",
-        padding: 20
+        padding: 20,
+        maxWidth: "60%",
     },
 });
 

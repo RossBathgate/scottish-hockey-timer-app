@@ -133,7 +133,34 @@ const GameScreen = (props) => {
             ...props.gameDataRef.current.quarterDurations,
             timer.time - quarterInfo.mostRecentStart,
         ];
-        console.log(props.gameDataRef.current.quarterDurations);
+
+        // Add duration on pitch of current quarter for each player
+        props.gameDataRef.current.players = playersInfo.map((player) => {
+            // attempt to find the player object in the gameDataRef
+            const refPlayer = props.gameDataRef.current.players.find(
+                (refPlayer) => refPlayer.playerNumber === player.playerNumber
+            );
+
+            // calculate the quarter time for the player,
+            // checking whether they are on the pitch or then bench
+            const quarterTime =
+                player.formationIdx === -1
+                    ? player.previousTotalPitchTime -
+                      player.totalTimeOfAllPreviousQuarters
+                    : player.previousTotalPitchTime +
+                      timer.time -
+                      player.mostRecentSwitch -
+                      player.totalTimeOfAllPreviousQuarters;
+
+            // add new time to timesOnPitch array
+            return {
+                playerNumber: player.playerNumber,
+                // determine whether the refPlayer exists before assigning
+                timesOnPitch: refPlayer
+                    ? [...refPlayer.timesOnPitch, quarterTime]
+                    : [quarterTime],
+            };
+        });
     }
 
     // Force end game
@@ -142,6 +169,8 @@ const GameScreen = (props) => {
             props.onPageChange("home");
         }
     }, [quarterInfo.isGameEnded]);
+
+    console.log(props.gameDataRef.current);
 
     const pitchPlayerPressHandler = (playerNumber) => {
         setHighlightedPlayer((prevNumber) =>
