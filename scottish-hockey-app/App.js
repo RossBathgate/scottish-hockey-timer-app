@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
 import KeyboardDismissHO from "./components/HO/KeyboardDismissHO";
@@ -8,6 +8,10 @@ import PlayerDataScreen from "./screens/PlayerDataScreen";
 
 export default function App() {
     const [currentPage, setCurrentPage] = useState("home");
+    const gameDataRef = useRef({
+        quarterDurations: [],
+        players: [],
+    });
 
     const pageChangeHandler = (newPage) => {
         setCurrentPage(newPage);
@@ -18,7 +22,12 @@ export default function App() {
     if (currentPage === "home") {
         content = <HomeScreen onPageChange={pageChangeHandler} />;
     } else if (currentPage === "game") {
-        content = <GameScreen onPageChange={pageChangeHandler} />;
+        content = (
+            <GameScreen
+                onPageChange={pageChangeHandler}
+                gameDataRef={gameDataRef}
+            />
+        );
     } else if (currentPage == "playerData") {
         content = <PlayerDataScreen onPageChange={pageChangeHandler} />;
     }

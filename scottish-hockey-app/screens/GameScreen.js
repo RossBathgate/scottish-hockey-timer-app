@@ -1,4 +1,4 @@
-import React, { useState, useRef, useReducer } from "react";
+import React, { useState, useRef, useReducer, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import Bench from "../components/Game/Bench";
 import ControlBar from "../components/Game/ControlBar/ControlBar";
@@ -11,6 +11,7 @@ const quarterReducer = (state, action) => {
     switch (action.msg) {
         case "startQuarter":
             return {
+                ...state,
                 quarterNr: state.quarterNr + 1,
                 isQuarterRunning: true,
                 mostRecentStart: action.time,
@@ -18,9 +19,19 @@ const quarterReducer = (state, action) => {
         case "endQuarter":
             return { ...state, isQuarterRunning: false };
         case "startGame":
-            return { quarterNr: 1, isQuarterRunning: true, mostRecentStart: 0 };
+            return {
+                quarterNr: 1,
+                isQuarterRunning: true,
+                mostRecentStart: 0,
+                isGameEnded: false,
+            };
         case "endGame":
-            return { ...state, quarterNr: -1, isQuarterRunning: false };
+            return {
+                ...state,
+                quarterNr: -1,
+                isQuarterRunning: false,
+                isGameEnded: true,
+            };
     }
 };
 
@@ -97,10 +108,6 @@ const playerReducer = (state, action) => {
 };
 
 const GameScreen = (props) => {
-    const changePage = (newPage) => {
-        props.onPageChange(newPage);
-    };
-
     const timer = useTimer();
 
     const [quarterInfo, dispatchQuarterInfo] = useReducer(quarterReducer, {
@@ -115,6 +122,26 @@ const GameScreen = (props) => {
     );
 
     const [highlightedPlayer, setHighlightedPlayer] = useState(null);
+
+    // Update game summary info
+    if (
+        !quarterInfo.isQuarterRunning &&
+        (quarterInfo.quarterNr !== -1 || quarterInfo.isGameEnded)
+    ) {
+        // Add latest quarter duration
+        props.gameDataRef.current.quarterDurations = [
+            ...props.gameDataRef.current.quarterDurations,
+            timer.time - quarterInfo.mostRecentStart,
+        ];
+        console.log(props.gameDataRef.current.quarterDurations);
+    }
+
+    // Force end game
+    useEffect(() => {
+        if (quarterInfo.isGameEnded) {
+            props.onPageChange("home");
+        }
+    }, [quarterInfo.isGameEnded]);
 
     const pitchPlayerPressHandler = (playerNumber) => {
         setHighlightedPlayer((prevNumber) =>
@@ -137,10 +164,6 @@ const GameScreen = (props) => {
         setHighlightedPlayer(null);
     };
 
-    const gameEndHandler = () => {
-        changePage("home");
-    };
-
     return (
         <View style={styles.gameScreen}>
             <ControlBar
@@ -148,7 +171,6 @@ const GameScreen = (props) => {
                 dispatchQuarterInfo={dispatchQuarterInfo}
                 dispatchPlayersInfo={dispatchPlayersInfo}
                 timer={timer}
-                onGameEnd={gameEndHandler}
             />
             <Pitch
                 onPitchPlayerPress={pitchPlayerPressHandler}

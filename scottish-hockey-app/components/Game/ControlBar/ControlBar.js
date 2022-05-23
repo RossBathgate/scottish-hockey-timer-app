@@ -25,7 +25,6 @@ const ControlBar = (props) => {
     const endGameHandler = () => {
         props.dispatchQuarterInfo({ msg: "endGame" });
         props.timer.pauseTimer();
-        props.onGameEnd();
     };
 
     const startQuarterHandler = () => {
