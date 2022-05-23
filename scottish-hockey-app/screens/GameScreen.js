@@ -15,11 +15,13 @@ const quarterReducer = (state, action) => {
                 quarterNr: state.quarterNr + 1,
                 isQuarterRunning: true,
                 mostRecentStart: action.time,
+                isQuarterEnded: false,
             };
         case "endQuarter":
-            return { ...state, isQuarterRunning: false };
+            return { ...state, isQuarterRunning: false, isQuarterEnded: true };
         case "startGame":
             return {
+                ...state,
                 quarterNr: 1,
                 isQuarterRunning: true,
                 mostRecentStart: 0,
@@ -126,7 +128,8 @@ const GameScreen = (props) => {
     // Update game summary info
     if (
         !quarterInfo.isQuarterRunning &&
-        (quarterInfo.quarterNr !== -1 || quarterInfo.isGameEnded)
+        (quarterInfo.quarterNr !== -1 ||
+            (quarterInfo.isGameEnded && !quarterInfo.isQuarterEnded))
     ) {
         // Add latest quarter duration
         props.gameDataRef.current.quarterDurations = [
@@ -193,6 +196,11 @@ const GameScreen = (props) => {
         setHighlightedPlayer(null);
     };
 
+    // reset the gameDataRef at the start of each new game
+    const resetRefHandler = () => {
+        props.gameDataRef.current = { quarterDurations: [], players: [] };
+    };
+
     return (
         <View style={styles.gameScreen}>
             <ControlBar
@@ -200,6 +208,7 @@ const GameScreen = (props) => {
                 dispatchQuarterInfo={dispatchQuarterInfo}
                 dispatchPlayersInfo={dispatchPlayersInfo}
                 timer={timer}
+                onRefReset={resetRefHandler}
             />
             <Pitch
                 onPitchPlayerPress={pitchPlayerPressHandler}
