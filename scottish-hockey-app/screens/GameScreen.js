@@ -97,6 +97,10 @@ const playerReducer = (state, action) => {
 };
 
 const GameScreen = (props) => {
+    const changePage = (newPage) => {
+        props.onPageChange(newPage);
+    };
+
     const timer = useTimer();
 
     const [quarterInfo, dispatchQuarterInfo] = useReducer(quarterReducer, {
@@ -133,6 +137,10 @@ const GameScreen = (props) => {
         setHighlightedPlayer(null);
     };
 
+    const gameEndHandler = () => {
+        changePage("home");
+    };
+
     return (
         <View style={styles.gameScreen}>
             <ControlBar
@@ -140,6 +148,7 @@ const GameScreen = (props) => {
                 dispatchQuarterInfo={dispatchQuarterInfo}
                 dispatchPlayersInfo={dispatchPlayersInfo}
                 timer={timer}
+                onGameEnd={gameEndHandler}
             />
             <Pitch
                 onPitchPlayerPress={pitchPlayerPressHandler}
