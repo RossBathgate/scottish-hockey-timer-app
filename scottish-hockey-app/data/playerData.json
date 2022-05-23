@@ -1,0 +1,178 @@
+[
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 0,
+        "formationIdx": 0,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 1,
+        "formationIdx": 1,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 2,
+        "formationIdx": 2,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 3,
+        "formationIdx": 3,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 4,
+        "formationIdx": 4,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 5,
+        "formationIdx": 5,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 6,
+        "formationIdx": 6,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 7,
+        "formationIdx": 7,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 8,
+        "formationIdx": 8,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 9,
+        "formationIdx": 9,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 10,
+        "formationIdx": 10,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 11,
+        "formationIdx": -1,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 12,
+        "formationIdx": -1,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 13,
+        "formationIdx": -1,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 14,
+        "formationIdx": -1,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    },
+    {
+        "firstName": "",
+        "surname": "",
+        "position": "",
+        "playerNumber": 15,
+        "formationIdx": -1,
+        "mostRecentSwitch": 0,
+        "previousTotalPitchTime": 0,
+        "previousQuarterPitchTime": 0,
+        "totalTimeOfAllPreviousQuarters": 0
+    }
+]

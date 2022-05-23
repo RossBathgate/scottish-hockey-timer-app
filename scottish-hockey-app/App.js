@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
+import KeyboardDismissHO from "./components/HO/KeyboardDismissHO";
 import GameScreen from "./screens/GameScreen";
 import HomeScreen from "./screens/HomeScreen";
+import PlayerDataScreen from "./screens/PlayerDataScreen";
 
 export default function App() {
     const [currentPage, setCurrentPage] = useState("home");
@@ -17,13 +19,17 @@ export default function App() {
         content = <HomeScreen onPageChange={pageChangeHandler} />;
     } else if (currentPage === "game") {
         content = <GameScreen onPageChange={pageChangeHandler} />;
+    } else if (currentPage == "playerData") {
+        content = <PlayerDataScreen onPageChange={pageChangeHandler} />;
     }
 
     return (
-        <View style={styles.container}>
-            <StatusBar style="auto" />
-            {content}
-        </View>
+        <KeyboardDismissHO>
+            <View style={styles.container}>
+                <StatusBar style="auto" />
+                {content}
+            </View>
+        </KeyboardDismissHO>
     );
 }
 

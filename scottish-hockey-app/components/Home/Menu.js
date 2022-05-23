@@ -11,15 +11,14 @@ import ExportIconSVG from "./../../assets/exportIcon.svg";
     A menu containing the home page buttons
 */
 const Menu = (props) => {
-    const testHandler = () => {
-        // console.log("Changing Page. (Uncomment code in Menu.js to execute)");
-        props.onPageChange("game");
+    const changePage = (newPage) => {
+        props.onPageChange(newPage);
     };
 
     return (
         <View style={styles.container}>
             <Button
-                onPress={testHandler}
+                onPress={() => changePage("game")}
                 icon={
                     <AddIconSVG
                         width={sizes.menuButtonSizes}
@@ -33,7 +32,7 @@ const Menu = (props) => {
                 }}
             />
             <Button
-                onPress={testHandler}
+                onPress={() => changePage("home")}
                 icon={
                     <SettingsIconSVG
                         width={sizes.menuButtonSizes}
@@ -44,7 +43,7 @@ const Menu = (props) => {
                 style={styles.button}
             />
             <Button
-                onPress={testHandler}
+                onPress={() => changePage("playerData")}
                 icon={
                     <ExportIconSVG
                         width={sizes.menuButtonSizes}

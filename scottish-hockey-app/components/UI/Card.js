@@ -1,12 +1,17 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { TouchableWithoutFeedback, StyleSheet, View } from "react-native";
 import colors from "../../constants/colors";
 
 const Card = (props) => {
     return (
-        <View style={{ ...styles.container, ...props.style }}>
-            {props.children}
-        </View>
+        <TouchableWithoutFeedback onPress={props.onPress}>
+            <View
+                onPress={props.onPress}
+                style={{ ...styles.container, ...props.style }}
+            >
+                {props.children}
+            </View>
+        </TouchableWithoutFeedback>
     );
 };
 

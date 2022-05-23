@@ -1,4 +1,5 @@
 export default {
+    headerColor: "#003DA2",
     playerNrColor: "rgba(122, 200, 255, 1)",
     playerBackgroundColor: "rgba(255,255,255,0.35)",
     playerBorderColor: "rgba(0,0,0,1)",
@@ -15,6 +16,8 @@ export default {
         paleGreen: "#b2e1c2",
         darkGreen: "#93bca1",
     },
+    playerListBackground: "#e6e6e6",
+    lightGreyBackground: "rgba(248, 248, 248,1)",
     bench: {
         background: "#d8a093",
         accent: "#886262",
