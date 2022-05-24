@@ -22,4 +22,7 @@ export default {
         background: "#d8a093",
         accent: "#886262",
     },
+    summaryScreen: {
+        playerOnPitch: "#FF564D",
+    },
 };

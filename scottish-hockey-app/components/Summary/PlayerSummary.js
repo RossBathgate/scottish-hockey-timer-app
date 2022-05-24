@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import colors from "../../constants/colors";
 
 const PlayerSummary = ({ playerData, quarterDurations }) => {
     const incompleteTimePercentages = playerData.timesOnPitch.map(
@@ -17,9 +18,11 @@ const PlayerSummary = ({ playerData, quarterDurations }) => {
     return (
         <View style={styles.playerSummary} key={playerData.playerNumber}>
             <View style={styles.personalInfo}>
-                <Text style={styles.personalInfoText}>Name</Text>
                 <Text style={styles.personalInfoText}>
-                    {playerData.playerNumber}
+                    {playerData.surname}, {playerData.firstName.substring(0, 1)}
+                </Text>
+                <Text style={styles.personalInfoText}>
+                    #{playerData.playerNumber}
                 </Text>
             </View>
             <View style={styles.timeline}>
@@ -65,10 +68,11 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     quarterContent: {
-        backgroundColor: "red",
+        backgroundColor: colors.summaryScreen.playerOnPitch, //"red",
         position: "absolute",
         top: 0,
         bottom: 0,
         left: 0,
+        borderRadius: 10,
     },
 });

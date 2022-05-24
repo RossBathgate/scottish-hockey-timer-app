@@ -16,6 +16,10 @@ const PlayerDataScreen = (props) => {
         props.onPageChange(newPage);
     };
 
+    const setPlayersDataRef = (playersToSet) => {
+        props.playersDataRef.current = playersToSet;
+    };
+
     const addPlayerHandler = (player) => {
         if (playersInfo.find((p) => p.playerNumber === player.playerNumber)) {
             formErrorHandler("Player numbers must be unique.");
@@ -66,7 +70,10 @@ const PlayerDataScreen = (props) => {
             <ScrollView style={styles.scrollContainer}>
                 <Text style={styles.title}>ADD NEW PLAYER</Text>
                 <PlayerDataForm
-                    onBackPress={() => changePage("home")}
+                    onBackPress={() => {
+                        setPlayersDataRef(playersInfo);
+                        changePage("home");
+                    }}
                     onAddPlayer={addPlayerHandler}
                     onError={formErrorHandler}
                     onClearError={formClearErrorHandler}

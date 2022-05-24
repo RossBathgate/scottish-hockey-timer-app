@@ -1,6 +1,7 @@
 import React, { useReducer } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import FormInput from "../UI/FormInput";
+import Select from "../UI/Select";
 import colors from "../../constants/colors";
 import sizes from "../../constants/sizes";
 import Button from "../UI/Button";
@@ -26,7 +27,7 @@ const playerReducer = (state, action) => {
             stateCopy = {
                 firstname: "",
                 surname: "",
-                position: "",
+                position: "Goalie",
                 playerNumber: "",
             };
             return stateCopy;
@@ -36,7 +37,7 @@ const PlayerDataForm = (props) => {
     const [playerInfo, dispatchPlayerInfo] = useReducer(playerReducer, {
         firstname: "",
         surname: "",
-        position: "",
+        position: "Goalie",
         playerNumber: "",
     });
 
@@ -47,7 +48,14 @@ const PlayerDataForm = (props) => {
             playerInfo.position.length > 0 &&
             playerInfo.playerNumber.length > 0
         ) {
-            props.onAddPlayer(playerInfo);
+            props.onAddPlayer({
+                ...playerInfo,
+                formationIdx: 0,
+                mostRecentSwitch: 0,
+                previousTotalPitchTime: 0,
+                previousQuarterPitchTime: 0,
+                totalTimeOfAllPreviousQuarters: 0,
+            });
             dispatchPlayerInfo({ msg: "reset" });
         } else {
             props.onError("Do not leave any fields blank.");
@@ -79,13 +87,19 @@ const PlayerDataForm = (props) => {
                         props.onClearError();
                     }}
                 />
-                <FormInput
+                <Select
                     label="PLAYER POSITION"
-                    inputValue={playerInfo.position}
-                    onChangeText={(newText) => {
+                    options={[
+                        "Goalie",
+                        "Fullback",
+                        "Half Back",
+                        "Midfield",
+                        "Forward",
+                    ]}
+                    onChangeItem={(newItem) => {
                         dispatchPlayerInfo({
                             msg: "position",
-                            value: newText,
+                            value: newItem,
                         });
                         props.onClearError();
                     }}

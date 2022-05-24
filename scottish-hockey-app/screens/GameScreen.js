@@ -158,6 +158,8 @@ const GameScreen = (props) => {
             // add new time to timesOnPitch array
             return {
                 playerNumber: player.playerNumber,
+                surname: player.surname,
+                firstName: player.firstName,
                 // determine whether the refPlayer exists before assigning
                 timesOnPitch: refPlayer
                     ? [...refPlayer.timesOnPitch, quarterTime]

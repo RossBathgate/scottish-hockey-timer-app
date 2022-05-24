@@ -1,19 +1,60 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { ScrollView, View, StyleSheet, Text } from "react-native";
 import Header from "../components/UI/Header";
 import FullGameTimes from "../components/Summary/FullGameTimes";
 import PlayersTimes from "../components/Summary/PlayersTimes";
+import Button from "../components/UI/Button";
+import colors from "../constants/colors";
+import ExportIconSVG from "../assets/exportIcon.svg";
+import BackIconSVG from "../assets/backIcon.svg";
+import sizes from "../constants/sizes";
 
 const SummaryScreen = (props) => {
+    const changePage = (newPage) => {
+        props.onPageChange(newPage);
+    };
+
     return (
         <View style={styles.summaryScreen}>
             <Header title="GAME SUMMARY" />
-            <View style={styles.container}>
-                <Text style={styles.title}>FULL GAME SUMMARY</Text>
-                <FullGameTimes gameDataRef={props.gameDataRef} />
-                <Text style={styles.title}>PLAYERS SUMMARY</Text>
-                <PlayersTimes gameDataRef={props.gameDataRef} />
-            </View>
+            <ScrollView>
+                <View style={styles.container}>
+                    <View style={styles.buttonsContainer}>
+                        <Button
+                            style={{
+                                ...styles.button,
+                                backgroundColor:
+                                    colors.buttonBackgrounds.darkGreen,
+                            }}
+                            icon={
+                                <ExportIconSVG
+                                    width={sizes.menuButtonSizes}
+                                    height={sizes.menuButtonSizes}
+                                />
+                            }
+                            title="EXPORT DATA"
+                            onPress={() => {}}
+                        />
+                        <Button
+                            style={styles.button}
+                            icon={
+                                <BackIconSVG
+                                    width={sizes.menuButtonSizes}
+                                    height={sizes.menuButtonSizes}
+                                />
+                            }
+                            title="MAIN MENU"
+                            onPress={() => {
+                                changePage("home");
+                            }}
+                        />
+                    </View>
+                    <Text style={styles.title}>FULL GAME SUMMARY</Text>
+                    <FullGameTimes gameDataRef={props.gameDataRef} />
+                    <Text style={styles.title}>PLAYERS SUMMARY</Text>
+                    <PlayersTimes gameDataRef={props.gameDataRef} />
+                </View>
+            </ScrollView>
         </View>
     );
 };
@@ -32,30 +73,21 @@ const styles = StyleSheet.create({
         textAlign: "center",
         marginTop: 20,
     },
+    buttonsContainer: {
+        width: "95%",
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center",
+    },
+    button: {
+        paddingHorizontal: 30,
+        paddingVertical: 30,
+        marginVertical: 7,
+        marginLeft: 30,
+        width: "40%",
+        borderRadius: 5,
+        backgroundColor: colors.buttonBackgrounds.grey,
+    },
 });
 
 export default SummaryScreen;
-
-const Time = (props) => {
-    const minutesRaw = Math.floor(props.nrSeconds / 60).toString();
-    let hours = Math.floor(minutesRaw / 60).toString();
-    let minutes = (Math.floor(props.nrSeconds / 60) % 60).toString();
-    let seconds = (props.nrSeconds % 60).toString();
-
-    if (hours.length <= 1) {
-        hours = "0" + hours;
-    }
-
-    if (minutes.length <= 1) {
-        minutes = "0" + minutes;
-    }
-
-    if (seconds.length <= 1) {
-        seconds = "0" + seconds;
-    }
-    return (
-        <Text>
-            {hours > 0 ? hours + " : " : ""} {minutes} : {seconds}
-        </Text>
-    );
-};

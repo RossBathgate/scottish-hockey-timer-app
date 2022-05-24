@@ -10,6 +10,7 @@ const PlayersTimes = (props) => {
         <View style={styles.playersList}>
             {playersData.map((playerData) => (
                 <PlayerSummary
+                    key={playerData.playerNumber}
                     playerData={playerData}
                     quarterDurations={quarterDurations}
                 />
@@ -23,6 +24,6 @@ export default PlayersTimes;
 const styles = StyleSheet.create({
     playersList: {
         width: "100%",
-        padding: "5%"
+        padding: "5%",
     },
 });

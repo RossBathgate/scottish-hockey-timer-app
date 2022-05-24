@@ -30,6 +30,8 @@ const styles = StyleSheet.create({
         width: "100%",
         fontSize: 30,
         color: "rgba(50, 50, 50, 1)",
+        borderBottomColor: "rgba(50, 50, 50, 1)",
+        borderBottomWidth: 2,
     },
 });
 

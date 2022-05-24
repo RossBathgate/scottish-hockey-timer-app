@@ -1,7 +1,7 @@
 [
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 0,
         "formationIdx": 0,
@@ -11,8 +11,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 1,
         "formationIdx": 1,
@@ -22,8 +22,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 2,
         "formationIdx": 2,
@@ -33,8 +33,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 3,
         "formationIdx": 3,
@@ -44,8 +44,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 4,
         "formationIdx": 4,
@@ -55,8 +55,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 5,
         "formationIdx": 5,
@@ -66,8 +66,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 6,
         "formationIdx": 6,
@@ -77,8 +77,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 7,
         "formationIdx": 7,
@@ -88,8 +88,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 8,
         "formationIdx": 8,
@@ -99,8 +99,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 9,
         "formationIdx": 9,
@@ -110,8 +110,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 10,
         "formationIdx": 10,
@@ -121,8 +121,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 11,
         "formationIdx": -1,
@@ -132,8 +132,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 12,
         "formationIdx": -1,
@@ -143,8 +143,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 13,
         "formationIdx": -1,
@@ -154,8 +154,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 14,
         "formationIdx": -1,
@@ -165,8 +165,8 @@
         "totalTimeOfAllPreviousQuarters": 0
     },
     {
-        "firstName": "",
-        "surname": "",
+        "firstName": "firstName",
+        "surname": "surname",
         "position": "",
         "playerNumber": 15,
         "formationIdx": -1,

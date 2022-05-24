@@ -4,13 +4,17 @@ import { View, StyleSheet, Text } from "react-native";
 const FullGameTimes = (props) => {
     return (
         <View style={styles.container}>
+            {/* Display the correct headings for total elapsed time, and the quarters which were played*/}
             <View>
                 <Text style={styles.titleText}>TOTAL ELAPSED TIME</Text>
-                <Text style={styles.titleText}>QUARTER 1</Text>
-                <Text style={styles.titleText}>QUARTER 2</Text>
-                <Text style={styles.titleText}>QUARTER 3</Text>
-                <Text style={styles.titleText}>QUARTER 4</Text>
+                {props.gameDataRef.current.quarterDurations.map((q, idx) => (
+                    <Text key={idx} style={styles.titleText}>
+                        QUARTER {idx + 1}
+                    </Text>
+                ))}
             </View>
+
+            {/* Display the formatted times, corresponding to the headings on the left column */}
             <View>
                 <Text style={styles.timerText}>
                     <Time
@@ -20,7 +24,6 @@ const FullGameTimes = (props) => {
                         )}
                     />
                 </Text>
-
                 {props.gameDataRef.current.quarterDurations.map(
                     (quarterTime, index) => (
                         <Text key={index} style={styles.timerText}>
@@ -28,10 +31,6 @@ const FullGameTimes = (props) => {
                         </Text>
                     )
                 )}
-
-                {/* ERRORS:
-                1. THERE IS AN EXTRA TIME SOMEHOW
-                2. NEED TO CHECK WHEN ONLY, E.G., 2 QUARTERS HAVE BEEN PLAYED AND NOT ALL 4 */}
             </View>
         </View>
     );
@@ -50,6 +49,7 @@ const styles = StyleSheet.create({
 
 export default FullGameTimes;
 
+// Takes nrSeconds and formats into (...hh:)mm:ss
 const Time = (props) => {
     const minutesRaw = Math.floor(props.nrSeconds / 60).toString();
     let hours = Math.floor(minutesRaw / 60).toString();
