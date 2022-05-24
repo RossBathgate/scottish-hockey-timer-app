@@ -95,6 +95,7 @@ const PlayerDataForm = (props) => {
                         "Half Back",
                         "Midfield",
                         "Forward",
+                        "Bench",
                     ]}
                     onChangeItem={(newItem) => {
                         dispatchPlayerInfo({

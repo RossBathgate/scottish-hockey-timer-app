@@ -5,8 +5,13 @@ import formations from "../../constants/formations";
 import Player from "./Player";
 import sizes from "../../constants/sizes";
 
+const getFormation = (players) => {
+    //temp:
+    return formations.formation0;
+};
+
 const Pitch = (props) => {
-    const currentFormation = formations.formation0; // TBC
+    const currentFormation = getFormation(props.players);
     const pitchWidth = Dimensions.get("window").width;
     const pitchHeight =
         (Dimensions.get("window").height * sizes.pitchHeightPercent) / 100;

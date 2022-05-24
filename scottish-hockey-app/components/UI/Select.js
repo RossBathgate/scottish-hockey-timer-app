@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     optionButton: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 10,
     },
