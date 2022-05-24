@@ -169,11 +169,9 @@ const GameScreen = (props) => {
     // Force end game
     useEffect(() => {
         if (quarterInfo.isGameEnded) {
-            props.onPageChange("home");
+            props.onPageChange("summary");
         }
     }, [quarterInfo.isGameEnded]);
-
-    console.log(props.gameDataRef.current);
 
     const pitchPlayerPressHandler = (playerNumber) => {
         setHighlightedPlayer((prevNumber) =>

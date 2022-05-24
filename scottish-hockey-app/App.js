@@ -5,6 +5,7 @@ import KeyboardDismissHO from "./components/HO/KeyboardDismissHO";
 import GameScreen from "./screens/GameScreen";
 import HomeScreen from "./screens/HomeScreen";
 import PlayerDataScreen from "./screens/PlayerDataScreen";
+import SummaryScreen from "./screens/SummaryScreen";
 
 export default function App() {
     const [currentPage, setCurrentPage] = useState("home");
@@ -28,8 +29,15 @@ export default function App() {
                 gameDataRef={gameDataRef}
             />
         );
-    } else if (currentPage == "playerData") {
+    } else if (currentPage === "playerData") {
         content = <PlayerDataScreen onPageChange={pageChangeHandler} />;
+    } else if (currentPage === "summary") {
+        content = (
+            <SummaryScreen
+                onPageChange={pageChangeHandler}
+                gameDataRef={gameDataRef}
+            />
+        );
     }
 
     return (
