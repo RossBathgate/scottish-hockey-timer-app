@@ -25,8 +25,10 @@ const PlayerDataScreen = (props) => {
             formErrorHandler("Player numbers must be unique.");
         } else {
             setPlayersInfo((prevPlayers) => {
+                // find the largest formation index of all players.  (Use -1 below to avoid math.max() of empty list, which is -Infinity).
                 const largestPreviousFormationIdx = Math.max(
-                    prevPlayers.map((player) => player.formationIdx)
+                    -1,
+                    ...prevPlayers.map((player) => player.formationIdx)
                 );
 
                 const newFormationIdx =
@@ -35,7 +37,7 @@ const PlayerDataScreen = (props) => {
                         : prevPlayers.length > 0
                         ? largestPreviousFormationIdx === -1
                             ? 0
-                            : largestPreviousFormationIdx //prevPlayers[0].formationIdx + 1
+                            : largestPreviousFormationIdx + 1 //prevPlayers[0].formationIdx + 1
                         : 0;
 
                 const newPlayer = {
