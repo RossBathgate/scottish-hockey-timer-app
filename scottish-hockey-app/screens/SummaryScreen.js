@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Header from "../components/UI/Header";
 import FullGameTimes from "../components/Summary/FullGameTimes";
+import PlayersTimes from "../components/Summary/PlayersTimes";
 
 const SummaryScreen = (props) => {
     return (
@@ -11,6 +12,7 @@ const SummaryScreen = (props) => {
                 <Text style={styles.title}>FULL GAME SUMMARY</Text>
                 <FullGameTimes gameDataRef={props.gameDataRef} />
                 <Text style={styles.title}>PLAYERS SUMMARY</Text>
+                <PlayersTimes gameDataRef={props.gameDataRef} />
             </View>
         </View>
     );
