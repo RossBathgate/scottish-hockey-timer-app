@@ -9,7 +9,10 @@ const HomeScreen = (props) => {
                 style={styles.stopwatchImage}
                 source={require("../assets/stopwatchLogo.png")}
             />
-            <Menu onPageChange={props.onPageChange} />
+            <Menu
+                onPageChange={props.onPageChange}
+                errorText={props.errorText}
+            />
         </View>
     );
 };

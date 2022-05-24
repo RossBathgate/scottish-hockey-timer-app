@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import Button from "../UI/Button";
 import colors from "../../constants/colors";
 import sizes from "../../constants/sizes";
@@ -17,20 +17,28 @@ const Menu = (props) => {
 
     return (
         <View style={styles.container}>
-            <Button
-                onPress={() => changePage("game")}
-                icon={
-                    <AddIconSVG
-                        width={sizes.menuButtonSizes}
-                        height={sizes.menuButtonSizes}
+            <View style={styles.startContainer}>
+                {props.errorText.length > 0 ? (
+                    <View style={styles.errorTextContainer}>
+                        <Text style={styles.errorText}>{props.errorText}</Text>
+                    </View>
+                ) : (
+                    <Button
+                        onPress={() => changePage("game")}
+                        icon={
+                            <AddIconSVG
+                                width={sizes.menuButtonSizes}
+                                height={sizes.menuButtonSizes}
+                            />
+                        }
+                        title="START GAME"
+                        style={{
+                            ...styles.button,
+                            backgroundColor: colors.buttonBackgrounds.paleGreen,
+                        }}
                     />
-                }
-                title="START GAME"
-                style={{
-                    ...styles.button,
-                    backgroundColor: colors.buttonBackgrounds.paleGreen,
-                }}
-            />
+                )}
+            </View>
             <Button
                 onPress={() => changePage("home")}
                 icon={
@@ -71,6 +79,25 @@ const styles = StyleSheet.create({
         width: "50%",
         borderRadius: 5,
         backgroundColor: colors.buttonBackgrounds.grey,
+    },
+    startContainer: {
+        flexDirection: "row",
+        justifyContent: "flex-start",
+    },
+    errorTextContainer: {
+        alignItems: "center",
+        justifyContent: "center",
+        paddingLeft: 50,
+        maxWidth: "40%",
+    },
+    errorText: {
+        color: "white",
+        backgroundColor: "#FF6262",
+        textAlign: "center",
+        fontSize: 20,
+        marginVertical: 10,
+        padding: 5,
+        borderRadius: 5,
     },
 });
 

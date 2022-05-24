@@ -25,7 +25,16 @@ export default function App() {
     // Determine which page to display
     let content;
     if (currentPage === "home") {
-        content = <HomeScreen onPageChange={pageChangeHandler} />;
+        content = (
+            <HomeScreen
+                onPageChange={pageChangeHandler}
+                errorText={
+                    playersDataRef.current.length >= 11
+                        ? ""
+                        : "At least 11 players are required to start."
+                }
+            />
+        );
     } else if (currentPage === "game") {
         content = (
             <GameScreen
