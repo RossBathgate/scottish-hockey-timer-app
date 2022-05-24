@@ -7,6 +7,7 @@ import colors from "../../constants/colors";
 const Select = (props) => {
     const [selectedOption, setSelectedOption] = useState(
         props.options ? props.options[0] : null
+        // null
     );
 
     const optionPressHandler = (option) => {

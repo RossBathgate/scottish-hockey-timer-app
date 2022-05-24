@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import FormInput from "../UI/FormInput";
 import Select from "../UI/Select";
@@ -27,17 +27,20 @@ const playerReducer = (state, action) => {
             stateCopy = {
                 firstname: "",
                 surname: "",
-                position: "Goalie",
+                position: action.value,
                 playerNumber: "",
             };
             return stateCopy;
     }
 };
 const PlayerDataForm = (props) => {
+    const [selectedPositionOption, setSelectedPositionOption] =
+        useState("Goalie");
+
     const [playerInfo, dispatchPlayerInfo] = useReducer(playerReducer, {
         firstname: "",
         surname: "",
-        position: "Goalie",
+        position: selectedPositionOption,
         playerNumber: "",
     });
 
@@ -48,15 +51,16 @@ const PlayerDataForm = (props) => {
             playerInfo.position.length > 0 &&
             playerInfo.playerNumber.length > 0
         ) {
-            props.onAddPlayer({
-                ...playerInfo,
-                formationIdx: 0,
-                mostRecentSwitch: 0,
-                previousTotalPitchTime: 0,
-                previousQuarterPitchTime: 0,
-                totalTimeOfAllPreviousQuarters: 0,
-            });
-            dispatchPlayerInfo({ msg: "reset" });
+            // props.onAddPlayer({
+            //     ...playerInfo,
+            //     formationIdx: 0,
+            //     mostRecentSwitch: 0,
+            //     previousTotalPitchTime: 0,
+            //     previousQuarterPitchTime: 0,
+            //     totalTimeOfAllPreviousQuarters: 0,
+            // });
+            props.onAddPlayer(playerInfo);
+            dispatchPlayerInfo({ msg: "reset", value: selectedPositionOption });
         } else {
             props.onError("Do not leave any fields blank.");
         }
@@ -98,6 +102,7 @@ const PlayerDataForm = (props) => {
                         "Bench",
                     ]}
                     onChangeItem={(newItem) => {
+                        setSelectedPositionOption(newItem);
                         dispatchPlayerInfo({
                             msg: "position",
                             value: newItem,

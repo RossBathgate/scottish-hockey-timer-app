@@ -9,14 +9,15 @@ import SummaryScreen from "./screens/SummaryScreen";
 
 export default function App() {
     const [currentPage, setCurrentPage] = useState("home");
+
     // used to compile data for export
     const gameDataRef = useRef({
         quarterDurations: [],
         players: [],
     });
+
     // used to store data of players in the game
     const playersDataRef = useRef([]);
-    console.log(playersDataRef.current);
 
     const pageChangeHandler = (newPage) => {
         setCurrentPage(newPage);
@@ -41,6 +42,7 @@ export default function App() {
             <GameScreen
                 onPageChange={pageChangeHandler}
                 gameDataRef={gameDataRef}
+                playersDataRef={playersDataRef}
             />
         );
     } else if (currentPage === "playerData") {
@@ -58,6 +60,8 @@ export default function App() {
             />
         );
     }
+
+    console.log(playersDataRef.current);
 
     return (
         <KeyboardDismissHO>

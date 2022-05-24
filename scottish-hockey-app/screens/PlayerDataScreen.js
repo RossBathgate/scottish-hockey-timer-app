@@ -24,7 +24,30 @@ const PlayerDataScreen = (props) => {
         if (playersInfo.find((p) => p.playerNumber === player.playerNumber)) {
             formErrorHandler("Player numbers must be unique.");
         } else {
-            setPlayersInfo((prevPlayers) => [player, ...prevPlayers]);
+            setPlayersInfo((prevPlayers) => {
+                const largestPreviousFormationIdx = Math.max(
+                    prevPlayers.map((player) => player.formationIdx)
+                );
+
+                const newFormationIdx =
+                    player.position === "Bench"
+                        ? -1
+                        : prevPlayers.length > 0
+                        ? largestPreviousFormationIdx === -1
+                            ? 0
+                            : largestPreviousFormationIdx //prevPlayers[0].formationIdx + 1
+                        : 0;
+
+                const newPlayer = {
+                    ...player,
+                    formationIdx: newFormationIdx,
+                    mostRecentSwitch: 0,
+                    previousTotalPitchTime: 0,
+                    previousQuarterPitchTime: 0,
+                    totalTimeOfAllPreviousQuarters: 0,
+                };
+                return [newPlayer, ...prevPlayers];
+            });
         }
     };
 
