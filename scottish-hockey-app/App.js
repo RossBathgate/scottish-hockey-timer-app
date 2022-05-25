@@ -31,9 +31,9 @@ export default function App() {
                 onPageChange={pageChangeHandler}
                 errorText={
                     playersDataRef.current.filter((p) => p.position !== "Bench")
-                        .length >= 1
+                        .length >= 11
                         ? ""
-                        : "At least 11 players on the pitch are required. NOTE!! TEMPORARILY SET TO 1 FOR DEV PURPOSES.  CHANGE THIS BACK FOR PRODUCITON."
+                        : "At least 11 players on the pitch are required."
                 }
             />
         );
