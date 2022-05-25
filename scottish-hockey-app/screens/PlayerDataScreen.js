@@ -37,7 +37,7 @@ const PlayerDataScreen = (props) => {
                         : prevPlayers.length > 0
                         ? largestPreviousFormationIdx === -1
                             ? 0
-                            : largestPreviousFormationIdx + 1 //prevPlayers[0].formationIdx + 1
+                            : largestPreviousFormationIdx + 1
                         : 0;
 
                 const newPlayer = {

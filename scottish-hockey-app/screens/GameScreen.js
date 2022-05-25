@@ -5,7 +5,7 @@ import ControlBar from "../components/Game/ControlBar/ControlBar";
 import Pitch from "../components/Game/Pitch";
 import useTimer from "../hooks/use-timer";
 
-// import playerData from "../data/playerData.json";
+// import playersData from "../data/playerData.json";
 
 const quarterReducer = (state, action) => {
     switch (action.msg) {
@@ -111,7 +111,7 @@ const playerReducer = (state, action) => {
 
 const GameScreen = (props) => {
     // Player information gathered from the player data screen
-    const playerData = props.playerDataRef.current;
+    const playersData = props.playersDataRef.current;
 
     // The central timer used to control the game
     const timer = useTimer();
@@ -124,13 +124,13 @@ const GameScreen = (props) => {
 
     const [playersInfo, dispatchPlayersInfo] = useReducer(
         playerReducer,
-        playerData
+        playersData
     );
 
     // Used for swapping players between the pitch and the bench.
     const [highlightedPlayer, setHighlightedPlayer] = useState(null);
 
-    // Update game summary info
+    // Update information for the game summary page
     if (
         !quarterInfo.isQuarterRunning &&
         (quarterInfo.quarterNr !== -1 ||

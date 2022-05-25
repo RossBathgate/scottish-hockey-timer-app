@@ -11,8 +11,8 @@ import AddPlayerIcon from "../../assets/addIcon.svg";
 const playerReducer = (state, action) => {
     let stateCopy = { ...state };
     switch (action.msg) {
-        case "firstname":
-            stateCopy.firstname = action.value;
+        case "firstName":
+            stateCopy.firstName = action.value;
             return stateCopy;
         case "surname":
             stateCopy.surname = action.value;
@@ -25,7 +25,7 @@ const playerReducer = (state, action) => {
             return stateCopy;
         case "reset":
             stateCopy = {
-                firstname: "",
+                firstName: "",
                 surname: "",
                 position: action.value,
                 playerNumber: "",
@@ -38,7 +38,7 @@ const PlayerDataForm = (props) => {
         useState("Goalie");
 
     const [playerInfo, dispatchPlayerInfo] = useReducer(playerReducer, {
-        firstname: "",
+        firstName: "",
         surname: "",
         position: selectedPositionOption,
         playerNumber: "",
@@ -46,19 +46,11 @@ const PlayerDataForm = (props) => {
 
     const addPlayerHandler = () => {
         if (
-            playerInfo.firstname.length > 0 &&
+            playerInfo.firstName.length > 0 &&
             playerInfo.surname.length > 0 &&
             playerInfo.position.length > 0 &&
             playerInfo.playerNumber.length > 0
         ) {
-            // props.onAddPlayer({
-            //     ...playerInfo,
-            //     formationIdx: 0,
-            //     mostRecentSwitch: 0,
-            //     previousTotalPitchTime: 0,
-            //     previousQuarterPitchTime: 0,
-            //     totalTimeOfAllPreviousQuarters: 0,
-            // });
             props.onAddPlayer(playerInfo);
             dispatchPlayerInfo({ msg: "reset", value: selectedPositionOption });
         } else {
@@ -71,10 +63,10 @@ const PlayerDataForm = (props) => {
             <View>
                 <FormInput
                     label="PLAYER FIRSTNAME"
-                    inputValue={playerInfo.firstname}
+                    inputValue={playerInfo.firstName}
                     onChangeText={(newText) => {
                         dispatchPlayerInfo({
-                            msg: "firstname",
+                            msg: "firstName",
                             value: newText,
                         });
                         props.onClearError();

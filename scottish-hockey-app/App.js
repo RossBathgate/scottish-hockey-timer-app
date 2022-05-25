@@ -61,8 +61,6 @@ export default function App() {
         );
     }
 
-    console.log(playersDataRef.current);
-
     return (
         <KeyboardDismissHO>
             <View style={styles.container}>

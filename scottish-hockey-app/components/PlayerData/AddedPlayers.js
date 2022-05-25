@@ -19,7 +19,7 @@ const AddedPlayers = (props) => {
                 >
                     <View style={styles.cardTextContainer}>
                         <Text style={styles.cardText}>
-                            {player.surname}, {player.firstname.substring(0, 1)}
+                            {player.surname}, {player.firstName.substring(0, 1)}
                         </Text>
                         <Text style={styles.cardText}>{player.position}</Text>
                         <Text style={styles.cardText}>
