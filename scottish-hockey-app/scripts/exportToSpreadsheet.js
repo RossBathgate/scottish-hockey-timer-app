@@ -4,11 +4,9 @@ import * as Sharing from "expo-sharing";
 
 // Code Adapted from https://stackoverflow.com/questions/51309125/react-native-how-to-create-excel-file-from-code
 
-export default async function exportToSpreadsheet(dataToWrite) {
+export default async function exportToSpreadsheet(title, dataToWrite) {
     let worksheet = XLSX.utils.json_to_sheet(dataToWrite);
     let workbook = XLSX.utils.book_new();
-
-    const title = "Game"; //NEED TO GET CUSTOM TITLE HERE
 
     XLSX.utils.book_append_sheet(workbook, worksheet, title);
     const wbout = XLSX.write(workbook, {

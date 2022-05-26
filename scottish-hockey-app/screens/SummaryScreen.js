@@ -11,12 +11,11 @@ import sizes from "../constants/sizes";
 import exportToSpreadsheet from "../scripts/exportToSpreadsheet";
 
 const SummaryScreen = (props) => {
-    console.log(props.gameDataRef);
     const changePage = (newPage) => {
         props.onPageChange(newPage);
     };
 
-    const exportHandler = (playersInformation) => {
+    const exportHandler = (gameDataRef) => {
         const getSpreadsheetTitle = () => {
             const date = new Date();
             const title =
@@ -30,34 +29,41 @@ const SummaryScreen = (props) => {
             return title;
         };
 
-        const getData = (players) => {
-            // const data = [
-            //     {
-            //         playerFirstName: "",
-            //         playerSurname: "",
-            //         playerNumber: "",
-            //         quarter1Time: "",
-            //         quarter2Time: "",
-            //         quarter3Time: "",
-            //         quarter4Time: "",
-            //         totalTime: "",
-            //     },
-            // ];
-
-            const data = players.map((p) => {
+        const getData = (gameDataRef) => {
+            const data = gameDataRef.current.players.map((p) => {
                 return {
                     playerFirstName: p.firstName,
                     playerSurname: p.surname,
                     playerNumber: p.playerNumber,
-                    quarter1Time: "",
-                    quarter2Time: "",
-                    quarter3Time: "",
-                    quarter4Time: "",
-                    totalTime: "",
+                    quarter1Time:
+                        p.timesOnPitch.length >= 1
+                            ? p.timesOnPitch[0]
+                            : "No Time Information",
+                    quarter2Time:
+                        p.timesOnPitch.length >= 2
+                            ? p.timesOnPitch[1]
+                            : "No Time Information",
+                    quarter3Time:
+                        p.timesOnPitch.length >= 3
+                            ? p.timesOnPitch[2]
+                            : "No Time Information",
+                    quarter4Time:
+                        p.timesOnPitch.length >= 4
+                            ? p.timesOnPitch[3]
+                            : "No Time Information",
+                    totalTime: p.timesOnPitch.reduce(
+                        (partial, x) => partial + x,
+                        0
+                    ),
                 };
             });
             return data;
         };
+
+        const title = getSpreadsheetTitle();
+        const data = getData(gameDataRef);
+
+        exportToSpreadsheet(title, data);
     };
 
     return (
@@ -79,7 +85,9 @@ const SummaryScreen = (props) => {
                                 />
                             }
                             title="EXPORT DATA"
-                            onPress={() => {}}
+                            onPress={() => {
+                                exportHandler(props.gameDataRef);
+                            }}
                         />
                         <Button
                             style={styles.button}
