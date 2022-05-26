@@ -8,10 +8,56 @@ import colors from "../constants/colors";
 import ExportIconSVG from "../assets/exportIcon.svg";
 import BackIconSVG from "../assets/backIcon.svg";
 import sizes from "../constants/sizes";
+import exportToSpreadsheet from "../scripts/exportToSpreadsheet";
 
 const SummaryScreen = (props) => {
+    console.log(props.gameDataRef);
     const changePage = (newPage) => {
         props.onPageChange(newPage);
+    };
+
+    const exportHandler = (playersInformation) => {
+        const getSpreadsheetTitle = () => {
+            const date = new Date();
+            const title =
+                "GameExport_" +
+                date.getFullYear() +
+                "_" +
+                date.getMonth() +
+                "_" +
+                date.getDate();
+
+            return title;
+        };
+
+        const getData = (players) => {
+            // const data = [
+            //     {
+            //         playerFirstName: "",
+            //         playerSurname: "",
+            //         playerNumber: "",
+            //         quarter1Time: "",
+            //         quarter2Time: "",
+            //         quarter3Time: "",
+            //         quarter4Time: "",
+            //         totalTime: "",
+            //     },
+            // ];
+
+            const data = players.map((p) => {
+                return {
+                    playerFirstName: p.firstName,
+                    playerSurname: p.surname,
+                    playerNumber: p.playerNumber,
+                    quarter1Time: "",
+                    quarter2Time: "",
+                    quarter3Time: "",
+                    quarter4Time: "",
+                    totalTime: "",
+                };
+            });
+            return data;
+        };
     };
 
     return (
