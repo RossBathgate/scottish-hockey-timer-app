@@ -6,7 +6,9 @@ import text from "../../constants/text";
     Generic Text UI Element for consistent styling across all buttons.
 */
 const ButtonText = (props) => {
-    return <Text style={styles.text}>{props.children}</Text>;
+    return (
+        <Text style={{ ...styles.text, ...props.style }}>{props.children}</Text>
+    );
 };
 
 const styles = StyleSheet.create({

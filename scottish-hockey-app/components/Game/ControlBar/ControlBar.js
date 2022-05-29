@@ -5,6 +5,7 @@ import TimerDisplay from "../TimerDisplay/TimerDisplay";
 import PausePlayButton from "./PausePlayButton";
 import QuarterButtons from "./QuarterButtons";
 import StartEndGameButtons from "./StartEndGameButtons";
+import fontSizes from "../../../constants/fontSizes";
 
 const ControlBar = (props) => {
     const togglePauseTimer = () => {
@@ -87,11 +88,13 @@ const ControlBar = (props) => {
                         props.timer.time - props.quarterInfo.mostRecentStart
                     }
                     style={styles.timer}
+                    textStyle={{ fontSize: fontSizes.timerDisplay }}
                     timerType="quarter"
                 />
                 <TimerDisplay
                     nrSeconds={props.timer.time}
                     style={styles.timer}
+                    textStyle={{ fontSize: fontSizes.timerDisplay }}
                     timerType="fullGame"
                 />
             </Card>
@@ -116,10 +119,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         padding: 5,
-        height: "4%",
+        height: "6%",
         backgroundColor: "white",
         borderBottomColor: "black",
         borderBottomWidth: 2,
+        marginTop: 12, //account for status bar at top of iPads
     },
 });
 

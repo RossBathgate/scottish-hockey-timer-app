@@ -5,23 +5,25 @@ import formations from "../../constants/formations";
 import Player from "./Player";
 import sizes from "../../constants/sizes";
 
+// generate a list of {x: __, y: __} objects representing the locations
+// of each player on the PITCH.
 const getFormation = (playersData) => {
+    //create deep copy to avoid side effects
+    // const playersData = [...data];
+
     // store the y values of the different "rows" of players on the pitch
     const yValues = {
         Goalie: 0.06,
-        Fullback: 0.22,
-        "Half Back": 0.38,
-        Midfield: 0.54,
-        Forward: 0.7,
+        Fullback: 0.235,
+        "Half Back": 0.41,
+        Midfield: 0.585,
+        Forward: 0.76,
     };
 
-    // get the x coords for players on a row, depending on the number of players.
-    const get_x_values = (nrPlayers) => {};
-
-    // reverse the array to start with lowest formationIdx
+    // start with lowest formationIdx
     playersData.reverse();
 
-    // group players together
+    // group players together and get a list of corresponding player numbers
     const sortedPlayersData = {
         Goalie: playersData
             .filter((p) => p.position === "Goalie")
@@ -53,19 +55,19 @@ const getFormation = (playersData) => {
     // goalie, forward, goalie, goalie
     const formation = {
         players: playersData.map((p) => {
+            console.log("~~~~~");
+            console.log(p.position);
+            console.log("@@@@@@");
+            console.log(sortedPlayersData[p.position]);
+            console.log("####");
+            console.log("p.playerNumber ", p.playerNumber);
+            console.log("//////");
             const x =
                 (sortedPlayersData[p.position].indexOf(p.playerNumber) + 1) /
                 (nrOfEachPlayer[p.position] + 1);
             return { x: x, y: yValues[p.position] };
         }),
     };
-
-    // const formation = {
-    //     players: playersData.map((p) => {
-    //         const x =
-    //         return { x: x, y: yValues[p.position] };
-    //     }),
-    // };
 
     return formation;
 };
@@ -133,7 +135,6 @@ const Pitch = (props) => {
 const styles = StyleSheet.create({
     container: {
         position: "relative",
-        backgroundColor: "red",
         height: sizes.pitchHeightPercent + "%",
     },
 
@@ -141,8 +142,8 @@ const styles = StyleSheet.create({
         position: "absolute",
         zIndex: 1,
         width: "100%",
-        top: 0,
-        bottom: 0,
+        top: 20,
+        bottom: 20,
         justifyContent: "flex-start",
         alignItems: "center",
     },

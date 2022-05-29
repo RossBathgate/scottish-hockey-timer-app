@@ -2,16 +2,22 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import Button from "../../UI/Button";
 import Card from "../../UI/Card";
+import fontSizes from "../../../constants/fontSizes";
 
 const QuarterButtons = (props) => {
     return (
         <Card style={styles.card}>
             {props.isQuarterStart ? (
-                <Button onPress={props.endQuarterHandler} title="END QUARTER" />
+                <Button
+                    onPress={props.endQuarterHandler}
+                    title="END QUARTER"
+                    textStyle={{ fontSize: fontSizes.controlBarButton }}
+                />
             ) : (
                 <Button
                     onPress={props.startQuarterHandler}
                     title="START QUARTER"
+                    textStyle={{ fontSize: fontSizes.controlBarButton }}
                 />
             )}
         </Card>
@@ -29,19 +35,3 @@ const styles = StyleSheet.create({
 });
 
 export default QuarterButtons;
-
-// {
-//     props.isQuarterStart
-//         ?
-//               <Button
-//                   onPress={props.endQuarterHandler}
-//                   title="END QUARTER"
-//               />
-
-//         :
-//               <Button
-//                   onPress={props.startQuarterHandler}
-//                   title="START QUARTER"
-//               />
-
-// }

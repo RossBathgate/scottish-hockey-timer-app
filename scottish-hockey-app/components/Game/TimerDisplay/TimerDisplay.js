@@ -27,7 +27,7 @@ const TimerDisplay = (props) => {
     return (
         <View style={{ ...styles.container, ...props.style }}>
             <TimerIcon type={props.timerType} />
-            <Text>
+            <Text style={{ ...props.textStyle }}>
                 {hours > 0 ? hours + " : " : ""} {minutes} : {seconds}
             </Text>
         </View>

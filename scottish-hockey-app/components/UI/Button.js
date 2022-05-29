@@ -4,7 +4,6 @@ import ButtonText from "./ButtonText";
 
 /*
     Generic Button UI Element.
-    Takes:  title, icon, onPress handler, and optional style props.
 */
 const Button = (props) => {
     return (
@@ -16,7 +15,9 @@ const Button = (props) => {
                 }}
             >
                 {props.icon}
-                <ButtonText>{props.title}</ButtonText>
+                <ButtonText style={props.textStyle && props.textStyle}>
+                    {props.title}
+                </ButtonText>
             </View>
         </TouchableWithoutFeedback>
     );

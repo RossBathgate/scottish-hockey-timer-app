@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "../../UI/Button";
 import sizes from "../../../constants/sizes";
+import fontSizes from "../../../constants/fontSizes";
 import PauseIconSVG from "../../../assets/pauseIcon.svg";
 import PlayIconSVG from "../../../assets/playIcon.svg";
 
@@ -21,6 +22,7 @@ const PausePlayButton = (props) => {
                 )
             }
             onPress={props.onPauseToggle}
+            fontSize={fontSizes.controlBarButton}
         />
     );
 };

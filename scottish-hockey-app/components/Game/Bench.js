@@ -3,46 +3,55 @@ import { View, StyleSheet, Text } from "react-native";
 import sizes from "../../constants/sizes";
 import Player from "./Player";
 import colors from "../../constants/colors";
+import fontSizes from "../../constants/fontSizes";
 
 const Bench = (props) => {
     return (
         <View style={styles.bench}>
             <View style={styles.playersContainer}>
-                {props.players.map((player) => {
-                    const playerPressHandler = () => {
-                        props.onBenchPlayerPress(player.playerNumber);
-                    };
+                {props.players && props.players.length > 0 ? (
+                    props.players.map((player) => {
+                        const playerPressHandler = () => {
+                            props.onBenchPlayerPress(player.playerNumber);
+                        };
 
-                    const bTime = props.timer.time - player.mostRecentSwitch;
-                    const fullTime = player.previousTotalPitchTime;
-                    const quarterTime =
-                        fullTime - player.totalTimeOfAllPreviousQuarters;
-                    return (
-                        <View
-                            key={player.playerNumber}
-                            style={styles.playerContainer}
-                        >
-                            <Player
-                                style={{
-                                    borderColor: props.isPitchPlayerHighlighted
-                                        ? colors.benchPlayerHighlightBorderColor
-                                        : colors.playerBorderColor,
-                                    backgroundColor:
-                                        props.isPitchPlayerHighlighted
-                                            ? colors.benchPlayerHighlightColor
-                                            : colors.playerBackgroundColor,
-                                }}
-                                onPitch={false}
-                                onPress={playerPressHandler}
-                                playerNumber={player.playerNumber}
-                                mostRecentSwitch={player.mostRecentSwitch}
-                                bTime={bTime}
-                                fullTime={fullTime}
-                                quarterTime={quarterTime}
-                            />
-                        </View>
-                    );
-                })}
+                        const bTime =
+                            props.timer.time - player.mostRecentSwitch;
+                        const fullTime = player.previousTotalPitchTime;
+                        const quarterTime =
+                            fullTime - player.totalTimeOfAllPreviousQuarters;
+                        return (
+                            <View
+                                key={player.playerNumber}
+                                style={styles.playerContainer}
+                            >
+                                <Player
+                                    style={{
+                                        borderColor:
+                                            props.isPitchPlayerHighlighted
+                                                ? colors.benchPlayerHighlightBorderColor
+                                                : colors.playerBorderColor,
+                                        backgroundColor:
+                                            props.isPitchPlayerHighlighted
+                                                ? colors.benchPlayerHighlightColor
+                                                : colors.playerBackgroundColor,
+                                    }}
+                                    onPitch={false}
+                                    onPress={playerPressHandler}
+                                    playerNumber={player.playerNumber}
+                                    mostRecentSwitch={player.mostRecentSwitch}
+                                    bTime={bTime}
+                                    fullTime={fullTime}
+                                    quarterTime={quarterTime}
+                                />
+                            </View>
+                        );
+                    })
+                ) : (
+                    <Text style={{ color: colors.bench.accent }}>
+                        No players are on the bench.
+                    </Text>
+                )}
             </View>
             <Text style={styles.title}>BENCH</Text>
         </View>
@@ -54,9 +63,9 @@ const styles = StyleSheet.create({
         // height: "17%",
         // backgroundColor: "white",
         backgroundColor: colors.bench.background,
-        marginTop: 10,
+        marginTop: 5,
         borderRadius: 15,
-        padding: 15,
+        padding: 5,
         // borderTopColor: "black",
         // borderTopWidth: 2,
     },
@@ -74,7 +83,7 @@ const styles = StyleSheet.create({
 
     title: {
         color: colors.bench.accent,
-        fontSize: 30,
+        fontSize: fontSizes.benchTitle,
         textAlign: "right",
         fontWeight: "500",
     },

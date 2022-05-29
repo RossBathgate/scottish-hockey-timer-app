@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 15,
         borderWidth: 1,
+        maxHeight: 140,
     },
     playerNo: {
         backgroundColor: Colors.playerNrColor,

@@ -83,20 +83,28 @@ const playerReducer = (state, action) => {
                     action.playerNumbers.highlightedPlayerNumber
             ).formationIdx;
 
-            // swap the players, set mostRecentSwitch,
-            // set previous total pitch and quarter times of the player moving to the bench.
+            // find position of highlighted player
+            const highlighedPosition = state.find(
+                (player) =>
+                    player.playerNumber ===
+                    action.playerNumbers.highlightedPlayerNumber
+            ).position;
+
+            // swap the players, and update their
             stateCopy.forEach((player) => {
                 if (
                     player.playerNumber ===
                     action.playerNumbers.benchPlayerNumber
                 ) {
                     player.formationIdx = highlightedFormationIdx;
+                    player.position = highlighedPosition;
                     player.mostRecentSwitch = action.time;
                 } else if (
                     player.playerNumber ===
                     action.playerNumbers.highlightedPlayerNumber
                 ) {
                     player.formationIdx = -1;
+                    player.position = "Bench";
                     const pTime = action.time - player.mostRecentSwitch;
                     player.previousTotalPitchTime =
                         player.previousTotalPitchTime + pTime;
@@ -150,7 +158,7 @@ const GameScreen = (props) => {
             );
 
             // calculate the quarter time for the player,
-            // checking whether they are on the pitch or then bench
+            // checking whether they are on the pitch or the bench
             const quarterTime =
                 player.formationIdx === -1
                     ? player.previousTotalPitchTime -
@@ -206,6 +214,9 @@ const GameScreen = (props) => {
         props.gameDataRef.current = { quarterDurations: [], players: [] };
     };
 
+    const pitchPlayers = playersInfo.filter(
+        (player) => player.formationIdx !== -1
+    );
     return (
         <View style={styles.gameScreen}>
             <ControlBar
@@ -218,9 +229,7 @@ const GameScreen = (props) => {
             <Pitch
                 onPitchPlayerPress={pitchPlayerPressHandler}
                 highlightedPlayer={highlightedPlayer}
-                players={playersInfo.filter(
-                    (player) => player.formationIdx !== -1
-                )}
+                players={pitchPlayers}
                 timer={timer}
             />
             <Bench
