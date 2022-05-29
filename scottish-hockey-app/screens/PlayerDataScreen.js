@@ -15,6 +15,66 @@ import sizes from "../constants/sizes";
 import fontSizes from "../constants/fontSizes";
 import AddedPlayers from "../components/PlayerData/AddedPlayers";
 
+// generate a list of {x: __, y: __} objects representing the locations
+// of each player on the PITCH.
+const getFormation = (data) => {
+    //create deep copy to avoid side effects
+    const playersData = [...data];
+
+    // store the y values of the different "rows" of players on the pitch
+    const yValues = {
+        Goalie: 0.06,
+        Fullback: 0.245,
+        "Half Back": 0.43,
+        Midfield: 0.615,
+        Forward: 0.8,
+    };
+
+    // start with lowest formationIdx
+    playersData.reverse();
+
+    // group players together and get a list of corresponding player numbers
+    const sortedPlayersData = {
+        Goalie: playersData
+            .filter((p) => p.position === "Goalie")
+            .map((pl) => pl.playerNumber),
+        Fullback: playersData
+            .filter((p) => p.position === "Fullback")
+            .map((pl) => pl.playerNumber),
+        "Half Back": playersData
+            .filter((p) => p.position === "Half Back")
+            .map((pl) => pl.playerNumber),
+        Midfield: playersData
+            .filter((p) => p.position === "Midfield")
+            .map((pl) => pl.playerNumber),
+        Forward: playersData
+            .filter((p) => p.position === "Forward")
+            .map((pl) => pl.playerNumber),
+    };
+
+    const nrOfEachPlayer = {
+        Goalie: sortedPlayersData.Goalie.length,
+        Fullback: sortedPlayersData.Fullback.length,
+        "Half Back": sortedPlayersData["Half Back"].length,
+        Midfield: sortedPlayersData.Midfield.length,
+        Forward: sortedPlayersData.Forward.length,
+    };
+
+    // find index of p in sortedPlayersData[p.position]
+
+    // goalie, forward, goalie, goalie
+    const formation = {
+        players: playersData.map((p) => {
+            const x =
+                (sortedPlayersData[p.position].indexOf(p.playerNumber) + 1) /
+                (nrOfEachPlayer[p.position] + 1);
+            return { x: x, y: yValues[p.position] };
+        }),
+    };
+
+    return formation;
+};
+
 const PlayerDataScreen = (props) => {
     const [playersInfo, setPlayersInfo] = useState([]);
     const [error, setError] = useState({ isError: false, msg: "" });
@@ -25,6 +85,10 @@ const PlayerDataScreen = (props) => {
 
     const setPlayersDataRef = (playersToSet) => {
         props.playersDataRef.current = playersToSet;
+    };
+
+    const setFormation = (newFormation) => {
+        props.formationRef.current = newFormation;
     };
 
     const addPlayerHandler = (player) => {
@@ -106,6 +170,13 @@ const PlayerDataScreen = (props) => {
                         <PlayerDataForm
                             onBackPress={() => {
                                 setPlayersDataRef(playersInfo);
+                                setFormation(
+                                    getFormation(
+                                        playersInfo.filter(
+                                            (p) => p.formationIdx !== -1
+                                        )
+                                    )
+                                );
                                 changePage("home");
                             }}
                             onAddPlayer={addPlayerHandler}

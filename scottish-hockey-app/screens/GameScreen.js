@@ -5,8 +5,6 @@ import ControlBar from "../components/Game/ControlBar/ControlBar";
 import Pitch from "../components/Game/Pitch";
 import useTimer from "../hooks/use-timer";
 
-// import playersData from "../data/playerData.json";
-
 const quarterReducer = (state, action) => {
     switch (action.msg) {
         case "startQuarter":
@@ -76,105 +74,34 @@ const playerReducer = (state, action) => {
             return stateCopy;
 
         case "swap":
-            // find formation index of highlighed player
-            const highlightedFormationIdx = state.find(
-                (player) =>
-                    player.playerNumber ===
+            const pitchPlayer = stateCopy.find(
+                (p) =>
+                    p.playerNumber ===
                     action.playerNumbers.highlightedPlayerNumber
-            ).formationIdx;
+            );
 
-            // find position of highlighted player
-            const highlighedPosition = state.find(
-                (player) =>
-                    player.playerNumber ===
-                    action.playerNumbers.highlightedPlayerNumber
-            ).position;
+            const benchPlayer = stateCopy.find(
+                (p) => p.playerNumber === action.playerNumbers.benchPlayerNumber
+            );
 
-            // swap the players, and update their
-            stateCopy.forEach((player) => {
-                if (
-                    player.playerNumber ===
-                    action.playerNumbers.benchPlayerNumber
-                ) {
-                    player.formationIdx = highlightedFormationIdx;
-                    player.position = highlighedPosition;
-                    player.mostRecentSwitch = action.time;
-                } else if (
-                    player.playerNumber ===
-                    action.playerNumbers.highlightedPlayerNumber
-                ) {
-                    player.formationIdx = -1;
-                    player.position = "Bench";
-                    const pTime = action.time - player.mostRecentSwitch;
-                    player.previousTotalPitchTime =
-                        player.previousTotalPitchTime + pTime;
-                    player.mostRecentSwitch = action.time;
-                }
-                return player;
-            });
+            const pitchPlayerFormationIdx = pitchPlayer.formationIdx;
+            const pitchPlayerPosition = pitchPlayer.position;
+
+            // update bench player's properties so they are now on the pitch
+            benchPlayer.formationIdx = pitchPlayerFormationIdx;
+            benchPlayer.position = pitchPlayerPosition;
+            benchPlayer.mostRecentSwitch = action.time;
+
+            // update pitch player's properties so they are now on the bench
+            pitchPlayer.formationIdx = -1;
+            pitchPlayer.position = "Bench";
+            const pTime = action.time - pitchPlayer.mostRecentSwitch;
+            pitchPlayer.previousTotalPitchTime =
+                pitchPlayer.previousTotalPitchTime + pTime;
+            pitchPlayer.mostRecentSwitch = action.time;
 
             return stateCopy;
     }
-};
-
-// generate a list of {x: __, y: __} objects representing the locations
-// of each player on the PITCH.
-const getFormation = (data) => {
-    //create deep copy to avoid side effects
-    const playersData = [...data];
-
-    // store the y values of the different "rows" of players on the pitch
-    const yValues = {
-        Goalie: 0.06,
-        Fullback: 0.235,
-        "Half Back": 0.41,
-        Midfield: 0.585,
-        Forward: 0.76,
-    };
-
-    // start with lowest formationIdx
-    playersData.reverse();
-
-    // group players together and get a list of corresponding player numbers
-    const sortedPlayersData = {
-        Goalie: playersData
-            .filter((p) => p.position === "Goalie")
-            .map((pl) => pl.playerNumber),
-        Fullback: playersData
-            .filter((p) => p.position === "Fullback")
-            .map((pl) => pl.playerNumber),
-        "Half Back": playersData
-            .filter((p) => p.position === "Half Back")
-            .map((pl) => pl.playerNumber),
-        Midfield: playersData
-            .filter((p) => p.position === "Midfield")
-            .map((pl) => pl.playerNumber),
-        Forward: playersData
-            .filter((p) => p.position === "Forward")
-            .map((pl) => pl.playerNumber),
-    };
-
-    const nrOfEachPlayer = {
-        Goalie: sortedPlayersData.Goalie.length,
-        Fullback: sortedPlayersData.Fullback.length,
-        "Half Back": sortedPlayersData["Half Back"].length,
-        Midfield: sortedPlayersData.Midfield.length,
-        Forward: sortedPlayersData.Forward.length,
-    };
-
-    // find index of p in sortedPlayersData[p.position]
-
-    // goalie, forward, goalie, goalie
-    const formation = {
-        players: playersData.map((p) => {
-            const x =
-                (sortedPlayersData[p.position].indexOf(p.playerNumber) + 1) /
-                (nrOfEachPlayer[p.position] + 1);
-            return { x: x, y: yValues[p.position] };
-        }),
-    };
-
-    return formation;
 };
 
 const GameScreen = (props) => {
@@ -290,7 +217,10 @@ const GameScreen = (props) => {
                 onPitchPlayerPress={pitchPlayerPressHandler}
                 highlightedPlayer={highlightedPlayer}
                 players={pitchPlayers}
-                formation={getFormation(pitchPlayers)}
+                formation={props.formation}
+                // formation={getFormation(
+                //     playersData.filter((p) => p.formationIdx !== -1)
+                // )}
                 timer={timer}
             />
             <Bench

@@ -20,6 +20,9 @@ export default function App() {
     // used to store data of players in the game
     const playersDataRef = useRef([]);
 
+    // store the current formation
+    const formationRef = useRef([]);
+
     const pageChangeHandler = (newPage) => {
         setCurrentPage(newPage);
     };
@@ -44,6 +47,7 @@ export default function App() {
                 onPageChange={pageChangeHandler}
                 gameDataRef={gameDataRef}
                 playersDataRef={playersDataRef}
+                formation={formationRef.current}
             />
         );
     } else if (currentPage === "playerData") {
@@ -51,6 +55,7 @@ export default function App() {
             <PlayerDataScreen
                 onPageChange={pageChangeHandler}
                 playersDataRef={playersDataRef}
+                formationRef={formationRef}
             />
         );
     } else if (currentPage === "summary") {
