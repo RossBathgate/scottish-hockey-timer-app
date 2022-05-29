@@ -6,6 +6,7 @@ import GameScreen from "./screens/GameScreen";
 import HomeScreen from "./screens/HomeScreen";
 import PlayerDataScreen from "./screens/PlayerDataScreen";
 import SummaryScreen from "./screens/SummaryScreen";
+import Header from "./components/UI/Header";
 
 export default function App() {
     const [currentPage, setCurrentPage] = useState("home");
@@ -61,10 +62,18 @@ export default function App() {
         );
     }
 
+    const displayPageNames = {
+        playerData: "LOAD PLAYER DATA",
+        summary: "GAME SUMMARY",
+    };
+
     return (
         <KeyboardDismissHO>
             <View style={styles.container}>
                 <StatusBar style="auto" />
+                {currentPage !== "game" && currentPage !== "home" && (
+                    <Header title={displayPageNames[currentPage]} />
+                )}
                 {content}
             </View>
         </KeyboardDismissHO>

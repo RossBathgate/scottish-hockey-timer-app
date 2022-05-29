@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 import Button from "../UI/Button";
 import colors from "../../constants/colors";
 import sizes from "../../constants/sizes";
+import fontSizes from "../../constants/fontSizes";
 import AddIconSVG from "./../../assets/addIcon.svg";
 import SettingsIconSVG from "./../../assets/settingsIcon.svg";
 import ExportIconSVG from "./../../assets/exportIcon.svg";
@@ -36,10 +37,11 @@ const Menu = (props) => {
                             ...styles.button,
                             backgroundColor: colors.buttonBackgrounds.paleGreen,
                         }}
+                        textStyle={{ fontSize: fontSizes.homePageButtons }}
                     />
                 )}
             </View>
-            <Button
+            {/* <Button
                 onPress={() => changePage("home")}
                 icon={
                     <SettingsIconSVG
@@ -49,7 +51,8 @@ const Menu = (props) => {
                 }
                 title="SETTINGS"
                 style={styles.button}
-            />
+                textStyle={{ fontSize: fontSizes.homePageButtons }}
+            /> */}
             <Button
                 onPress={() => changePage("playerData")}
                 icon={
@@ -60,6 +63,7 @@ const Menu = (props) => {
                 }
                 title="LOAD PLAYERS"
                 style={styles.button}
+                textStyle={{ fontSize: fontSizes.homePageButtons }}
             />
         </View>
     );
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
         color: "white",
         backgroundColor: "#FF6262",
         textAlign: "center",
-        fontSize: 20,
+        fontSize: fontSizes.errorText,
         marginVertical: 10,
         padding: 5,
         borderRadius: 5,

@@ -6,6 +6,7 @@ import PausePlayButton from "./PausePlayButton";
 import QuarterButtons from "./QuarterButtons";
 import StartEndGameButtons from "./StartEndGameButtons";
 import fontSizes from "../../../constants/fontSizes";
+import colors from "../../../constants/colors";
 
 const ControlBar = (props) => {
     const togglePauseTimer = () => {
@@ -88,13 +89,19 @@ const ControlBar = (props) => {
                         props.timer.time - props.quarterInfo.mostRecentStart
                     }
                     style={styles.timer}
-                    textStyle={{ fontSize: fontSizes.timerDisplay }}
+                    textStyle={{
+                        fontSize: fontSizes.timerDisplay,
+                        color: colors.timerColors.primary,
+                    }}
                     timerType="quarter"
                 />
                 <TimerDisplay
                     nrSeconds={props.timer.time}
                     style={styles.timer}
-                    textStyle={{ fontSize: fontSizes.timerDisplay }}
+                    textStyle={{
+                        fontSize: fontSizes.timerDisplay,
+                        color: colors.timerColors.primary,
+                    }}
                     timerType="fullGame"
                 />
             </Card>

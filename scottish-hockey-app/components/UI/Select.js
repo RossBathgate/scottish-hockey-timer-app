@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Button from "./Button";
 import colors from "../../constants/colors";
+import fontSizes from "../../constants/fontSizes";
 
 // expects array of string <options>
 const Select = (props) => {
@@ -29,6 +30,7 @@ const Select = (props) => {
                                         ? colors.buttonBackgrounds.paleGreen
                                         : colors.buttonBackgrounds.grey,
                             }}
+                            textStyle={{ fontSize: fontSizes.formInputText }}
                             key={option}
                             title={option}
                             onPress={() => {
@@ -56,7 +58,11 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderRadius: 10,
     },
-    text: { fontSize: 30, marginBottom: 5, color: "rgba(50, 50, 50, 1)" },
+    text: {
+        fontSize: fontSizes.formLabel,
+        marginBottom: 5,
+        color: "rgba(50, 50, 50, 1)",
+    },
 });
 
 export default Select;

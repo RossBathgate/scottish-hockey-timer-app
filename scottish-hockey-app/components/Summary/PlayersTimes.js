@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import PlayerSummary from "./PlayerSummary";
 
 const PlayersTimes = (props) => {

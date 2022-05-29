@@ -4,6 +4,7 @@ import FormInput from "../UI/FormInput";
 import Select from "../UI/Select";
 import colors from "../../constants/colors";
 import sizes from "../../constants/sizes";
+import fontSizes from "../../constants/fontSizes";
 import Button from "../UI/Button";
 import BackIconSVG from "../../assets/backIcon.svg";
 import AddPlayerIcon from "../../assets/addIcon.svg";
@@ -118,6 +119,7 @@ const PlayerDataForm = (props) => {
             <View style={styles.buttonsContainer}>
                 <Button
                     style={styles.button}
+                    textStyle={{ fontSize: fontSizes.formButton }}
                     icon={
                         <BackIconSVG
                             width={sizes.menuButtonSizes}
@@ -132,6 +134,7 @@ const PlayerDataForm = (props) => {
                         ...styles.button,
                         backgroundColor: colors.buttonBackgrounds.paleGreen,
                     }}
+                    textStyle={{ fontSize: fontSizes.formButton }}
                     icon={
                         <AddPlayerIcon
                             width={sizes.menuButtonSizes}

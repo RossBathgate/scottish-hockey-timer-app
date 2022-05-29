@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import colors from "../../constants/colors";
+import fontSizes from "../../constants/fontSizes";
 
 const Header = (props) => {
     return (
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
         ],
     },
     text: {
-        fontSize: 60,
+        fontSize: fontSizes.header,
         color: "white",
         padding: 20,
         maxWidth: "60%",

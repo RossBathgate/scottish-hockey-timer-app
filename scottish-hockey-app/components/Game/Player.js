@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
 import colors from "../../constants/colors";
-import Colors from "../../constants/colors";
+import fontSizes from "../../constants/fontSizes";
 import TimerDisplay from "./TimerDisplay/TimerDisplay";
 
 const Player = (props) => {
@@ -25,7 +25,14 @@ const Player = (props) => {
             >
                 {/* Player Number */}
                 <View style={styles.playerNo}>
-                    <Text>#{props.playerNumber}</Text>
+                    <Text
+                        style={{
+                            fontSize: fontSizes.playerNumber,
+                            color: colors.timerColors.primary,
+                        }}
+                    >
+                        #{props.playerNumber}
+                    </Text>
                 </View>
 
                 {/* Player Timers */}
@@ -34,23 +41,39 @@ const Player = (props) => {
                     {props.onPitch ? (
                         <TimerDisplay
                             style={styles.timerDisplay}
+                            textStyle={{
+                                fontSize: fontSizes.playerTimerDisplays,
+                                color: colors.timerColors.primary,
+                            }}
                             timerType="P"
                             nrSeconds={props.pTime}
                         />
                     ) : (
                         <TimerDisplay
                             style={styles.timerDisplay}
+                            textStyle={{
+                                fontSize: fontSizes.playerTimerDisplays,
+                                color: colors.timerColors.primary,
+                            }}
                             timerType="B"
                             nrSeconds={props.bTime}
                         />
                     )}
                     <TimerDisplay
                         style={styles.timerDisplay}
+                        textStyle={{
+                            fontSize: fontSizes.playerTimerDisplays,
+                            color: colors.timerColors.primary,
+                        }}
                         timerType="quarter"
                         nrSeconds={props.quarterTime}
                     />
                     <TimerDisplay
                         style={styles.timerDisplay}
+                        textStyle={{
+                            fontSize: fontSizes.playerTimerDisplays,
+                            color: colors.timerColors.primary,
+                        }}
                         timerType="fullGame"
                         nrSeconds={props.fullTime}
                     />
@@ -70,7 +93,7 @@ const styles = StyleSheet.create({
         maxHeight: 140,
     },
     playerNo: {
-        backgroundColor: Colors.playerNrColor,
+        backgroundColor: colors.playerNrColor,
         padding: 5,
         borderRadius: 10,
     },

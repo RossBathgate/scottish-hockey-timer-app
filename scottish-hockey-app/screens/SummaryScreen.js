@@ -1,5 +1,11 @@
 import React from "react";
-import { ScrollView, View, StyleSheet, Text } from "react-native";
+import {
+    ScrollView,
+    View,
+    StyleSheet,
+    Text,
+    TouchableWithoutFeedback,
+} from "react-native";
 import Header from "../components/UI/Header";
 import FullGameTimes from "../components/Summary/FullGameTimes";
 import PlayersTimes from "../components/Summary/PlayersTimes";
@@ -8,6 +14,7 @@ import colors from "../constants/colors";
 import ExportIconSVG from "../assets/exportIcon.svg";
 import BackIconSVG from "../assets/backIcon.svg";
 import sizes from "../constants/sizes";
+import fontSizes from "../constants/fontSizes";
 import exportToSpreadsheet from "../scripts/exportToSpreadsheet";
 
 const SummaryScreen = (props) => {
@@ -68,46 +75,47 @@ const SummaryScreen = (props) => {
 
     return (
         <View style={styles.summaryScreen}>
-            <Header title="GAME SUMMARY" />
-            <ScrollView>
-                <View style={styles.container}>
-                    <View style={styles.buttonsContainer}>
-                        <Button
-                            style={{
-                                ...styles.button,
-                                backgroundColor:
-                                    colors.buttonBackgrounds.darkGreen,
-                            }}
-                            icon={
-                                <ExportIconSVG
-                                    width={sizes.menuButtonSizes}
-                                    height={sizes.menuButtonSizes}
-                                />
-                            }
-                            title="EXPORT DATA"
-                            onPress={() => {
-                                exportHandler(props.gameDataRef);
-                            }}
-                        />
-                        <Button
-                            style={styles.button}
-                            icon={
-                                <BackIconSVG
-                                    width={sizes.menuButtonSizes}
-                                    height={sizes.menuButtonSizes}
-                                />
-                            }
-                            title="MAIN MENU"
-                            onPress={() => {
-                                changePage("home");
-                            }}
-                        />
+            <ScrollView style={{ flexGrow: 1 }}>
+                <TouchableWithoutFeedback style={styles.container}>
+                    <View>
+                        <View style={styles.buttonsContainer}>
+                            <Button
+                                style={{
+                                    ...styles.button,
+                                    backgroundColor:
+                                        colors.buttonBackgrounds.darkGreen,
+                                }}
+                                icon={
+                                    <ExportIconSVG
+                                        width={sizes.menuButtonSizes}
+                                        height={sizes.menuButtonSizes}
+                                    />
+                                }
+                                title="EXPORT DATA"
+                                onPress={() => {
+                                    exportHandler(props.gameDataRef);
+                                }}
+                            />
+                            <Button
+                                style={styles.button}
+                                icon={
+                                    <BackIconSVG
+                                        width={sizes.menuButtonSizes}
+                                        height={sizes.menuButtonSizes}
+                                    />
+                                }
+                                title="MAIN MENU"
+                                onPress={() => {
+                                    changePage("home");
+                                }}
+                            />
+                        </View>
+                        <Text style={styles.title}>FULL GAME SUMMARY</Text>
+                        <FullGameTimes gameDataRef={props.gameDataRef} />
+                        <Text style={styles.title}>PLAYERS SUMMARY</Text>
+                        <PlayersTimes gameDataRef={props.gameDataRef} />
                     </View>
-                    <Text style={styles.title}>FULL GAME SUMMARY</Text>
-                    <FullGameTimes gameDataRef={props.gameDataRef} />
-                    <Text style={styles.title}>PLAYERS SUMMARY</Text>
-                    <PlayersTimes gameDataRef={props.gameDataRef} />
-                </View>
+                </TouchableWithoutFeedback>
             </ScrollView>
         </View>
     );
@@ -119,9 +127,10 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
     },
+
     title: {
         color: "black",
-        fontSize: 60,
+        fontSize: fontSizes.summaryHeading,
         width: "100%",
         paddingHorizontal: "5%",
         textAlign: "center",

@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import fontSizes from "../../constants/fontSizes";
 
 const FullGameTimes = (props) => {
     return (
@@ -43,8 +44,8 @@ const styles = StyleSheet.create({
         padding: "5%",
         width: "100%",
     },
-    titleText: { fontSize: 30 },
-    timerText: { fontSize: 30 },
+    titleText: { fontSize: fontSizes.summaryContent },
+    timerText: { fontSize: fontSizes.summaryContent },
 });
 
 export default FullGameTimes;

@@ -1,11 +1,18 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, ScrollView } from "react-native";
+import {
+    View,
+    StyleSheet,
+    Text,
+    ScrollView,
+    TouchableWithoutFeedback,
+} from "react-native";
 import PlayerDataForm from "../components/PlayerData/PlayerDataForm";
 import Header from "../components/UI/Header";
 import Button from "../components/UI/Button";
 import ImportIconSVG from "../assets/exportIcon.svg";
 import colors from "../constants/colors";
 import sizes from "../constants/sizes";
+import fontSizes from "../constants/fontSizes";
 import AddedPlayers from "../components/PlayerData/AddedPlayers";
 
 const PlayerDataScreen = (props) => {
@@ -69,15 +76,17 @@ const PlayerDataScreen = (props) => {
 
     return (
         <View style={styles.playerDataScreen}>
-            <Header title="LOAD PLAYER DATA" />
-            <View
-                style={{
-                    ...styles.buttonsContainer,
-                    width: "100%",
-                    justifyContent: "flex-start",
-                }}
-            >
-                <Button
+            <ScrollView style={styles.scrollContainer}>
+                <TouchableWithoutFeedback>
+                    <View>
+                        <View
+                            style={{
+                                ...styles.buttonsContainer,
+                                width: "100%",
+                                justifyContent: "flex-start",
+                            }}
+                        >
+                            {/* <Button
                     onPress={() => {}}
                     icon={
                         <ImportIconSVG
@@ -90,31 +99,33 @@ const PlayerDataScreen = (props) => {
                         ...styles.button,
                         backgroundColor: colors.buttonBackgrounds.darkGreen,
                     }}
-                />
-            </View>
-            <ScrollView style={styles.scrollContainer}>
-                <Text style={styles.title}>ADD NEW PLAYER</Text>
-                <PlayerDataForm
-                    onBackPress={() => {
-                        setPlayersDataRef(playersInfo);
-                        changePage("home");
-                    }}
-                    onAddPlayer={addPlayerHandler}
-                    onError={formErrorHandler}
-                    onClearError={formClearErrorHandler}
-                />
-                {error.isError && (
-                    <Text style={styles.errorText}>{error.msg}</Text>
-                )}
-                {playersInfo.length > 0 && (
-                    <>
-                        <Text style={styles.title}>ADDED PLAYERS</Text>
-                        <AddedPlayers
-                            players={playersInfo}
-                            onRemovePlayer={removePlayerHandler}
+                    textStyle={{ fontSize: fontSizes.formButton }}
+                /> */}
+                        </View>
+                        <Text style={styles.title}>ADD NEW PLAYER</Text>
+                        <PlayerDataForm
+                            onBackPress={() => {
+                                setPlayersDataRef(playersInfo);
+                                changePage("home");
+                            }}
+                            onAddPlayer={addPlayerHandler}
+                            onError={formErrorHandler}
+                            onClearError={formClearErrorHandler}
                         />
-                    </>
-                )}
+                        {error.isError && (
+                            <Text style={styles.errorText}>{error.msg}</Text>
+                        )}
+                        {playersInfo.length > 0 && (
+                            <>
+                                <Text style={styles.title}>ADDED PLAYERS</Text>
+                                <AddedPlayers
+                                    players={playersInfo}
+                                    onRemovePlayer={removePlayerHandler}
+                                />
+                            </>
+                        )}
+                    </View>
+                </TouchableWithoutFeedback>
             </ScrollView>
         </View>
     );
@@ -128,7 +139,7 @@ const styles = StyleSheet.create({
     },
     title: {
         color: "black",
-        fontSize: 60,
+        fontSize: fontSizes.formHeading,
         textAlign: "left",
         marginTop: 20,
         marginBottom: 10,
@@ -150,12 +161,13 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         width: "95%",
+        flexGrow: 1,
     },
     errorText: {
         color: "white",
         backgroundColor: "#FF6262",
         textAlign: "center",
-        fontSize: 20,
+        fontSize: fontSizes.errorText,
         marginVertical: 10,
         padding: 5,
         borderRadius: 5,
