@@ -175,6 +175,11 @@ const GameScreen = (props) => {
         }
     }, [quarterInfo.isGameEnded]);
 
+    // Reset timers on page load
+    useEffect(() => {
+        dispatchPlayersInfo({ msg: "resetTimes" });
+    }, []);
+
     const pitchPlayerPressHandler = (playerNumber) => {
         setHighlightedPlayer((prevNumber) =>
             prevNumber !== playerNumber ? playerNumber : null
