@@ -16,6 +16,7 @@ import BackIconSVG from "../assets/backIcon.svg";
 import sizes from "../constants/sizes";
 import fontSizes from "../constants/fontSizes";
 import exportToSpreadsheet from "../scripts/exportToSpreadsheet";
+import Modal from "../components/UI/Modal";
 
 const SummaryScreen = (props) => {
     const changePage = (newPage) => {
@@ -73,6 +74,25 @@ const SummaryScreen = (props) => {
         exportToSpreadsheet(title, data);
     };
 
+    const modalBackHandler = () => {
+        props.onSetModalData(null);
+    };
+
+    const modalOkHandler = () => {
+        props.onSetModalData(null);
+        changePage("home");
+    };
+    const mainMenuPressHandler = () => {
+        props.onSetModalData({
+            title: "Are you sure?",
+            msg: "Any un-exported data will be lost",
+            btnOneTitle: "Back",
+            btnTwoTitle: "Ok",
+            onBtnOnePress: modalBackHandler,
+            onBtnTwoPress: modalOkHandler,
+        });
+    };
+
     return (
         <View style={styles.summaryScreen}>
             <ScrollView style={{ flexGrow: 1 }}>
@@ -105,9 +125,7 @@ const SummaryScreen = (props) => {
                                     />
                                 }
                                 title="MAIN MENU"
-                                onPress={() => {
-                                    changePage("home");
-                                }}
+                                onPress={mainMenuPressHandler}
                             />
                         </View>
                         <Text style={styles.title}>FULL GAME SUMMARY</Text>

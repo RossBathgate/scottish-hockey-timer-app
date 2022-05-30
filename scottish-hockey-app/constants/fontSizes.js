@@ -13,4 +13,7 @@ export default {
     errorText: 20,
     summaryHeading: 40,
     summaryContent: 20,
+    modalTitle: 30,
+    modalMsg: 20,
+    modalBtn: 20,
 };

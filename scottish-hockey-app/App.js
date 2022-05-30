@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
+import Modal from "./components/UI/Modal";
 import KeyboardDismissHO from "./components/HO/KeyboardDismissHO";
 import GameScreen from "./screens/GameScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -10,6 +11,7 @@ import Header from "./components/UI/Header";
 
 export default function App() {
     const [currentPage, setCurrentPage] = useState("home");
+    const [modalData, setModalData] = useState(null);
 
     // used to compile data for export
     const gameDataRef = useRef({
@@ -63,6 +65,7 @@ export default function App() {
             <SummaryScreen
                 onPageChange={pageChangeHandler}
                 gameDataRef={gameDataRef}
+                onSetModalData={setModalData}
             />
         );
     }
@@ -76,6 +79,7 @@ export default function App() {
         <KeyboardDismissHO>
             <View style={styles.container}>
                 <StatusBar style="auto" />
+                {modalData !== null && <Modal {...modalData} />}
                 {currentPage !== "game" && currentPage !== "home" && (
                     <Header title={displayPageNames[currentPage]} />
                 )}

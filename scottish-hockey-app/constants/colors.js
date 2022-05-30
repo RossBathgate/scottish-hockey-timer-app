@@ -25,4 +25,7 @@ export default {
     summaryScreen: {
         playerOnPitch: "#FF564D",
     },
+    modalBackground: "white",
+    modalBackdrop: "rgba(0,0,0,0.8)",
+    modalTitleBackground: "rgba(73, 183, 255, 1)",
 };

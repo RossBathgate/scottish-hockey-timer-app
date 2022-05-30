@@ -76,7 +76,9 @@ const getFormation = (data) => {
 };
 
 const PlayerDataScreen = (props) => {
-    const [playersInfo, setPlayersInfo] = useState([]);
+    const [playersInfo, setPlayersInfo] = useState(
+        props.playersDataRef.current
+    );
     const [error, setError] = useState({ isError: false, msg: "" });
 
     const changePage = (newPage) => {
