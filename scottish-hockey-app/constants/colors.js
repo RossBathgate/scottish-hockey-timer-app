@@ -1,11 +1,11 @@
 export default {
     headerColor: "#003DA2",
     playerNrColor: "rgba(122, 200, 255, 1)",
-    playerBackgroundColor: "rgba(255,255,255,0.55)", //"rgba(255,255,255,0.35)",
+    playerBackgroundColor: "rgba(255,255,255,0.69)", //"rgba(255,255,255,0.35)",
     playerBorderColor: "rgba(0,0,0,1)",
-    playerHighlightColor: "rgba(65,203,255,0.35)",
+    playerHighlightColor: "rgba(65,203,255,0.69)",
     playerHighlightBorderColor: "rgba(0,0,0,1)",
-    benchPlayerHighlightColor: "rgba(254, 254, 123,0.35)",
+    benchPlayerHighlightColor: "rgba(254, 254, 123,0.69)",
     benchPlayerHighlightBorderColor: "rgba(0,0,0,1)",
     timerColors: {
         primary: "rgba(50, 50, 50, 1)",
