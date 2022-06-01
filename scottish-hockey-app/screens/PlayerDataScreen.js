@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     View,
     StyleSheet,
@@ -14,6 +14,8 @@ import colors from "../constants/colors";
 import sizes from "../constants/sizes";
 import fontSizes from "../constants/fontSizes";
 import AddedPlayers from "../components/PlayerData/AddedPlayers";
+import importPlayerData from "../scripts/importPlayerData";
+import savePlayerData from "../scripts/savePlayerData";
 
 // generate a list of {x: __, y: __} objects representing the locations
 // of each player on the PITCH.
@@ -140,34 +142,42 @@ const PlayerDataScreen = (props) => {
         setError({ isError: false, msg: "" });
     };
 
+    const importPlayerDataHandler = async () => {
+        const data = await importPlayerData();
+        if (data.players) {
+            data.players.forEach((p) => addPlayerHandler(p));
+        }
+    };
+
+    const savePlayerDataHandler = () => {
+        const data = {
+            players: playersInfo.map((p) => {
+                return {
+                    firstName: p.firstName,
+                    surname: p.surname,
+                    playerNumber: p.playerNumber,
+                    position: p.position,
+                };
+            }),
+        };
+        savePlayerData(data);
+    };
+
+    console.log(playersInfo);
+
+    // import data on page load
+    useEffect(() => {
+        if (!props.isDataImportedRef.current) {
+            importPlayerDataHandler();
+            props.isDataImportedRef.current = true;
+        }
+    }, []);
+
     return (
         <View style={styles.playerDataScreen}>
             <ScrollView style={styles.scrollContainer}>
                 <TouchableWithoutFeedback>
                     <View>
-                        <View
-                            style={{
-                                ...styles.buttonsContainer,
-                                width: "100%",
-                                justifyContent: "flex-start",
-                            }}
-                        >
-                            {/* <Button
-                    onPress={() => {}}
-                    icon={
-                        <ImportIconSVG
-                            width={sizes.menuButtonSizes}
-                            height={sizes.menuButtonSizes}
-                        />
-                    }
-                    title="IMPORT"
-                    style={{
-                        ...styles.button,
-                        backgroundColor: colors.buttonBackgrounds.darkGreen,
-                    }}
-                    textStyle={{ fontSize: fontSizes.formButton }}
-                /> */}
-                        </View>
                         <Text style={styles.title}>ADD NEW PLAYER</Text>
                         <PlayerDataForm
                             onBackPress={() => {
@@ -179,15 +189,18 @@ const PlayerDataScreen = (props) => {
                                         )
                                     )
                                 );
+                                savePlayerDataHandler();
                                 changePage("home");
                             }}
                             onAddPlayer={addPlayerHandler}
                             onError={formErrorHandler}
                             onClearError={formClearErrorHandler}
                         />
+
                         {error.isError && (
                             <Text style={styles.errorText}>{error.msg}</Text>
                         )}
+
                         {playersInfo.length > 0 && (
                             <>
                                 <Text style={styles.title}>ADDED PLAYERS</Text>
@@ -222,6 +235,17 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
+    },
+    importSaveContainer: {
+        justifyContent: "flex-start",
+        width: "100%",
+    },
+    importSaveBtn: {
+        width: "20%",
+        padding: 20,
+        backgroundColor: colors.buttonBackgrounds.grey,
+        marginLeft: 0,
+        marginRight: 30,
     },
     button: {
         paddingHorizontal: 30,

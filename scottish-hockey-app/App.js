@@ -25,6 +25,9 @@ export default function App() {
     // store the current formation
     const formationRef = useRef([]);
 
+    // used to stop data imports every time the load player data screen is rendered
+    const isDataImportedRef = useRef(false);
+
     const pageChangeHandler = (newPage) => {
         setCurrentPage(newPage);
     };
@@ -58,6 +61,7 @@ export default function App() {
                 onPageChange={pageChangeHandler}
                 playersDataRef={playersDataRef}
                 formationRef={formationRef}
+                isDataImportedRef={isDataImportedRef}
             />
         );
     } else if (currentPage === "summary") {
