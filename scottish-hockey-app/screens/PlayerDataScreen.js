@@ -163,8 +163,6 @@ const PlayerDataScreen = (props) => {
         savePlayerData(data);
     };
 
-    console.log(playersInfo);
-
     // import data on page load
     useEffect(() => {
         if (!props.isDataImportedRef.current) {
