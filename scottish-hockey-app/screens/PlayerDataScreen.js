@@ -62,9 +62,6 @@ const getFormation = (data) => {
         Forward: sortedPlayersData.Forward.length,
     };
 
-    // find index of p in sortedPlayersData[p.position]
-
-    // goalie, forward, goalie, goalie
     const formation = {
         players: playersData.map((p) => {
             const x =
