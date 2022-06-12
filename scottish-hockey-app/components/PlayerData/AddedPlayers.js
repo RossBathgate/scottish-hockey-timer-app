@@ -9,6 +9,10 @@ const AddedPlayers = (props) => {
     const removePlayerHandler = (playerNumber) => {
         props.onRemovePlayer(playerNumber);
     };
+
+    // sort the players based on their player number
+    props.players.sort((a, b) => b.playerNumber > a.playerNumber);
+
     return (
         <ScrollView style={styles.container}>
             {props.players.map((player) => (
@@ -20,11 +24,12 @@ const AddedPlayers = (props) => {
                     <View style={styles.cardTextContainer}>
                         <Text style={styles.cardText}>
                             {player.surname}, {player.firstName.substring(0, 1)}
+                            .
                         </Text>
                         <Text style={styles.cardText}>{player.position}</Text>
-                        <Text style={styles.cardText}>
+                        {/* <Text style={styles.cardText}>
                             #{player.playerNumber}
-                        </Text>
+                        </Text> */}
                     </View>
 
                     <RemoveSVG

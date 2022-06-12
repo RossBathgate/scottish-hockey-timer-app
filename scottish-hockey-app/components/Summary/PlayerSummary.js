@@ -21,9 +21,9 @@ const PlayerSummary = ({ playerData, quarterDurations }) => {
                 <Text style={styles.personalInfoText}>
                     {playerData.surname}, {playerData.firstName.substring(0, 1)}
                 </Text>
-                <Text style={styles.personalInfoText}>
+                {/* <Text style={styles.personalInfoText}>
                     #{playerData.playerNumber}
-                </Text>
+                </Text> */}
             </View>
             <View style={styles.timeline}>
                 {[1, 2, 3, 4].map((quarter) => (

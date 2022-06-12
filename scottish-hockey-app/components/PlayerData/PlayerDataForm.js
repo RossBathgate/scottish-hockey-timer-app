@@ -21,15 +21,15 @@ const playerReducer = (state, action) => {
         case "position":
             stateCopy.position = action.value;
             return stateCopy;
-        case "playerNumber":
-            stateCopy.playerNumber = action.value;
-            return stateCopy;
+        // case "playerNumber":
+        //     stateCopy.playerNumber = action.value;
+        //     return stateCopy;
         case "reset":
             stateCopy = {
                 firstName: "",
                 surname: "",
                 position: action.value,
-                playerNumber: "",
+                // playerNumber: "",
             };
             return stateCopy;
     }
@@ -42,15 +42,15 @@ const PlayerDataForm = (props) => {
         firstName: "",
         surname: "",
         position: selectedPositionOption,
-        playerNumber: "",
+        // playerNumber: "",
     });
 
     const addPlayerHandler = () => {
         if (
             playerInfo.firstName.length > 0 &&
             playerInfo.surname.length > 0 &&
-            playerInfo.position.length > 0 &&
-            playerInfo.playerNumber.length > 0
+            playerInfo.position.length > 0
+            // && playerInfo.playerNumber.length > 0
         ) {
             props.onAddPlayer(playerInfo);
             dispatchPlayerInfo({ msg: "reset", value: selectedPositionOption });
@@ -103,7 +103,7 @@ const PlayerDataForm = (props) => {
                         props.onClearError();
                     }}
                 />
-                <FormInput
+                {/* <FormInput
                     label="PLAYER NUMBER"
                     inputValue={playerInfo.playerNumber}
                     onChangeText={(newText) => {
@@ -114,7 +114,7 @@ const PlayerDataForm = (props) => {
                         props.onClearError;
                     }}
                     keyboardType="number-pad"
-                />
+                /> */}
             </View>
             <View style={styles.buttonsContainer}>
                 <Button

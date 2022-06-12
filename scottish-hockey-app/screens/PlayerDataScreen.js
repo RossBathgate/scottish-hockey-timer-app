@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
     View,
     StyleSheet,
@@ -7,11 +7,7 @@ import {
     TouchableWithoutFeedback,
 } from "react-native";
 import PlayerDataForm from "../components/PlayerData/PlayerDataForm";
-import Header from "../components/UI/Header";
-import Button from "../components/UI/Button";
-import ImportIconSVG from "../assets/exportIcon.svg";
 import colors from "../constants/colors";
-import sizes from "../constants/sizes";
 import fontSizes from "../constants/fontSizes";
 import AddedPlayers from "../components/PlayerData/AddedPlayers";
 import importPlayerData from "../scripts/importPlayerData";
@@ -92,10 +88,50 @@ const PlayerDataScreen = (props) => {
         props.formationRef.current = newFormation;
     };
 
+    // const addPlayerHandler = (player) => {
+    //     if (playersInfo.find((p) => p.playerNumber === player.playerNumber)) {
+    //         formErrorHandler("Player numbers must be unique.");
+    //     } else {
+    //         setPlayersInfo((prevPlayers) => {
+    //             // find the largest formation index of all players.  (Use -1 below to avoid math.max() of empty list, which is -Infinity).
+    //             const largestPreviousFormationIdx = Math.max(
+    //                 -1,
+    //                 ...prevPlayers.map((player) => player.formationIdx)
+    //             );
+
+    //             const newFormationIdx =
+    //                 player.position === "Bench"
+    //                     ? -1
+    //                     : prevPlayers.length > 0
+    //                     ? largestPreviousFormationIdx === -1
+    //                         ? 0
+    //                         : largestPreviousFormationIdx + 1
+    //                     : 0;
+
+    //             const newPlayer = {
+    //                 ...player,
+    //                 formationIdx: newFormationIdx,
+    //                 mostRecentSwitch: 0,
+    //                 previousTotalPitchTime: 0,
+    //                 previousQuarterPitchTime: 0,
+    //                 totalTimeOfAllPreviousQuarters: 0,
+    //             };
+    //             return [newPlayer, ...prevPlayers];
+    //         });
+    //     }
+    // };
+
     const addPlayerHandler = (player) => {
         if (playersInfo.find((p) => p.playerNumber === player.playerNumber)) {
             formErrorHandler("Player numbers must be unique.");
         } else {
+            // generate a new player number
+            const newPlayerNumber = player.playerNumber
+                ? player.playerNumber
+                : playersInfo.length === 0
+                ? 0
+                : Math.max(...playersInfo.map((p) => p.playerNumber)) + 1;
+
             setPlayersInfo((prevPlayers) => {
                 // find the largest formation index of all players.  (Use -1 below to avoid math.max() of empty list, which is -Infinity).
                 const largestPreviousFormationIdx = Math.max(
@@ -115,6 +151,7 @@ const PlayerDataScreen = (props) => {
                 const newPlayer = {
                     ...player,
                     formationIdx: newFormationIdx,
+                    playerNumber: newPlayerNumber,
                     mostRecentSwitch: 0,
                     previousTotalPitchTime: 0,
                     previousQuarterPitchTime: 0,

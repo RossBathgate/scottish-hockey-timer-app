@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default async function savePlayerData(data) {
-    console.log(data);
     try {
         const jsonValue = JSON.stringify(data);
         await AsyncStorage.setItem("@playerData", jsonValue);

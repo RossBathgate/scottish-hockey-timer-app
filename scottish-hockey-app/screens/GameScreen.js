@@ -209,6 +209,7 @@ const GameScreen = (props) => {
     const pitchPlayers = playersInfo.filter(
         (player) => player.formationIdx !== -1
     );
+
     return (
         <View style={styles.gameScreen}>
             <ControlBar
