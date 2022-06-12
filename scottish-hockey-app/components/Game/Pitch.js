@@ -52,6 +52,7 @@ const Pitch = (props) => {
                                 onPitch={true}
                                 onPress={playerPressHandler}
                                 playerNumber={player.playerNumber}
+                                displayName={player.firstName}
                                 pTime={pTime}
                                 fullTime={fullTime}
                                 quarterTime={quarterTime}

@@ -50,6 +50,7 @@ const Bench = (props) => {
                                             onPitch={false}
                                             onPress={playerPressHandler}
                                             playerNumber={player.playerNumber}
+                                            displayName={player.firstName}
                                             mostRecentSwitch={
                                                 player.mostRecentSwitch
                                             }

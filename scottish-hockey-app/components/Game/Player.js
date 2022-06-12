@@ -5,6 +5,11 @@ import fontSizes from "../../constants/fontSizes";
 import TimerDisplay from "./TimerDisplay/TimerDisplay";
 
 const Player = (props) => {
+    const displayName =
+        props.displayName.length < 10
+            ? props.displayName
+            : props.displayName.substring(0, 8) + "...";
+
     return (
         <TouchableWithoutFeedback
             onPress={() => {
@@ -31,7 +36,8 @@ const Player = (props) => {
                             color: colors.timerColors.primary,
                         }}
                     >
-                        #{props.playerNumber}
+                        {/* #{props.playerNumber} */}
+                        {displayName}
                     </Text>
                 </View>
 
