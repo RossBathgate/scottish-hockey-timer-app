@@ -34,19 +34,21 @@ const getFormation = (data) => {
     // group players together and get a list of corresponding player numbers
     const sortedPlayersData = {
         Goalie: playersData
-            .filter((p) => p.position === "Goalie")
+            .filter((p) => p.position === "Goalie" && p.isInvisible === false)
             .map((pl) => pl.playerNumber),
         Fullback: playersData
-            .filter((p) => p.position === "Fullback")
+            .filter((p) => p.position === "Fullback" && p.isInvisible === false)
             .map((pl) => pl.playerNumber),
         "Half Back": playersData
-            .filter((p) => p.position === "Half Back")
+            .filter(
+                (p) => p.position === "Half Back" && p.isInvisible === false
+            )
             .map((pl) => pl.playerNumber),
         Midfield: playersData
-            .filter((p) => p.position === "Midfield")
+            .filter((p) => p.position === "Midfield" && p.isInvisible === false)
             .map((pl) => pl.playerNumber),
         Forward: playersData
-            .filter((p) => p.position === "Forward")
+            .filter((p) => p.position === "Forward" && p.isInvisible === false)
             .map((pl) => pl.playerNumber),
     };
 
@@ -88,39 +90,6 @@ const PlayerDataScreen = (props) => {
         props.formationRef.current = newFormation;
     };
 
-    // const addPlayerHandler = (player) => {
-    //     if (playersInfo.find((p) => p.playerNumber === player.playerNumber)) {
-    //         formErrorHandler("Player numbers must be unique.");
-    //     } else {
-    //         setPlayersInfo((prevPlayers) => {
-    //             // find the largest formation index of all players.  (Use -1 below to avoid math.max() of empty list, which is -Infinity).
-    //             const largestPreviousFormationIdx = Math.max(
-    //                 -1,
-    //                 ...prevPlayers.map((player) => player.formationIdx)
-    //             );
-
-    //             const newFormationIdx =
-    //                 player.position === "Bench"
-    //                     ? -1
-    //                     : prevPlayers.length > 0
-    //                     ? largestPreviousFormationIdx === -1
-    //                         ? 0
-    //                         : largestPreviousFormationIdx + 1
-    //                     : 0;
-
-    //             const newPlayer = {
-    //                 ...player,
-    //                 formationIdx: newFormationIdx,
-    //                 mostRecentSwitch: 0,
-    //                 previousTotalPitchTime: 0,
-    //                 previousQuarterPitchTime: 0,
-    //                 totalTimeOfAllPreviousQuarters: 0,
-    //             };
-    //             return [newPlayer, ...prevPlayers];
-    //         });
-    //     }
-    // };
-
     const addPlayerHandler = (player) => {
         if (playersInfo.find((p) => p.playerNumber === player.playerNumber)) {
             formErrorHandler("Player numbers must be unique.");
@@ -156,8 +125,15 @@ const PlayerDataScreen = (props) => {
                     previousTotalPitchTime: 0,
                     previousQuarterPitchTime: 0,
                     totalTimeOfAllPreviousQuarters: 0,
+                    isInvisible: false,
                 };
-                return [newPlayer, ...prevPlayers];
+
+                // used for replacing carded players on the pitch
+                const newInvisiblePlayer = {
+                    ...newPlayer,
+                    isInvisible: true,
+                };
+                return [newPlayer, newInvisiblePlayer, ...prevPlayers];
             });
         }
     };
@@ -185,15 +161,18 @@ const PlayerDataScreen = (props) => {
 
     const savePlayerDataHandler = () => {
         const data = {
-            players: playersInfo.map((p) => {
-                return {
-                    firstName: p.firstName,
-                    surname: p.surname,
-                    playerNumber: p.playerNumber,
-                    position: p.position,
-                };
-            }),
+            players: playersInfo
+                .filter((p) => p.isInvisible === false)
+                .map((p) => {
+                    return {
+                        firstName: p.firstName,
+                        surname: p.surname,
+                        playerNumber: p.playerNumber,
+                        position: p.position,
+                    };
+                }),
         };
+
         savePlayerData(data);
     };
 
@@ -217,7 +196,9 @@ const PlayerDataScreen = (props) => {
                                 setFormation(
                                     getFormation(
                                         playersInfo.filter(
-                                            (p) => p.formationIdx !== -1
+                                            (p) =>
+                                                p.formationIdx !== -1 &&
+                                                p.isInvisible === false
                                         )
                                     )
                                 );
@@ -237,7 +218,9 @@ const PlayerDataScreen = (props) => {
                             <>
                                 <Text style={styles.title}>ADDED PLAYERS</Text>
                                 <AddedPlayers
-                                    players={playersInfo}
+                                    players={playersInfo.filter(
+                                        (p) => p.isInvisible === false
+                                    )}
                                     onRemovePlayer={removePlayerHandler}
                                 />
                             </>

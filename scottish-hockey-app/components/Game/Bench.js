@@ -14,21 +14,26 @@ import Button from "../UI/Button";
 import CardSVG from "../../assets/cardIcon.svg";
 
 const Bench = (props) => {
+    const isPitchPlayerHighlighted = props.highlightedPlayer !== null;
+    const isHighlightedPlayerInvisible =
+        isPitchPlayerHighlighted &&
+        props.players
+            .map((p) => p.playerNumber)
+            .includes(props.highlightedPlayer);
     return (
         <View style={styles.bench}>
             <ScrollView horizontal={true}>
                 <View style={styles.playerCardButtonContainer}>
-                    {props.isPitchPlayerHighlighted && (
-                        <Button
-                            title="Card Player"
-                            textStyle={styles.playerCardButtonText}
-                            style={styles.playerCardButton}
-                            icon={<CardSVG width={35} height={40} />}
-                            onPress={() => {
-                                console.log("PRESS");
-                            }}
-                        />
-                    )}
+                    {isPitchPlayerHighlighted &&
+                        !isHighlightedPlayerInvisible && (
+                            <Button
+                                title="Card Player"
+                                textStyle={styles.playerCardButtonText}
+                                style={styles.playerCardButton}
+                                icon={<CardSVG width={35} height={40} />}
+                                onPress={props.onCardPlayerBtnPress}
+                            />
+                        )}
                 </View>
                 <TouchableWithoutFeedback>
                     <View style={styles.playersContainer}>
@@ -54,11 +59,11 @@ const Bench = (props) => {
                                         <Player
                                             style={{
                                                 borderColor:
-                                                    props.isPitchPlayerHighlighted
+                                                    isPitchPlayerHighlighted
                                                         ? colors.benchPlayerHighlightBorderColor
                                                         : colors.playerBorderColor,
                                                 backgroundColor:
-                                                    props.isPitchPlayerHighlighted
+                                                    isPitchPlayerHighlighted
                                                         ? colors.benchPlayerHighlightColor
                                                         : colors.playerBackgroundColor,
                                             }}

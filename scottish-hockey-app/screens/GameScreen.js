@@ -65,14 +65,37 @@ const playerReducer = (state, action) => {
             return stateCopy;
 
         case "swap":
-            const pitchPlayer = stateCopy.find(
+            const allowedInvisPitchPlayers = stateCopy.filter((player) => {
+                const actualPlayer = stateCopy.find(
+                    (p) =>
+                        p.playerNumber === player.playerNumber && !p.isInvisible
+                );
+
+                return (
+                    actualPlayer.formationIdx === -1 &&
+                    player.isInvisible &&
+                    player.formationIdx !== -1
+                );
+            });
+
+            const attemptedInvisiblePlayer = allowedInvisPitchPlayers.find(
                 (p) =>
                     p.playerNumber ===
                     action.playerNumbers.highlightedPlayerNumber
             );
 
+            const pitchPlayer = attemptedInvisiblePlayer
+                ? attemptedInvisiblePlayer
+                : stateCopy.find(
+                      (p) =>
+                          p.playerNumber ===
+                          action.playerNumbers.highlightedPlayerNumber
+                  );
+
             const benchPlayer = stateCopy.find(
-                (p) => p.playerNumber === action.playerNumbers.benchPlayerNumber
+                (p) =>
+                    p.playerNumber === action.playerNumbers.benchPlayerNumber &&
+                    !p.isInvisible
             );
 
             const pitchPlayerFormationIdx = pitchPlayer.formationIdx;
@@ -90,6 +113,35 @@ const playerReducer = (state, action) => {
             pitchPlayer.previousTotalPitchTime =
                 pitchPlayer.previousTotalPitchTime + pTime;
             pitchPlayer.mostRecentSwitch = action.time;
+
+            return stateCopy;
+
+        case "card":
+            const cardPlayer = stateCopy.find(
+                (p) =>
+                    p.playerNumber === action.highlightedPlayerNumber &&
+                    !p.isInvisible
+            );
+
+            const invisiblePlayer = stateCopy.find(
+                (p) =>
+                    p.playerNumber === action.highlightedPlayerNumber &&
+                    p.isInvisible
+            );
+
+            // update invisible player's properties so that they are correct
+            invisiblePlayer.formationIdx = cardPlayer.formationIdx;
+            invisiblePlayer.position = cardPlayer.position;
+            invisiblePlayer.mostRecentSwitch = action.time; //TEMP *************************************
+            invisiblePlayer.firstName = "TEST"; //TEMP **********************************
+
+            // update card player's properties so they are now on the bench
+            cardPlayer.formationIdx = -1;
+            cardPlayer.position = "Bench";
+            const playerPTime = action.time - cardPlayer.mostRecentSwitch;
+            cardPlayer.previousTotalPitchTime =
+                cardPlayer.previousTotalPitchTime + playerPTime;
+            cardPlayer.mostRecentSwitch = action.time;
 
             return stateCopy;
     }
@@ -129,34 +181,37 @@ const GameScreen = (props) => {
         ];
 
         // Add duration on pitch of current quarter for each player
-        props.gameDataRef.current.players = playersInfo.map((player) => {
-            // attempt to find the player object in the gameDataRef
-            const refPlayer = props.gameDataRef.current.players.find(
-                (refPlayer) => refPlayer.playerNumber === player.playerNumber
-            );
+        props.gameDataRef.current.players = playersInfo
+            .filter((p) => !p.isInvisible)
+            .map((player) => {
+                // attempt to find the player object in the gameDataRef
+                const refPlayer = props.gameDataRef.current.players.find(
+                    (refPlayer) =>
+                        refPlayer.playerNumber === player.playerNumber
+                );
 
-            // calculate the quarter time for the player,
-            // checking whether they are on the pitch or the bench
-            const quarterTime =
-                player.formationIdx === -1
-                    ? player.previousTotalPitchTime -
-                      player.totalTimeOfAllPreviousQuarters
-                    : player.previousTotalPitchTime +
-                      timer.time -
-                      player.mostRecentSwitch -
-                      player.totalTimeOfAllPreviousQuarters;
+                // calculate the quarter time for the player,
+                // checking whether they are on the pitch or the bench
+                const quarterTime =
+                    player.formationIdx === -1
+                        ? player.previousTotalPitchTime -
+                          player.totalTimeOfAllPreviousQuarters
+                        : player.previousTotalPitchTime +
+                          timer.time -
+                          player.mostRecentSwitch -
+                          player.totalTimeOfAllPreviousQuarters;
 
-            // add new time to timesOnPitch array
-            return {
-                playerNumber: player.playerNumber,
-                surname: player.surname,
-                firstName: player.firstName,
-                // determine whether the refPlayer exists before assigning
-                timesOnPitch: refPlayer
-                    ? [...refPlayer.timesOnPitch, quarterTime]
-                    : [quarterTime],
-            };
-        });
+                // add new time to timesOnPitch array
+                return {
+                    playerNumber: player.playerNumber,
+                    surname: player.surname,
+                    firstName: player.firstName,
+                    // determine whether the refPlayer exists before assigning
+                    timesOnPitch: refPlayer
+                        ? [...refPlayer.timesOnPitch, quarterTime]
+                        : [quarterTime],
+                };
+            });
     }
 
     // Force end game
@@ -193,8 +248,16 @@ const GameScreen = (props) => {
     };
 
     // used to send players to the bench without swapping for another player
-    const benchPressHandler = () => {
-        return;
+    const cardPlayerBtnPressHandler = () => {
+        if (highlightedPlayer !== null) {
+            dispatchPlayersInfo({
+                msg: "card",
+                time: timer.time,
+                highlightedPlayerNumber: highlightedPlayer,
+            });
+        }
+
+        setHighlightedPlayer(null);
     };
 
     // reset the gameDataRef at the start of each new game
@@ -203,8 +266,23 @@ const GameScreen = (props) => {
     };
 
     const pitchPlayers = playersInfo.filter(
-        (player) => player.formationIdx !== -1
+        (player) => player.formationIdx !== -1 && !player.isInvisible
     );
+
+    const allowedInvisPitchPlayers = playersInfo.filter((player) => {
+        const actualPlayer = playersInfo.find(
+            (p) => p.playerNumber === player.playerNumber && !p.isInvisible
+        );
+
+        return (
+            actualPlayer.formationIdx === -1 &&
+            player.isInvisible &&
+            player.formationIdx !== -1
+        );
+    });
+    allowedInvisPitchPlayers.forEach((player) => {
+        pitchPlayers.push(player);
+    });
 
     return (
         <View style={styles.gameScreen}>
@@ -220,18 +298,18 @@ const GameScreen = (props) => {
                 highlightedPlayer={highlightedPlayer}
                 players={pitchPlayers}
                 formation={props.formation}
-                // formation={getFormation(
-                //     playersData.filter((p) => p.formationIdx !== -1)
-                // )}
                 timer={timer}
             />
             <Bench
+                onCardPlayerBtnPress={cardPlayerBtnPressHandler}
                 onBenchPlayerPress={benchPlayerPressHandler}
                 players={playersInfo.filter(
-                    (player) => player.formationIdx === -1
+                    (player) =>
+                        player.formationIdx === -1 &&
+                        player.isInvisible === false
                 )}
                 timer={timer}
-                isPitchPlayerHighlighted={highlightedPlayer !== null}
+                highlightedPlayer={highlightedPlayer}
             />
         </View>
     );

@@ -3,10 +3,11 @@ import { View, StyleSheet, Text, Dimensions } from "react-native";
 import PitchSVG from "./PitchBG.svg";
 import formations from "../../constants/formations";
 import Player from "./Player";
+import PlaceholderPlayer from "./PlaceholderPlayer";
 import sizes from "../../constants/sizes";
 
 const Pitch = (props) => {
-    const currentFormation = props.formation; //getFormation(props.players);
+    const currentFormation = props.formation;
     const pitchWidth = Dimensions.get("window").width;
     const pitchHeight =
         (Dimensions.get("window").height * sizes.pitchHeightPercent) / 100;
@@ -44,19 +45,30 @@ const Pitch = (props) => {
                                 top: top,
                             }}
                         >
-                            <Player
-                                isHighlighted={
-                                    props.highlightedPlayer ===
-                                    player.playerNumber
-                                }
-                                onPitch={true}
-                                onPress={playerPressHandler}
-                                playerNumber={player.playerNumber}
-                                displayName={player.firstName}
-                                pTime={pTime}
-                                fullTime={fullTime}
-                                quarterTime={quarterTime}
-                            />
+                            {player.isInvisible ? (
+                                <PlaceholderPlayer
+                                    isHighlighted={
+                                        props.highlightedPlayer ===
+                                        player.playerNumber
+                                    }
+                                    onPitch={true}
+                                    onPress={playerPressHandler}
+                                />
+                            ) : (
+                                <Player
+                                    isHighlighted={
+                                        props.highlightedPlayer ===
+                                        player.playerNumber
+                                    }
+                                    onPitch={true}
+                                    onPress={playerPressHandler}
+                                    playerNumber={player.playerNumber}
+                                    displayName={player.firstName}
+                                    pTime={pTime}
+                                    fullTime={fullTime}
+                                    quarterTime={quarterTime}
+                                />
+                            )}
                         </View>
                     );
                 })}
