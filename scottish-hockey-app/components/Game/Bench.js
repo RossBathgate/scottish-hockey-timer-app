@@ -10,11 +10,26 @@ import sizes from "../../constants/sizes";
 import Player from "./Player";
 import colors from "../../constants/colors";
 import fontSizes from "../../constants/fontSizes";
+import Button from "../UI/Button";
+import CardSVG from "../../assets/cardIcon.svg";
 
 const Bench = (props) => {
     return (
         <View style={styles.bench}>
             <ScrollView horizontal={true}>
+                <View style={styles.playerCardButtonContainer}>
+                    {props.isPitchPlayerHighlighted && (
+                        <Button
+                            title="Card Player"
+                            textStyle={styles.playerCardButtonText}
+                            style={styles.playerCardButton}
+                            icon={<CardSVG width={35} height={40} />}
+                            onPress={() => {
+                                console.log("PRESS");
+                            }}
+                        />
+                    )}
+                </View>
                 <TouchableWithoutFeedback>
                     <View style={styles.playersContainer}>
                         {props.players && props.players.length > 0 ? (
@@ -85,6 +100,23 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         // borderTopColor: "black",
         // borderTopWidth: 2,
+    },
+
+    playerCardButtonContainer: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+
+    playerCardButton: {
+        padding: 10,
+        backgroundColor: "rgba(0,0,0,0.8)",
+        borderRadius: 10,
+    },
+
+    playerCardButtonText: {
+        marginLeft: 10,
+        color: "rgb(200,200,200)",
     },
 
     playersContainer: {

@@ -51,15 +51,6 @@ const playerReducer = (state, action) => {
 
             return stateCopy;
 
-        // !!! MAY NOT ACTUALLY BE USED !!!
-        case "resetQuarterTimes":
-            stateCopy.forEach((player) => {
-                player.previousQuarterPitchTime = 0;
-                return player;
-            });
-
-            return stateCopy;
-
         case "updatePreviousTotalQuarterTimes":
             stateCopy.forEach((player) => {
                 const fullTime =
@@ -199,6 +190,11 @@ const GameScreen = (props) => {
         }
 
         setHighlightedPlayer(null);
+    };
+
+    // used to send players to the bench without swapping for another player
+    const benchPressHandler = () => {
+        return;
     };
 
     // reset the gameDataRef at the start of each new game
