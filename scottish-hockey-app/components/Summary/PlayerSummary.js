@@ -5,15 +5,21 @@ import colors from "../../constants/colors";
 const PlayerSummary = ({ playerData, quarterDurations }) => {
     const incompleteTimePercentages = playerData.timesOnPitch.map(
         (pitchTime, i) => {
-            return Math.round((pitchTime / quarterDurations[i]) * 100);
+            if (i < quarterDurations.length) {
+                // (extra check to avoid crashes)
+                return Math.round((pitchTime / quarterDurations[i]) * 100);
+            } else {
+                return 0;
+            }
         }
     );
 
     // Fill empty quarters with zeros
-    const allTimePercentages = [
-        ...incompleteTimePercentages,
-        ...new Array(4 - incompleteTimePercentages.length).fill(0),
-    ];
+    const nrZeros = 4 - incompleteTimePercentages.length; // (extra check to avoid crashes)
+    const allTimePercentages =
+        nrZeros > 0
+            ? [...incompleteTimePercentages, ...new Array(nrZeros).fill(0)]
+            : incompleteTimePercentages;
 
     return (
         <View style={styles.playerSummary} key={playerData.playerNumber}>
