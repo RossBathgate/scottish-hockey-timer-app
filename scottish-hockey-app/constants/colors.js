@@ -5,6 +5,8 @@ export default {
     playerBorderColor: "rgba(0,0,0,1)",
     playerHighlightColor: "rgba(65,203,255,0.69)",
     playerHighlightBorderColor: "rgba(0,0,0,1)",
+    playerPitchHighlightColor: "rgba(143,255,187,0.69)",
+    playerPitchHighlightBorderColor: "rgba(0,0,0,1)",
     benchPlayerHighlightColor: "rgba(254, 254, 123,0.69)",
     benchPlayerHighlightBorderColor: "rgba(0,0,0,1)",
     placeholderPlayerBackgroundColor: "rgba(255,255,255,0.35)",

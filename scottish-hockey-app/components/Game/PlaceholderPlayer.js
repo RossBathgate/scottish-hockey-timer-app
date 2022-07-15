@@ -13,14 +13,21 @@ const PlaceholderPlayer = (props) => {
             <View
                 style={{
                     ...styles.container,
-                    borderColor: props.isHighlighted
-                        ? colors.playerHighlightBorderColor
-                        : colors.placeholderPlayerBorderColor,
-                    backgroundColor: props.isHighlighted
-                        ? colors.playerHighlightColor
-                        : colors.placeholderPlayerBackgroundColor,
+                    borderColor: props.borderColor,
+                    backgroundColor: props.backgroundColor,
                     ...props.style,
                 }}
+
+                // style={{
+                //     ...styles.container,
+                //     borderColor: props.isHighlighted
+                //         ? colors.playerHighlightBorderColor
+                //         : colors.placeholderPlayerBorderColor,
+                //     backgroundColor: props.isHighlighted
+                //         ? colors.playerHighlightColor
+                //         : colors.placeholderPlayerBackgroundColor,
+                //     ...props.style,
+                // }}
             ></View>
         </TouchableWithoutFeedback>
     );

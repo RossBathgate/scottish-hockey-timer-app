@@ -5,6 +5,7 @@ import formations from "../../constants/formations";
 import Player from "./Player";
 import PlaceholderPlayer from "./PlaceholderPlayer";
 import sizes from "../../constants/sizes";
+import colors from "../../constants/colors";
 
 const Pitch = (props) => {
     const currentFormation = props.formation;
@@ -47,18 +48,37 @@ const Pitch = (props) => {
                         >
                             {player.isInvisible ? (
                                 <PlaceholderPlayer
-                                    isHighlighted={
+                                    backgroundColor={
                                         props.highlightedPlayer ===
                                         player.playerNumber
+                                            ? colors.playerHighlightColor
+                                            : props.highlightedPlayer !== null
+                                            ? colors.playerPitchHighlightColor
+                                            : colors.placeholderPlayerBackgroundColor
+                                    }
+                                    borderColor={
+                                        colors.placeholderPlayerBorderColor
                                     }
                                     onPitch={true}
                                     onPress={playerPressHandler}
                                 />
                             ) : (
                                 <Player
-                                    isHighlighted={
+                                    backgroundColor={
                                         props.highlightedPlayer ===
                                         player.playerNumber
+                                            ? colors.playerHighlightColor
+                                            : props.highlightedPlayer !== null
+                                            ? colors.playerPitchHighlightColor
+                                            : colors.playerBackgroundColor
+                                    }
+                                    borderColor={
+                                        props.highlightedPlayer ===
+                                        player.playerNumber
+                                            ? colors.playerHighlightBorderColor
+                                            : props.highlightedPlayer !== null
+                                            ? colors.playerPitchHighlightBorderColor
+                                            : colors.playerBorderColor
                                     }
                                     onPitch={true}
                                     onPress={playerPressHandler}

@@ -19,12 +19,8 @@ const Player = (props) => {
             <View
                 style={{
                     ...styles.container,
-                    borderColor: props.isHighlighted
-                        ? colors.playerHighlightBorderColor
-                        : colors.playerBorderColor,
-                    backgroundColor: props.isHighlighted
-                        ? colors.playerHighlightColor
-                        : colors.playerBackgroundColor,
+                    borderColor: props.borderColor,
+                    backgroundColor: props.backgroundColor,
                     ...props.style,
                 }}
             >

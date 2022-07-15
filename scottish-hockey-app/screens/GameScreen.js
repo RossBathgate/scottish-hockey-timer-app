@@ -64,7 +64,7 @@ const playerReducer = (state, action) => {
             });
             return stateCopy;
 
-        case "swap":
+        case "swap_bench":
             const allowedInvisPitchPlayers = stateCopy.filter((player) => {
                 const actualPlayer = stateCopy.find(
                     (p) =>
@@ -116,6 +116,45 @@ const playerReducer = (state, action) => {
 
             return stateCopy;
 
+        case "swap_pitch":
+            const highlightedPitchPlayer = action.isHighlightedPlayerInvisible
+                ? stateCopy.find(
+                      (p) =>
+                          p.playerNumber ===
+                              action.playerNumbers.highlightedPlayerNumber &&
+                          p.isInvisible
+                  )
+                : stateCopy.find(
+                      (p) =>
+                          p.playerNumber ===
+                              action.playerNumbers.highlightedPlayerNumber &&
+                          !p.isInvisible
+                  );
+
+            const newPitchPlayer = action.isInvisible
+                ? stateCopy.find(
+                      (p) =>
+                          p.playerNumber ===
+                              action.playerNumbers.newPitchPlayerNumber &&
+                          p.isInvisible
+                  )
+                : stateCopy.find(
+                      (p) =>
+                          p.playerNumber ===
+                              action.playerNumbers.newPitchPlayerNumber &&
+                          !p.isInvisible
+                  );
+
+            // swap players
+            const tempFormationIdx = highlightedPitchPlayer.formationIdx;
+            const tempPosition = highlightedPitchPlayer.position;
+            highlightedPitchPlayer.formationIdx = newPitchPlayer.formationIdx;
+            highlightedPitchPlayer.position = newPitchPlayer.position;
+            newPitchPlayer.formationIdx = tempFormationIdx;
+            newPitchPlayer.position = tempPosition;
+
+            return stateCopy;
+
         case "card":
             const cardPlayer = stateCopy.find(
                 (p) =>
@@ -132,8 +171,7 @@ const playerReducer = (state, action) => {
             // update invisible player's properties so that they are correct
             invisiblePlayer.formationIdx = cardPlayer.formationIdx;
             invisiblePlayer.position = cardPlayer.position;
-            invisiblePlayer.mostRecentSwitch = action.time; //TEMP *************************************
-            invisiblePlayer.firstName = "TEST"; //TEMP **********************************
+            invisiblePlayer.mostRecentSwitch = action.time;
 
             // update card player's properties so they are now on the bench
             cardPlayer.formationIdx = -1;
@@ -167,6 +205,8 @@ const GameScreen = (props) => {
 
     // Used for swapping players between the pitch and the bench.
     const [highlightedPlayer, setHighlightedPlayer] = useState(null);
+    const [isHighlightedPlayerInvisible, setIsHighlightedPlayerInvisible] =
+        useState(false);
 
     // Update information for the game summary page
     if (
@@ -227,15 +267,44 @@ const GameScreen = (props) => {
     }, []);
 
     const pitchPlayerPressHandler = (playerNumber) => {
-        setHighlightedPlayer((prevNumber) =>
-            prevNumber !== playerNumber ? playerNumber : null
-        );
+        // determine if this player is an "invisible" player
+        const isInvisible = playersInfo
+            .filter(
+                (player) =>
+                    player.formationIdx === -1 && player.isInvisible === false
+            )
+            .map((p) => p.playerNumber)
+            .includes(playerNumber);
+
+        // determine if a swap to another pitch player is requested
+        if (highlightedPlayer !== null) {
+            dispatchPlayersInfo({
+                msg: "swap_pitch",
+                playerNumbers: {
+                    newPitchPlayerNumber: playerNumber,
+                    highlightedPlayerNumber: highlightedPlayer,
+                },
+                isInvisible: isInvisible,
+                isHighlightedPlayerInvisible: isHighlightedPlayerInvisible,
+            });
+        }
+
+        // toggle highlight on the chosen player
+        setHighlightedPlayer((prevValue) => {
+            if (prevValue === null) {
+                setIsHighlightedPlayerInvisible(isInvisible);
+                return playerNumber;
+            } else {
+                setIsHighlightedPlayerInvisible(false);
+                return null;
+            }
+        });
     };
 
     const benchPlayerPressHandler = (benchPlayerNumber) => {
         if (highlightedPlayer !== null) {
             dispatchPlayersInfo({
-                msg: "swap",
+                msg: "swap_bench",
                 time: timer.time,
                 playerNumbers: {
                     benchPlayerNumber: benchPlayerNumber,
@@ -244,6 +313,7 @@ const GameScreen = (props) => {
             });
         }
 
+        setIsHighlightedPlayerInvisible(false);
         setHighlightedPlayer(null);
     };
 
@@ -257,6 +327,7 @@ const GameScreen = (props) => {
             });
         }
 
+        setIsHighlightedPlayerInvisible(false);
         setHighlightedPlayer(null);
     };
 
