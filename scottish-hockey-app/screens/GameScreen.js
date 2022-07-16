@@ -64,94 +64,59 @@ const playerReducer = (state, action) => {
             });
             return stateCopy;
 
-        case "swap_bench":
-            const allowedInvisPitchPlayers = stateCopy.filter((player) => {
-                const actualPlayer = stateCopy.find(
-                    (p) =>
-                        p.playerNumber === player.playerNumber && !p.isInvisible
-                );
+        case "swap":
+            const playersInHighlightedSpot = stateCopy.filter(
+                (p) => p.formationIdx === action.highlightedFormationIdx
+            );
 
-                return (
-                    actualPlayer.formationIdx === -1 &&
-                    player.isInvisible &&
-                    player.formationIdx !== -1
-                );
+            const playersInDestinationSpot =
+                action.clickedPlayerInfo.formationIdx !== -1
+                    ? stateCopy.filter(
+                          (p) =>
+                              p.formationIdx ===
+                              action.clickedPlayerInfo.formationIdx
+                      )
+                    : stateCopy.filter(
+                          (p) =>
+                              p.formationIdx ===
+                                  action.clickedPlayerInfo.formationIdx &&
+                              p.playerNumber ===
+                                  action.clickedPlayerInfo.playerNumber
+                      ); //NOTE: THERE MAY BE AN ERROR IN THE WAY THE CODE AFTER THE : WORKS - CAN'T UNIQUELY IDENTIFY PLAYER + INVIS PLAYER THIS WAY....
+
+            // determine if all players are on the pitch - (no need to check highlighted spot since they are always on pitch):
+            let allInPitch = true;
+            playersInDestinationSpot.forEach((p) => {
+                if (p.formationIdx === -1) {
+                    allInPitch = false;
+                }
             });
 
-            const attemptedInvisiblePlayer = allowedInvisPitchPlayers.find(
-                (p) =>
-                    p.playerNumber ===
-                    action.playerNumbers.highlightedPlayerNumber
-            );
-
-            const pitchPlayer = attemptedInvisiblePlayer
-                ? attemptedInvisiblePlayer
-                : stateCopy.find(
-                      (p) =>
-                          p.playerNumber ===
-                          action.playerNumbers.highlightedPlayerNumber
-                  );
-
-            const benchPlayer = stateCopy.find(
-                (p) =>
-                    p.playerNumber === action.playerNumbers.benchPlayerNumber &&
-                    !p.isInvisible
-            );
-
-            const pitchPlayerFormationIdx = pitchPlayer.formationIdx;
-            const pitchPlayerPosition = pitchPlayer.position;
-
-            // update bench player's properties so they are now on the pitch
-            benchPlayer.formationIdx = pitchPlayerFormationIdx;
-            benchPlayer.position = pitchPlayerPosition;
-            benchPlayer.mostRecentSwitch = action.time;
-
-            // update pitch player's properties so they are now on the bench
-            pitchPlayer.formationIdx = -1;
-            pitchPlayer.position = "Bench";
-            const pTime = action.time - pitchPlayer.mostRecentSwitch;
-            pitchPlayer.previousTotalPitchTime =
-                pitchPlayer.previousTotalPitchTime + pTime;
-            pitchPlayer.mostRecentSwitch = action.time;
-
-            return stateCopy;
-
-        case "swap_pitch":
-            const highlightedPitchPlayer = action.isHighlightedPlayerInvisible
-                ? stateCopy.find(
-                      (p) =>
-                          p.playerNumber ===
-                              action.playerNumbers.highlightedPlayerNumber &&
-                          p.isInvisible
-                  )
-                : stateCopy.find(
-                      (p) =>
-                          p.playerNumber ===
-                              action.playerNumbers.highlightedPlayerNumber &&
-                          !p.isInvisible
-                  );
-
-            const newPitchPlayer = action.isInvisible
-                ? stateCopy.find(
-                      (p) =>
-                          p.playerNumber ===
-                              action.playerNumbers.newPitchPlayerNumber &&
-                          p.isInvisible
-                  )
-                : stateCopy.find(
-                      (p) =>
-                          p.playerNumber ===
-                              action.playerNumbers.newPitchPlayerNumber &&
-                          !p.isInvisible
-                  );
-
-            // swap players
-            const tempFormationIdx = highlightedPitchPlayer.formationIdx;
-            const tempPosition = highlightedPitchPlayer.position;
-            highlightedPitchPlayer.formationIdx = newPitchPlayer.formationIdx;
-            highlightedPitchPlayer.position = newPitchPlayer.position;
-            newPitchPlayer.formationIdx = tempFormationIdx;
-            newPitchPlayer.position = tempPosition;
+            if (allInPitch) {
+                const tempPosition = playersInHighlightedSpot[0].position;
+                playersInHighlightedSpot.forEach((p) => {
+                    p.formationIdx = action.clickedPlayerInfo.formationIdx;
+                    p.position = playersInDestinationSpot[0].position;
+                });
+                playersInDestinationSpot.forEach((p) => {
+                    p.formationIdx = action.highlightedFormationIdx;
+                    p.position = tempPosition;
+                });
+            } else {
+                const tempPosition = playersInHighlightedSpot[0].position;
+                playersInHighlightedSpot.forEach((p) => {
+                    p.formationIdx = action.clickedPlayerInfo.formationIdx;
+                    p.position = playersInDestinationSpot[0].position;
+                    const pTime = action.time - p.mostRecentSwitch;
+                    p.previousTotalPitchTime = p.previousTotalPitchTime + pTime;
+                    p.mostRecentSwitch = action.time;
+                });
+                playersInDestinationSpot.forEach((p) => {
+                    p.formationIdx = action.highlightedFormationIdx;
+                    p.position = tempPosition;
+                    p.mostRecentSwitch = action.time;
+                });
+            }
 
             return stateCopy;
 
@@ -168,6 +133,41 @@ const playerReducer = (state, action) => {
                     p.isInvisible
             );
 
+            // TEMP FIX - if the invisiblePlayer is not found, pick a new one that is not in use
+            // create frequency map of formation indices
+
+            if (!invisiblePlayer) {
+                console.log(
+                    "INVISIBLE PLAYER NOT DEFINED, ATTEMPTING TEMP FIX"
+                );
+
+                let formationIdxFrequencies = {};
+                stateCopy.forEach((p) => {
+                    if (
+                        Object.keys(formationIdxFrequencies).includes(
+                            p.formationIdx.toString()
+                        )
+                    ) {
+                        formationIdxFrequencies[p.formationIdx] += 1;
+                    } else {
+                        formationIdxFrequencies[p.formationIdx] = 1;
+                    }
+                });
+
+                stateCopy.forEach((player) => {
+                    if (
+                        formationIdxFrequencies[
+                            player.formationIdx.toString()
+                        ] > 1
+                    ) {
+                        invisiblePlayer =
+                            formationIdxFrequencies[
+                                player.formationIdx.toString()
+                            ];
+                    }
+                });
+            }
+
             // update invisible player's properties so that they are correct
             invisiblePlayer.formationIdx = cardPlayer.formationIdx;
             invisiblePlayer.position = cardPlayer.position;
@@ -182,6 +182,125 @@ const playerReducer = (state, action) => {
             cardPlayer.mostRecentSwitch = action.time;
 
             return stateCopy;
+
+        // case "swap_bench":
+        //     const allowedInvisPitchPlayers = stateCopy.filter((player) => {
+        //         const actualPlayer = stateCopy.find(
+        //             (p) =>
+        //                 p.playerNumber === player.playerNumber && !p.isInvisible
+        //         );
+
+        //         return (
+        //             actualPlayer.formationIdx === -1 &&
+        //             player.isInvisible &&
+        //             player.formationIdx !== -1
+        //         );
+        //     });
+
+        //     const attemptedInvisiblePlayer = allowedInvisPitchPlayers.find(
+        //         (p) =>
+        //             p.playerNumber ===
+        //             action.playerNumbers.highlightedPlayerNumber
+        //     );
+
+        //     const pitchPlayer = attemptedInvisiblePlayer
+        //         ? attemptedInvisiblePlayer
+        //         : stateCopy.find(
+        //               (p) =>
+        //                   p.playerNumber ===
+        //                   action.playerNumbers.highlightedPlayerNumber
+        //           );
+
+        //     const benchPlayer = stateCopy.find(
+        //         (p) =>
+        //             p.playerNumber === action.playerNumbers.benchPlayerNumber &&
+        //             !p.isInvisible
+        //     );
+
+        //     const pitchPlayerFormationIdx = pitchPlayer.formationIdx;
+        //     const pitchPlayerPosition = pitchPlayer.position;
+
+        //     // update bench player's properties so they are now on the pitch
+        //     benchPlayer.formationIdx = pitchPlayerFormationIdx;
+        //     benchPlayer.position = pitchPlayerPosition;
+        //     benchPlayer.mostRecentSwitch = action.time;
+
+        //     // update pitch player's properties so they are now on the bench
+        //     pitchPlayer.formationIdx = -1;
+        //     pitchPlayer.position = "Bench";
+        //     const pTime = action.time - pitchPlayer.mostRecentSwitch;
+        //     pitchPlayer.previousTotalPitchTime =
+        //         pitchPlayer.previousTotalPitchTime + pTime;
+        //     pitchPlayer.mostRecentSwitch = action.time;
+
+        //     return stateCopy;
+
+        // case "swap_pitch":
+        //     const highlightedPitchPlayer = action.isHighlightedPlayerInvisible
+        //         ? stateCopy.find(
+        //               (p) =>
+        //                   p.playerNumber ===
+        //                       action.playerNumbers.highlightedPlayerNumber &&
+        //                   p.isInvisible
+        //           )
+        //         : stateCopy.find(
+        //               (p) =>
+        //                   p.playerNumber ===
+        //                       action.playerNumbers.highlightedPlayerNumber &&
+        //                   !p.isInvisible
+        //           );
+
+        //     const newPitchPlayer = action.isInvisible
+        //         ? stateCopy.find(
+        //               (p) =>
+        //                   p.playerNumber ===
+        //                       action.playerNumbers.newPitchPlayerNumber &&
+        //                   p.isInvisible
+        //           )
+        //         : stateCopy.find(
+        //               (p) =>
+        //                   p.playerNumber ===
+        //                       action.playerNumbers.newPitchPlayerNumber &&
+        //                   !p.isInvisible
+        //           );
+
+        //     // swap players
+        //     const tempFormationIdx = highlightedPitchPlayer.formationIdx;
+        //     const tempPosition = highlightedPitchPlayer.position;
+        //     highlightedPitchPlayer.formationIdx = newPitchPlayer.formationIdx;
+        //     highlightedPitchPlayer.position = newPitchPlayer.position;
+        //     newPitchPlayer.formationIdx = tempFormationIdx;
+        //     newPitchPlayer.position = tempPosition;
+
+        //     return stateCopy;
+
+        // case "card":
+        //     const cardPlayer = stateCopy.find(
+        //         (p) =>
+        //             p.playerNumber === action.highlightedPlayerNumber &&
+        //             !p.isInvisible
+        //     );
+
+        //     const invisiblePlayer = stateCopy.find(
+        //         (p) =>
+        //             p.playerNumber === action.highlightedPlayerNumber &&
+        //             p.isInvisible
+        //     );
+
+        //     // update invisible player's properties so that they are correct
+        //     invisiblePlayer.formationIdx = cardPlayer.formationIdx;
+        //     invisiblePlayer.position = cardPlayer.position;
+        //     invisiblePlayer.mostRecentSwitch = action.time;
+
+        //     // update card player's properties so they are now on the bench
+        //     cardPlayer.formationIdx = -1;
+        //     cardPlayer.position = "Bench";
+        //     const playerPTime = action.time - cardPlayer.mostRecentSwitch;
+        //     cardPlayer.previousTotalPitchTime =
+        //         cardPlayer.previousTotalPitchTime + playerPTime;
+        //     cardPlayer.mostRecentSwitch = action.time;
+
+        //     return stateCopy;
     }
 };
 
@@ -205,6 +324,8 @@ const GameScreen = (props) => {
 
     // Used for swapping players between the pitch and the bench.
     const [highlightedPlayer, setHighlightedPlayer] = useState(null);
+    const [highlightedPlayerFormationIdx, setHighlightedPlayerFormationIdx] =
+        useState(null);
     const [isHighlightedPlayerInvisible, setIsHighlightedPlayerInvisible] =
         useState(false);
 
@@ -266,36 +387,50 @@ const GameScreen = (props) => {
         dispatchPlayersInfo({ msg: "resetTimes" });
     }, []);
 
-    const pitchPlayerPressHandler = (playerNumber) => {
+    const pitchPlayerPressHandler = (playerNumber, formationIdx) => {
         // determine if this player is an "invisible" player
-        const isInvisible = playersInfo
-            .filter(
-                (player) =>
-                    player.formationIdx === -1 && player.isInvisible === false
-            )
-            .map((p) => p.playerNumber)
-            .includes(playerNumber);
+        // const isInvisible = playersInfo
+        //     .filter(
+        //         (player) =>
+        //             player.formationIdx === -1 && player.isInvisible === false
+        //     )
+        //     .map((p) => p.playerNumber)
+        //     .includes(playerNumber);
 
-        // determine if a swap to another pitch player is requested
+        // // determine if a swap to another pitch player is requested
+        // if (highlightedPlayer !== null) {
+        //     dispatchPlayersInfo({
+        //         msg: "swap_pitch",
+        //         playerNumbers: {
+        //             newPitchPlayerNumber: playerNumber,
+        //             highlightedPlayerNumber: highlightedPlayer,
+        //         },
+        //         isInvisible: isInvisible,
+        //         isHighlightedPlayerInvisible: isHighlightedPlayerInvisible,
+        //     });
+        // }
+
         if (highlightedPlayer !== null) {
             dispatchPlayersInfo({
-                msg: "swap_pitch",
-                playerNumbers: {
-                    newPitchPlayerNumber: playerNumber,
-                    highlightedPlayerNumber: highlightedPlayer,
+                msg: "swap",
+                highlightedFormationIdx: highlightedPlayerFormationIdx,
+                clickedPlayerInfo: {
+                    playerNumber: playerNumber,
+                    formationIdx: formationIdx,
                 },
-                isInvisible: isInvisible,
-                isHighlightedPlayerInvisible: isHighlightedPlayerInvisible,
+                time: timer.time,
             });
         }
 
         // toggle highlight on the chosen player
         setHighlightedPlayer((prevValue) => {
             if (prevValue === null) {
-                setIsHighlightedPlayerInvisible(isInvisible);
+                // setIsHighlightedPlayerInvisible(isInvisible);
+                setHighlightedPlayerFormationIdx(formationIdx);
                 return playerNumber;
             } else {
                 setIsHighlightedPlayerInvisible(false);
+                setHighlightedPlayerFormationIdx(null);
                 return null;
             }
         });
@@ -304,16 +439,27 @@ const GameScreen = (props) => {
     const benchPlayerPressHandler = (benchPlayerNumber) => {
         if (highlightedPlayer !== null) {
             dispatchPlayersInfo({
-                msg: "swap_bench",
-                time: timer.time,
-                playerNumbers: {
-                    benchPlayerNumber: benchPlayerNumber,
-                    highlightedPlayerNumber: highlightedPlayer,
+                msg: "swap",
+                highlightedFormationIdx: highlightedPlayerFormationIdx,
+                clickedPlayerInfo: {
+                    playerNumber: benchPlayerNumber,
+                    formationIdx: -1,
                 },
+                time: timer.time,
             });
+
+            // dispatchPlayersInfo({
+            //     msg: "swap_bench",
+            //     time: timer.time,
+            //     playerNumbers: {
+            //         benchPlayerNumber: benchPlayerNumber,
+            //         highlightedPlayerNumber: highlightedPlayer,
+            //     },
+            // });
         }
 
         setIsHighlightedPlayerInvisible(false);
+        setHighlightedPlayerFormationIdx(null);
         setHighlightedPlayer(null);
     };
 
@@ -329,6 +475,7 @@ const GameScreen = (props) => {
 
         setIsHighlightedPlayerInvisible(false);
         setHighlightedPlayer(null);
+        setHighlightedPlayerFormationIdx(null);
     };
 
     // reset the gameDataRef at the start of each new game
@@ -340,18 +487,33 @@ const GameScreen = (props) => {
         (player) => player.formationIdx !== -1 && !player.isInvisible
     );
 
-    const allowedInvisPitchPlayers = playersInfo.filter((player) => {
-        const actualPlayer = playersInfo.find(
-            (p) => p.playerNumber === player.playerNumber && !p.isInvisible
-        );
-
-        return (
-            actualPlayer.formationIdx === -1 &&
-            player.isInvisible &&
-            player.formationIdx !== -1
-        );
+    // create frequency map of formation indices
+    let formationIdxFrequencies = {};
+    playersInfo.forEach((p) => {
+        if (
+            Object.keys(formationIdxFrequencies).includes(
+                p.formationIdx.toString()
+            )
+        ) {
+            formationIdxFrequencies[p.formationIdx] += 1;
+        } else {
+            formationIdxFrequencies[p.formationIdx] = 1;
+        }
     });
-    allowedInvisPitchPlayers.forEach((player) => {
+
+    // select the invisible players which will be displayed
+    // (all positions where the frequency of the formation index is 1, and the player in that position is invisible)
+    const allowedInvisiblePlayers = playersInfo.filter((p) => {
+        const isFrequencyOne =
+            formationIdxFrequencies[p.formationIdx.toString()] === 1;
+        const isPlayerInvisible =
+            isFrequencyOne &&
+            playersInfo.find((player) => player.formationIdx === p.formationIdx)
+                .isInvisible;
+        return isFrequencyOne && isPlayerInvisible;
+    });
+
+    allowedInvisiblePlayers.forEach((player) => {
         pitchPlayers.push(player);
     });
 
@@ -381,6 +543,16 @@ const GameScreen = (props) => {
                 )}
                 timer={timer}
                 highlightedPlayer={highlightedPlayer}
+                highlightedFormationIdx={highlightedPlayerFormationIdx}
+                isHighlightedPlayerInvisible={
+                    highlightedPlayer !== null &&
+                    formationIdxFrequencies[
+                        highlightedPlayerFormationIdx.toString()
+                    ] === 1 &&
+                    playersInfo.find(
+                        (p) => p.formationIdx === highlightedPlayerFormationIdx
+                    ).isInvisible
+                }
             />
         </View>
     );

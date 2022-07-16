@@ -28,8 +28,8 @@ const Pitch = (props) => {
                         (p) => p.formationIdx === formationIdx
                     );
 
-                    const playerPressHandler = () => {
-                        props.onPitchPlayerPress(player.playerNumber);
+                    const playerPressHandler = (playerNumber, formationIdx) => {
+                        props.onPitchPlayerPress(playerNumber, formationIdx);
                     };
 
                     const pTime = props.timer.time - player.mostRecentSwitch;
@@ -39,7 +39,10 @@ const Pitch = (props) => {
 
                     return (
                         <View
-                            key={player.playerNumber}
+                            key={
+                                player.playerNumber.toString() +
+                                player.formationIdx.toString()
+                            }
                             style={{
                                 ...styles.playerContainer,
                                 left: left,
@@ -61,6 +64,7 @@ const Pitch = (props) => {
                                     }
                                     onPitch={true}
                                     onPress={playerPressHandler}
+                                    formationIdx={player.formationIdx}
                                 />
                             ) : (
                                 <Player
@@ -83,6 +87,7 @@ const Pitch = (props) => {
                                     onPitch={true}
                                     onPress={playerPressHandler}
                                     playerNumber={player.playerNumber}
+                                    formationIdx={player.formationIdx}
                                     displayName={player.firstName}
                                     pTime={pTime}
                                     fullTime={fullTime}

@@ -25,7 +25,7 @@ const Bench = (props) => {
             <ScrollView horizontal={true}>
                 <View style={styles.playerCardButtonContainer}>
                     {isPitchPlayerHighlighted &&
-                        !isHighlightedPlayerInvisible && (
+                        !props.isHighlightedPlayerInvisible && (
                             <Button
                                 title="Card Player"
                                 textStyle={styles.playerCardButtonText}

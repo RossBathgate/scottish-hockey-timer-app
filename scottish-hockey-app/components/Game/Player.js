@@ -13,7 +13,7 @@ const Player = (props) => {
     return (
         <TouchableWithoutFeedback
             onPress={() => {
-                props.onPress(props.playerNumber);
+                props.onPress(props.playerNumber, props.formationIdx);
             }}
         >
             <View
