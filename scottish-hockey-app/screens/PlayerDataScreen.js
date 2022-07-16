@@ -21,11 +21,11 @@ const getFormation = (data) => {
 
     // store the y values of the different "rows" of players on the pitch
     const yValues = {
-        Goalie: 0.06,
-        Fullback: 0.245,
-        "Half Back": 0.43,
-        Midfield: 0.615,
-        Forward: 0.8,
+        Forward: 0.15,
+        Midfield: 0.34,
+        "Half Back": 0.53,
+        Fullback: 0.71,
+        Goalie: 0.87,
     };
 
     // start with lowest formationIdx
